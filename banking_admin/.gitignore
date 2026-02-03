@@ -1,0 +1,41 @@
+*.pyc
+__pycache__/
+*.swp
+*.swo
+*~
+
+# Database
+*.sqlite3
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Static files
+staticfiles/
+
+# Media files
+media/
+
+# Log files
+*.log
+django.log
+
+# Virtual environment
+venv/
+env/
+.env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
