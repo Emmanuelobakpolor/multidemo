@@ -18,6 +18,18 @@
   to = "/.netlify/functions/api/:splat"
 
 [[redirects]]
+  force = false
+  from = "/assets/*"
+  status = 200
+  to = "/assets/:splat"
+
+[[redirects]]
+  force = false
+  from = "/favicon.ico"
+  status = 200
+  to = "/favicon.ico"
+
+[[redirects]]
   force = true
   from = "/*"
   status = 200
