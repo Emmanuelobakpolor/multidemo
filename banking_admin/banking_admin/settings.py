@@ -63,6 +63,7 @@ CORS_ALLOWED_ORIGINS = [
     "https://your-netlify-url.netlify.app",
     'http://localhost:8091',
     "http://localhost:8080",
+    'https://multichatjdh.netlify.app'
 ]
 
 CORS_ALLOW_CREDENTIALS = True
