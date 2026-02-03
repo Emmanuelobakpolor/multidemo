@@ -25,7 +25,7 @@ const PayFlowLogin = () => {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:8000/api/payflow/login", {
+      const response = await fetch("/api/payflow/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

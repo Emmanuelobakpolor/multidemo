@@ -55,7 +55,7 @@ const UserDetailsModal = ({ user, isOpen, onClose, onUpdate, onDelete }: UserDet
 
     try {
       // Fetch transactions
-      const transactionsResponse = await fetch(`http://localhost:8000/api/payflow/user/${user.email}/transactions`);
+      const transactionsResponse = await fetch(`https://multi-bakend.onrender.com/api/payflow/user/${user.email}/transactions`);
       const transactionsData = await transactionsResponse.json();
       if (transactionsData.success) {
         setTransactions(transactionsData.data.slice(0, 10)); // Show last 10 transactions

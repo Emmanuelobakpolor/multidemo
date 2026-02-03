@@ -32,7 +32,7 @@ const QuickCashRegister = () => {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:8000/api/quickcash/register", {
+      const response = await fetch("/api/quickcash/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

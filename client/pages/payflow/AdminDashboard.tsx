@@ -33,7 +33,7 @@ const AdminDashboard = () => {
       try {
         // For admin, we need to count unread messages from each specific user
         // Let's fetch chat history with each user and count unread
-        const historyResponse = await fetch(`http://localhost:8000/api/payflow/chat/history/${user.email}`);
+        const historyResponse = await fetch(`/api/payflow/chat/history/${user.email}`);
         const historyData = await historyResponse.json();
         
         if (historyData.success) {
@@ -54,7 +54,7 @@ const AdminDashboard = () => {
 
   const markMessagesAsRead = async (userEmail: string) => {
     try {
-      await fetch(`http://localhost:8000/api/payflow/chat/mark-read/admin@payflow.com/`, {
+      await fetch(`/api/payflow/chat/mark-read/admin@payflow.com/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -81,7 +81,7 @@ const AdminDashboard = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch("http://localhost:8000/api/payflow/admin/users");
+      const response = await fetch("/api/payflow/admin/users");
       const data = await response.json();
       if (data.success) {
         setUsers(data.data);
@@ -108,7 +108,7 @@ const AdminDashboard = () => {
     if (!selectedUser || !fundAmount || parseFloat(fundAmount) <= 0) return;
 
     try {
-      const response = await fetch("http://localhost:8000/api/payflow/admin/fund", {
+      const response = await fetch("/api/payflow/admin/fund", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -140,7 +140,7 @@ const AdminDashboard = () => {
 
   const handleUpdateUser = async (userId: string, data: any) => {
     try {
-      const response = await fetch(`http://localhost:8000/api/payflow/admin/user/${userId}/update`, {
+      const response = await fetch(`/api/payflow/admin/user/${userId}/update`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -163,7 +163,7 @@ const AdminDashboard = () => {
 
   const handleToggleChat = async (userId: string) => {
     try {
-      const response = await fetch(`http://localhost:8000/api/payflow/admin/user/${userId}/toggle-chat`, {
+      const response = await fetch(`/api/payflow/admin/user/${userId}/toggle-chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
       });
@@ -190,7 +190,7 @@ const AdminDashboard = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:8000/api/payflow/admin/user/${userId}/delete`, {
+      const response = await fetch(`/api/payflow/admin/user/${userId}/delete`, {
         method: "DELETE",
       });
 

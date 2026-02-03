@@ -47,7 +47,7 @@ const BinanceDashboard = () => {
 
   const fetchUnreadCount = async (email: string) => {
     try {
-      const response = await fetch(`http://localhost:8000/api/cryptoport/chat/unread/${email}`);
+      const response = await fetch(`https://multi-bakend.onrender.com/api/cryptoport/chat/unread/${email}`);
       const data = await response.json();
       
       if (data.success) {
@@ -60,7 +60,7 @@ const BinanceDashboard = () => {
 
   const fetchChatStatus = async (email: string) => {
     try {
-      const response = await fetch(`http://localhost:8000/api/cryptoport/chat/status/${email}`);
+      const response = await fetch(`https://multi-bakend.onrender.com/api/cryptoport/chat/status/${email}`);
       const data = await response.json();
       
       if (data.success) {
@@ -83,13 +83,13 @@ const BinanceDashboard = () => {
 
   const fetchUserData = async (email: string) => {
     try {
-      const userResponse = await fetch(`http://localhost:8000/api/cryptoport/user/${email}`);
+      const userResponse = await fetch(`/api/cryptoport/user/${email}`);
       const userData = await userResponse.json();
       
       if (userData.success) {
         setUser(userData.data);
         
-        const walletsResponse = await fetch(`http://localhost:8000/api/cryptoport/user/${email}/wallets`);
+        const walletsResponse = await fetch(`/api/cryptoport/user/${email}/wallets`);
         const walletsData = await walletsResponse.json();
         
         if (walletsData.success) {
@@ -106,7 +106,7 @@ const BinanceDashboard = () => {
         }
       }
 
-      const transactionsResponse = await fetch(`http://localhost:8000/api/cryptoport/user/${email}/transactions`);
+      const transactionsResponse = await fetch(`/api/cryptoport/user/${email}/transactions`);
       const transactionsData = await transactionsResponse.json();
       
       if (transactionsData.success) {

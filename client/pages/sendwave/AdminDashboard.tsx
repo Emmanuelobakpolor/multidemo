@@ -46,7 +46,7 @@ const SendWaveAdminDashboard = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch("http://localhost:8000/api/sendwave/admin/users");
+      const response = await fetch("/api/sendwave/admin/users");
       const data = await response.json();
       if (data.success) {
         setUsers(data.data);
@@ -60,7 +60,7 @@ const SendWaveAdminDashboard = () => {
 
   const fetchTransactions = async () => {
     try {
-      const response = await fetch("http://localhost:8000/api/sendwave/admin/transactions");
+      const response = await fetch("/api/sendwave/admin/transactions");
       const data = await response.json();
       if (data.success) {
         setTransactions(data.data);
@@ -108,7 +108,7 @@ const SendWaveAdminDashboard = () => {
     if (!selectedUser || !fundAmount || parseFloat(fundAmount) <= 0) return;
 
     try {
-      const response = await fetch("http://localhost:8000/api/sendwave/admin/adjust-balance", {
+      const response = await fetch("/api/sendwave/admin/adjust-balance", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -142,7 +142,7 @@ const SendWaveAdminDashboard = () => {
 
   const handleAdjustUserBalance = async (userId: string, amount: number, reason: string) => {
     try {
-      const response = await fetch("http://localhost:8000/api/sendwave/admin/adjust-balance", {
+      const response = await fetch("/api/sendwave/admin/adjust-balance", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -547,7 +547,7 @@ const SendWaveAdminDashboard = () => {
           onUpdate={async (userId: string, data: any) => {
             console.log("Updating user:", userId, data);
             try {
-              const response = await fetch(`http://localhost:8000/api/sendwave/admin/user/${userId}/update`, {
+              const response = await fetch(`/api/sendwave/admin/user/${userId}/update`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
@@ -575,7 +575,7 @@ const SendWaveAdminDashboard = () => {
             }
 
             try {
-              const response = await fetch(`http://localhost:8000/api/sendwave/admin/user/${userId}/delete`, {
+              const response = await fetch(`/api/sendwave/admin/user/${userId}/delete`, {
                 method: "DELETE",
               });
 

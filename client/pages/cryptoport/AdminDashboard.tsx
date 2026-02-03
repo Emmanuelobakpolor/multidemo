@@ -70,7 +70,7 @@ const CryptoPortAdminDashboard = () => {
       try {
         // For admin, we need to count unread messages from each specific user
         // Let's fetch chat history with each user and count unread
-        const historyResponse = await fetch(`http://localhost:8000/api/cryptoport/chat/history/${user.email}`);
+        const historyResponse = await fetch(`https://multi-bakend.onrender.com/api/cryptoport/chat/history/${user.email}`);
         const historyData = await historyResponse.json();
         
         if (historyData.success) {
@@ -91,7 +91,7 @@ const CryptoPortAdminDashboard = () => {
 
   const markMessagesAsRead = async (userEmail: string) => {
     try {
-      await fetch(`http://localhost:8000/api/cryptoport/chat/mark-read/admin@cryptoport.com/`, {
+      await fetch(`https://multi-bakend.onrender.com/api/cryptoport/chat/mark-read/admin@cryptoport.com/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

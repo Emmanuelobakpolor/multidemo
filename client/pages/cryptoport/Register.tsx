@@ -31,7 +31,7 @@ const CryptoPortRegister = () => {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:8000/api/cryptoport/register", {
+      const response = await fetch("/api/cryptoport/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

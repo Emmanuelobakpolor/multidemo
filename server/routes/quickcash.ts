@@ -15,7 +15,7 @@ import {
 } from "@shared/api";
 
 // Django API base URL
-const DJANGO_API_BASE = "http://localhost:8000/api";
+const DJANGO_API_BASE = "https://multi-bakend.onrender.com/api";
 
 // Create admin user (register)
 export const handleCreateAdmin: RequestHandler = async (req, res) => {

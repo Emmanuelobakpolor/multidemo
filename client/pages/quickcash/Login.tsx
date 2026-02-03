@@ -16,7 +16,7 @@ const QuickCashLogin = () => {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:8000/api/quickcash/login", {
+      const response = await fetch("/api/quickcash/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

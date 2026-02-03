@@ -25,7 +25,7 @@ const PayFlowDashboard = () => {
 
   const fetchUnreadCount = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/api/payflow/chat/unread/${user.email}`);
+      const response = await fetch(`/api/payflow/chat/unread/${user.email}`);
       const data = await response.json();
       
       if (data.success) {
@@ -47,7 +47,7 @@ const PayFlowDashboard = () => {
 
   const fetchChatStatus = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/api/payflow/chat/status/${user.email}`);
+      const response = await fetch(`/api/payflow/chat/status/${user.email}`);
       const data = await response.json();
       
       if (data.success) {
@@ -63,7 +63,7 @@ const PayFlowDashboard = () => {
       if (!user) return;
 
       try {
-        const response = await fetch(`http://localhost:8000/api/payflow/user/${user.email}/transactions`);
+        const response = await fetch(`/api/payflow/user/${user.email}/transactions`);
         const data = await response.json();
 
         if (data.success) {

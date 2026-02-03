@@ -37,7 +37,7 @@ const PayFlowRequest = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:8000/api/payflow/user/${user.email}/request`, {
+      const response = await fetch(`/api/payflow/user/${user.email}/request`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

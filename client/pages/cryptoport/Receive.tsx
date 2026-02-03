@@ -35,7 +35,7 @@ const BinanceReceive = () => {
 
   const fetchCryptoWallets = async (email: string) => {
     try {
-      const response = await fetch(`http://localhost:8000/api/cryptoport/user/${email}/wallets`);
+      const response = await fetch(`/api/cryptoport/user/${email}/wallets`);
       const data = await response.json();
       
       if (data.success) {

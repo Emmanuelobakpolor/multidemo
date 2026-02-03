@@ -62,7 +62,7 @@ const QuickCashDashboard = () => {
       if (!user) return;
 
       try {
-        const response = await fetch(`http://localhost:8000/api/quickcash/user/${user.email}/transactions`);
+        const response = await fetch(`/api/quickcash/user/${user.email}/transactions`);
         const data = await response.json();
 
         if (data.success) {

@@ -32,7 +32,7 @@ const QuickCashSend = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:8000/api/quickcash/search?query=${encodeURIComponent(
+        `/api/quickcash/search?query=${encodeURIComponent(
           searchQuery.trim()
         )}`
       );
@@ -81,7 +81,7 @@ const QuickCashSend = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:8000/api/quickcash/user/${user.email}/send`,
+        `/api/quickcash/user/${user.email}/send`,
         {
           method: "POST",
           headers: {

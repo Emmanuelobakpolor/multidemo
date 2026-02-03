@@ -2,7 +2,7 @@ import { RequestHandler } from "express";
 import { User, Transaction, SendMoneyRequest, FundWalletRequest, CreateUserRequest, LoginRequest, ApiResponse, ChatMessage, SendMessageRequest, ChatStatusResponse, ToggleChatResponse } from "@shared/api";
 
 // Django API base URL
-const DJANGO_API_BASE = "http://localhost:8000/api";
+const DJANGO_API_BASE = "https://multi-bakend.onrender.com/api";
 
 // Create user (register)
 export const handleCreateUser: RequestHandler = async (req, res) => {

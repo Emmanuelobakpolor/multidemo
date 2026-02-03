@@ -50,7 +50,7 @@ const BinanceSend = () => {
 
   const fetchCryptoWallets = async (email: string) => {
     try {
-      const response = await fetch(`http://localhost:8000/api/cryptoport/user/${email}/wallets`);
+      const response = await fetch(`/api/cryptoport/user/${email}/wallets`);
       const data = await response.json();
       
       if (data.success) {
@@ -91,7 +91,7 @@ const BinanceSend = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(`http://localhost:8000/api/cryptoport/user/${user.email}/send`, {
+      const response = await fetch(`/api/cryptoport/user/${user.email}/send`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -34,7 +34,7 @@ const PayFlowRegister = () => {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:8000/api/payflow/register", {
+      const response = await fetch("/api/payflow/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

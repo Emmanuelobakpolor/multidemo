@@ -54,7 +54,7 @@ const QuickCashAdminDashboard = () => {
       try {
         // For admin, we need to count unread messages from each specific user
         // Let's fetch chat history with each user and count unread
-        const historyResponse = await fetch(`http://localhost:8000/api/quickcash/chat/history/${user.email}/`);
+        const historyResponse = await fetch(`/api/quickcash/chat/history/${user.email}/`);
         const historyData = await historyResponse.json();
         
         if (historyData.success) {
@@ -75,7 +75,7 @@ const QuickCashAdminDashboard = () => {
 
   const markMessagesAsRead = async (userEmail: string) => {
     try {
-      await fetch(`http://localhost:8000/api/quickcash/chat/mark-read/${userEmail}/`, {
+      await fetch(`/api/quickcash/chat/mark-read/${userEmail}/`, {
         method: "POST",
       });
       // Update unread count for this user specifically
@@ -91,8 +91,8 @@ const QuickCashAdminDashboard = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const usersResponse = await fetch("http://localhost:8000/api/quickcash/admin/users");
-      const transactionsResponse = await fetch("http://localhost:8000/api/quickcash/admin/transactions");
+      const usersResponse = await fetch("/api/quickcash/admin/users");
+      const transactionsResponse = await fetch("/api/quickcash/admin/transactions");
 
       const usersData = await usersResponse.json();
       const transactionsData = await transactionsResponse.json();
@@ -102,7 +102,7 @@ const QuickCashAdminDashboard = () => {
         const usersWithChatStatus = await Promise.all(
           usersData.data.map(async (user: User) => {
             try {
-              const chatStatusResponse = await fetch(`http://localhost:8000/api/quickcash/chat/status/${user.email}`);
+              const chatStatusResponse = await fetch(`/api/quickcash/chat/status/${user.email}`);
               const chatStatusData = await chatStatusResponse.json();
               return {
                 ...user,
@@ -169,7 +169,7 @@ const QuickCashAdminDashboard = () => {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:8000/api/quickcash/admin/fund", {
+      const response = await fetch("/api/quickcash/admin/fund", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -205,7 +205,7 @@ const QuickCashAdminDashboard = () => {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:8000/api/quickcash/admin/edit-user", {
+      const response = await fetch("/api/quickcash/admin/edit-user", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -231,7 +231,7 @@ const QuickCashAdminDashboard = () => {
 
   const handleToggleChat = async (userId: string, currentStatus: boolean) => {
     try {
-      const response = await fetch(`http://localhost:8000/api/quickcash/admin/user/${userId}/toggle-chat/`, {
+      const response = await fetch(`/api/quickcash/admin/user/${userId}/toggle-chat/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
