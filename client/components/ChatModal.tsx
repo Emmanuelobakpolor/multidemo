@@ -35,7 +35,7 @@ const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, user, onMarkAsRe
 
   const fetchChatHistory = async () => {
     try {
-      const response = await fetch(`/api/payflow/chat/history/${user.email}`);
+      const response = await fetch(`/api/payflow/chat/history/${user.email}/`);
       const data = await response.json();
       
       if (data.success) {
@@ -49,7 +49,7 @@ const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, user, onMarkAsRe
 
   const markMessagesRead = async () => {
     try {
-      await fetch(`/api/payflow/chat/mark-read/${user.email}`);
+      await fetch(`/api/payflow/chat/mark-read/${user.email}/`);
     } catch (error) {
       console.error("Error marking messages as read:", error);
     }
@@ -66,7 +66,7 @@ const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, user, onMarkAsRe
         message: newMessage.trim()
       };
 
-      const response = await fetch("/api/payflow/chat/send", {
+      const response = await fetch("/api/payflow/chat/send/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -35,7 +35,7 @@ const CryptoPortChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, user, 
 
   const fetchChatHistory = async () => {
     try {
-      const response = await fetch(`/api/cryptoport/chat/history/${user.email}`);
+      const response = await fetch(`/api/cryptoport/chat/history/${user.email}/`);
       const data = await response.json();
       
       if (data.success) {
@@ -49,7 +49,7 @@ const CryptoPortChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, user, 
 
   const markMessagesRead = async () => {
     try {
-      await fetch(`/api/cryptoport/chat/mark-read/${user.email}`);
+      await fetch(`/api/cryptoport/chat/mark-read/${user.email}/`);
     } catch (error) {
       console.error("Error marking messages as read:", error);
     }
@@ -66,7 +66,7 @@ const CryptoPortChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, user, 
         message: newMessage.trim()
       };
 
-      const response = await fetch("/api/cryptoport/chat/send", {
+      const response = await fetch("/api/cryptoport/chat/send/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

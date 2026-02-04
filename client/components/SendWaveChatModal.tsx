@@ -35,7 +35,7 @@ const SendWaveChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, user, on
 
   const fetchChatHistory = async () => {
     try {
-      const response = await fetch(`/api/sendwave/chat/history/${user.email}`);
+      const response = await fetch(`/api/sendwave/chat/history/${user.email}/`);
       const data = await response.json();
       
       if (data.success) {
@@ -49,7 +49,7 @@ const SendWaveChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, user, on
 
   const markMessagesRead = async () => {
     try {
-      await fetch(`/api/sendwave/chat/mark-read/${user.email}`);
+      await fetch(`/api/sendwave/chat/mark-read/${user.email}/`);
     } catch (error) {
       console.error("Error marking messages as read:", error);
     }
@@ -66,7 +66,7 @@ const SendWaveChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, user, on
         message: newMessage.trim()
       };
 
-      const response = await fetch("/api/sendwave/chat/send", {
+      const response = await fetch("/api/sendwave/chat/send/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

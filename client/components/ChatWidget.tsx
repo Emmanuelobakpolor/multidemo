@@ -30,7 +30,7 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ user, isOpen, onClose }) => {
 
   const fetchChatHistory = async () => {
     try {
-      const response = await fetch(`/api/payflow/chat/history/${user.email}`);
+      const response = await fetch(`/api/payflow/chat/history/${user.email}/`);
       const data = await response.json();
       
       if (data.success) {
@@ -44,7 +44,7 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ user, isOpen, onClose }) => {
 
   const markMessagesRead = async () => {
     try {
-      await fetch(`/api/payflow/chat/mark-read/${user.email}`, {
+      await fetch(`/api/payflow/chat/mark-read/${user.email}/`, {
         method: "POST",
       });
     } catch (error) {
@@ -63,7 +63,7 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ user, isOpen, onClose }) => {
         message: newMessage.trim()
       };
 
-      const response = await fetch("/api/payflow/chat/send", {
+      const response = await fetch("/api/payflow/chat/send/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -107,13 +107,13 @@ export function createServer() {
    app.get("/api/payflow/admin/users", handleGetAllUsers);
    app.get("/api/payflow/admin/user/:id", handleGetUserById);
     
-   // PayFlow Chat API routes
-   app.post("/api/payflow/chat/send", handleSendMessage);
-   app.post("/api/payflow/chat/mark-read/:email", handleMarkMessagesRead);
-   app.get("/api/payflow/chat/history/:email", handleGetChatHistory);
-   app.get("/api/payflow/chat/unread/:email", handleGetUnreadMessagesCount);
-   app.get("/api/payflow/chat/status/:email", handleGetChatStatus);
-   app.post("/api/payflow/chat/toggle/:userId", handleToggleChat);
+    // PayFlow Chat API routes
+    app.post("/api/payflow/chat/send/", handleSendMessage);
+    app.post("/api/payflow/chat/mark-read/:email/", handleMarkMessagesRead);
+    app.get("/api/payflow/chat/history/:email/", handleGetChatHistory);
+    app.get("/api/payflow/chat/unread/:email/", handleGetUnreadMessagesCount);
+    app.get("/api/payflow/chat/status/:email/", handleGetChatStatus);
+    app.post("/api/payflow/chat/toggle/:userId/", handleToggleChat);
 
   // CryptoPort API routes
   app.post("/api/cryptoport/register", handleCreateCryptoPortUser);
@@ -129,13 +129,13 @@ export function createServer() {
    app.post("/api/cryptoport/admin/user/update-deposit-address", handleUpdateDepositAddress);
    app.delete("/api/cryptoport/admin/user/:id/delete", handleDeleteUser);
   
-   // CryptoPort Chat API routes
-   app.post("/api/cryptoport/chat/send", handleSendCryptoPortMessage);
-   app.post("/api/cryptoport/chat/mark-read/:email", handleMarkCryptoPortMessagesRead);
-   app.get("/api/cryptoport/chat/history/:email", handleGetCryptoPortChatHistory);
-   app.get("/api/cryptoport/chat/unread/:email", handleGetCryptoPortUnreadMessagesCount);
-   app.get("/api/cryptoport/chat/status/:email", handleGetCryptoPortChatStatus);
-    app.post("/api/cryptoport/admin/user/:userId/toggle-chat", handleToggleCryptoPortChat);
+    // CryptoPort Chat API routes
+    app.post("/api/cryptoport/chat/send/", handleSendCryptoPortMessage);
+    app.post("/api/cryptoport/chat/mark-read/:email/", handleMarkCryptoPortMessagesRead);
+    app.get("/api/cryptoport/chat/history/:email/", handleGetCryptoPortChatHistory);
+    app.get("/api/cryptoport/chat/unread/:email/", handleGetCryptoPortUnreadMessagesCount);
+    app.get("/api/cryptoport/chat/status/:email/", handleGetCryptoPortChatStatus);
+     app.post("/api/cryptoport/admin/user/:userId/toggle-chat/", handleToggleCryptoPortChat);
 
   // SendWave API routes
   app.post("/api/sendwave/register", handleCreateSendWaveUser);
@@ -153,13 +153,13 @@ export function createServer() {
   app.put("/api/sendwave/admin/user/:id", handleUpdateSendWaveUser);
   app.get("/api/sendwave/admin/user/:id", handleGetSendWaveUserById);
 
-   // SendWave Chat API routes
-   app.post("/api/sendwave/chat/send", handleSendWaveMessage);
-   app.post("/api/sendwave/chat/mark-read/:email", handleMarkWaveMessagesRead);
-   app.get("/api/sendwave/chat/history/:email", handleGetWaveChatHistory);
-   app.get("/api/sendwave/chat/unread/:email", handleGetWaveUnreadMessages);
-   app.get("/api/sendwave/chat/status/:email", handleGetWaveChatStatus);
-   app.post("/api/sendwave/admin/user/:userId/toggle-chat", handleToggleWaveChat);
+    // SendWave Chat API routes
+    app.post("/api/sendwave/chat/send/", handleSendWaveMessage);
+    app.post("/api/sendwave/chat/mark-read/:email/", handleMarkWaveMessagesRead);
+    app.get("/api/sendwave/chat/history/:email/", handleGetWaveChatHistory);
+    app.get("/api/sendwave/chat/unread/:email/", handleGetWaveUnreadMessages);
+    app.get("/api/sendwave/chat/status/:email/", handleGetWaveChatStatus);
+    app.post("/api/sendwave/admin/user/:userId/toggle-chat/", handleToggleWaveChat);
 
    // QuickCash API routes
    app.post("/api/quickcash/register", handleCreateQuickCashUser);
@@ -173,13 +173,13 @@ export function createServer() {
    app.post("/api/quickcash/admin/fund", handleQuickCashFundWallet);
    app.put("/api/quickcash/admin/edit-user", handleQuickCashEditUser);
 
-    // QuickCash Chat API routes
-    app.post("/api/quickcash/chat/send", handleQuickCashSendMessage);
-    app.post("/api/quickcash/chat/mark-read/:email", handleQuickCashMarkMessagesAsRead);
-    app.get("/api/quickcash/chat/history/:email", handleGetQuickCashChatHistory);
-    app.get("/api/quickcash/chat/unread/:email", handleGetQuickCashUnreadCount);
-    app.get("/api/quickcash/chat/status/:email", handleGetQuickCashChatStatus);
-    app.post("/api/quickcash/admin/user/:userId/toggle-chat", handleQuickCashToggleChat);
+     // QuickCash Chat API routes
+     app.post("/api/quickcash/chat/send/", handleQuickCashSendMessage);
+     app.post("/api/quickcash/chat/mark-read/:email/", handleQuickCashMarkMessagesAsRead);
+     app.get("/api/quickcash/chat/history/:email/", handleGetQuickCashChatHistory);
+     app.get("/api/quickcash/chat/unread/:email/", handleGetQuickCashUnreadCount);
+     app.get("/api/quickcash/chat/status/:email/", handleGetQuickCashChatStatus);
+     app.post("/api/quickcash/admin/user/:userId/toggle-chat/", handleQuickCashToggleChat);
 
   return app;
 }

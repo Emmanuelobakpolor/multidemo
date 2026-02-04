@@ -35,7 +35,7 @@ const QuickCashChatModal: React.FC<QuickCashChatModalProps> = ({ isOpen, onClose
 
   const fetchChatHistory = async () => {
     try {
-      const response = await fetch(`/api/quickcash/chat/history/${user.email}`);
+      const response = await fetch(`/api/quickcash/chat/history/${user.email}/`);
       const data = await response.json();
       
       if (data.success) {
@@ -49,7 +49,7 @@ const QuickCashChatModal: React.FC<QuickCashChatModalProps> = ({ isOpen, onClose
 
   const markMessagesRead = async () => {
     try {
-      await fetch(`/api/quickcash/chat/mark-read/${user.email}`, {
+      await fetch(`/api/quickcash/chat/mark-read/${user.email}/`, {
         method: "POST",
       });
     } catch (error) {
@@ -68,7 +68,7 @@ const QuickCashChatModal: React.FC<QuickCashChatModalProps> = ({ isOpen, onClose
         message: newMessage.trim()
       };
 
-      const response = await fetch("/api/quickcash/chat/send", {
+      const response = await fetch("/api/quickcash/chat/send/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
