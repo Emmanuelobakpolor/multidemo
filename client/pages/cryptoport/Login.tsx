@@ -116,10 +116,17 @@ const BinanceStyleLogin = () => {
             {/* Log In button */}
             <button
               type="submit"
-              className="w-full py-4 bg-[#F0B90B] text-black font-bold text-lg rounded-lg hover:bg-[#E8A010] transition flex items-center justify-center gap-2"
+              disabled={loading}
+              className="w-full py-4 bg-[#F0B90B] text-black font-bold text-lg rounded-lg hover:bg-[#E8A010] transition flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Log In
-              <ArrowRight className="w-5 h-5" />
+              {loading ? (
+                <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
+              ) : (
+                <>
+                  Log In
+                  <ArrowRight className="w-5 h-5" />
+                </>
+              )}
             </button>
           </form>
 

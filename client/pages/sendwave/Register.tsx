@@ -14,6 +14,7 @@ const GCashRegister = () => {
     confirmPassword: "",
   });
   const [termsAccepted, setTermsAccepted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,6 +23,7 @@ const GCashRegister = () => {
       return;
     }
 
+    setLoading(true);
     const normalizedEmail = formData.email.toLowerCase().trim();
 
     try {
@@ -49,6 +51,8 @@ const GCashRegister = () => {
       }
     } catch (error) {
       alert("Network error. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -346,10 +350,17 @@ const GCashRegister = () => {
                       </button>
                       <button
                         type="submit"
-                        disabled={!termsAccepted || formData.password !== formData.confirmPassword}
-                        className="flex-1 py-4 bg-[#007DFE] text-white rounded-xl font-bold hover:bg-blue-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                        disabled={!termsAccepted || formData.password !== formData.confirmPassword || loading}
+                        className="flex-1 py-4 bg-[#007DFE] text-white rounded-xl font-bold hover:bg-blue-600 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                       >
-                        Create Account
+                        {loading ? (
+                          <>
+                            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                            Creating account...
+                          </>
+                        ) : (
+                          "Create Account"
+                        )}
                       </button>
                     </div>
                   </div>

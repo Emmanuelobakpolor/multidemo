@@ -196,9 +196,16 @@ const PayFlowRegister = () => {
             <button
               type="submit"
               disabled={loading || (step === "details" && !termsAccepted)}
-              className="w-full py-3.5 bg-[#0070BA] text-white font-semibold rounded-lg hover:bg-[#005ea6] transition shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-3.5 bg-[#0070BA] text-white font-semibold rounded-lg hover:bg-[#005ea6] transition shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
-              {loading ? "Creating account..." : (step === "initial" ? "Next" : "Agree and Create Account")}
+              {loading ? (
+                <>
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  {step === "initial" ? "Processing..." : "Creating account..."}
+                </>
+              ) : (
+                step === "initial" ? "Next" : "Agree and Create Account"
+              )}
             </button>
           </form>
 

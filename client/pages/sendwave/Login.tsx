@@ -9,10 +9,12 @@ const GCashLogin = () => {
     email: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    setLoading(true);
     const normalizedEmail = formData.email.toLowerCase().trim();
 
     try {
@@ -38,6 +40,8 @@ const GCashLogin = () => {
       }
     } catch (error) {
       alert("Network error. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -180,9 +184,17 @@ const GCashLogin = () => {
 
                 <button
                   type="submit"
-                  className="w-full py-4 bg-[#007DFE] text-white rounded-xl font-bold text-lg hover:bg-blue-600 transition shadow-lg shadow-blue-500/25"
+                  disabled={loading}
+                  className="w-full py-4 bg-[#007DFE] text-white rounded-xl font-bold text-lg hover:bg-blue-600 transition shadow-lg shadow-blue-500/25 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
-                  Log In
+                  {loading ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      Logging in...
+                    </>
+                  ) : (
+                    "Log In"
+                  )}
                 </button>
               </form>
 
