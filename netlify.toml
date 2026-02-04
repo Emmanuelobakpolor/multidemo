@@ -1,36 +1,17 @@
 [build]
   command = "npm run build:client"
-  functions = "netlify/functions"
   publish = "dist/spa"
 
 [build.environment]
   PNPM_FLAGS = "--no-frozen-lockfile"
 
-
-[functions]
-  external_node_modules = ["express"]
-  node_bundler = "esbuild"
-  
 [[redirects]]
-  force = true
   from = "/api/*"
+  to = "https://multi-bakend.onrender.com/api/:splat"
   status = 200
-  to = "/.netlify/functions/api/:splat"
-
-[[redirects]]
-  force = false
-  from = "/assets/*"
-  status = 200
-  to = "/assets/:splat"
-
-[[redirects]]
-  force = false
-  from = "/favicon.ico"
-  status = 200
-  to = "/favicon.ico"
-
-[[redirects]]
   force = true
+
+[[redirects]]
   from = "/*"
-  status = 200
   to = "/index.html"
+  status = 200
