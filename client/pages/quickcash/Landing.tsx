@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 const CashAppLanding = () => {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const cards = [
     { name: "Glitter", gradient: "linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF6347 100%)" },
     { name: "Black", gradient: "linear-gradient(135deg, #1a1a1a 0%, #333 100%)" },
@@ -68,6 +69,73 @@ const CashAppLanding = () => {
         .card-hover:hover { transform: translateY(-5px) rotate(-5deg) !important; }
         .feature-card:hover { border-color: #00D632 !important; }
         .social-icon:hover { color: #00D632 !important; }
+
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+          .desktop-nav { display: none !important; }
+          .mobile-menu-button { display: block !important; }
+          .two-col-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+          .three-col-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+          .section-padding { padding: 60px 20px !important; }
+          .hero-section { padding: 100px 20px 60px !important; min-height: auto !important; }
+          .reverse-mobile { direction: rtl; }
+          .reverse-mobile > * { direction: ltr; }
+          .phone-mockup { height: 300px !important; }
+          .savings-visual { height: 250px !important; }
+
+          /* Reduce card stack width on mobile */
+          .card-hover {
+            width: 200px !important;
+            height: 126px !important;
+          }
+
+          /* Cards container on mobile */
+          .cards-container {
+            min-height: 300px !important;
+          }
+
+          /* Smaller orb on mobile */
+          .hero-orb {
+            width: 150px !important;
+            height: 150px !important;
+            font-size: 32px !important;
+          }
+
+          /* Better button sizing on mobile */
+          .cta-button {
+            width: 100%;
+            max-width: 300px;
+            padding: 14px 24px !important;
+            font-size: 14px !important;
+            min-height: 44px;
+          }
+
+          /* Adjust feature cards for mobile */
+          .feature-card {
+            min-width: 100% !important;
+            max-width: 100% !important;
+            padding: 20px 24px !important;
+          }
+
+          /* Text alignment for mobile */
+          .mobile-center { text-align: center !important; }
+
+          /* Header adjustments for mobile */
+          header > div {
+            padding: 12px 16px !important;
+          }
+
+          /* Better mobile menu spacing */
+          .mobile-menu {
+            max-height: calc(100vh - 60px);
+            overflow-y: auto;
+          }
+        }
+
+        @media (min-width: 769px) {
+          .mobile-menu-button { display: none !important; }
+          .mobile-menu { display: none !important; }
+        }
       `}</style>
 
       {/* Header */}
@@ -97,8 +165,8 @@ const CashAppLanding = () => {
             </svg>
           </div>
 
-          {/* Nav Links */}
-          <nav style={{ display: "flex", alignItems: "center", gap: "32px" }}>
+          {/* Nav Links - Desktop */}
+          <nav className="desktop-nav" style={{ display: "flex", alignItems: "center", gap: "32px" }}>
             <a href="#" className="nav-link" style={{ color: "#888", fontSize: "14px", fontWeight: 500, textDecoration: "none", transition: "color 0.2s" }}>Bank</a>
             <a href="#" className="nav-link" style={{ color: "#888", fontSize: "14px", fontWeight: 500, textDecoration: "none", transition: "color 0.2s" }}>Card</a>
             <a href="#" className="nav-link" style={{ color: "#888", fontSize: "14px", fontWeight: 500, textDecoration: "none", transition: "color 0.2s" }}>Send</a>
@@ -106,16 +174,58 @@ const CashAppLanding = () => {
             <a href="#" className="nav-link" style={{ color: "#888", fontSize: "14px", fontWeight: 500, textDecoration: "none", transition: "color 0.2s" }}>Security</a>
           </nav>
 
-           {/* Auth Buttons */}
-          <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+           {/* Auth Buttons - Desktop */}
+          <div className="desktop-nav" style={{ display: "flex", alignItems: "center", gap: "16px" }}>
             <Link to="/quickcash/register" style={{ color: "#fff", fontSize: "14px", fontWeight: 500, textDecoration: "none" }}>Sign up</Link>
             <Link to="/quickcash/login" style={{ color: "#888", fontSize: "14px", fontWeight: 500, textDecoration: "none" }}>Log in</Link>
           </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            className="mobile-menu-button"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            style={{
+              display: "none",
+              background: "none",
+              border: "none",
+              color: "#fff",
+              fontSize: "24px",
+              cursor: "pointer",
+              padding: "8px",
+            }}
+          >
+            {mobileMenuOpen ? "✕" : "☰"}
+          </button>
         </div>
+
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <div className="mobile-menu" style={{
+            position: "absolute",
+            top: "100%",
+            left: 0,
+            right: 0,
+            backgroundColor: "rgba(0,0,0,0.98)",
+            backdropFilter: "blur(20px)",
+            padding: "24px",
+            borderBottom: "1px solid rgba(255,255,255,0.1)",
+          }}>
+            <nav style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+              <a href="#" className="nav-link" style={{ color: "#888", fontSize: "16px", fontWeight: 500, textDecoration: "none", padding: "8px 0" }}>Bank</a>
+              <a href="#" className="nav-link" style={{ color: "#888", fontSize: "16px", fontWeight: 500, textDecoration: "none", padding: "8px 0" }}>Card</a>
+              <a href="#" className="nav-link" style={{ color: "#888", fontSize: "16px", fontWeight: 500, textDecoration: "none", padding: "8px 0" }}>Send</a>
+              <a href="#" className="nav-link" style={{ color: "#888", fontSize: "16px", fontWeight: 500, textDecoration: "none", padding: "8px 0" }}>Savings</a>
+              <a href="#" className="nav-link" style={{ color: "#888", fontSize: "16px", fontWeight: 500, textDecoration: "none", padding: "8px 0" }}>Security</a>
+              <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", margin: "16px 0" }}/>
+              <Link to="/quickcash/register" style={{ color: "#fff", fontSize: "16px", fontWeight: 500, textDecoration: "none", padding: "8px 0" }}>Sign up</Link>
+              <Link to="/quickcash/login" style={{ color: "#888", fontSize: "16px", fontWeight: 500, textDecoration: "none", padding: "8px 0" }}>Log in</Link>
+            </nav>
+          </div>
+        )}
       </header>
 
       {/* Hero Section - Cash App Green */}
-      <section style={{
+      <section className="hero-section" style={{
         minHeight: "100vh",
         display: "flex",
         alignItems: "center",
@@ -138,7 +248,7 @@ const CashAppLanding = () => {
           zIndex: 1,
         }}>
           {/* Video/Animation placeholder - green glowing orb */}
-          <div style={{
+          <div className="hero-orb" style={{
             width: "200px",
             height: "200px",
             margin: "0 auto 48px",
@@ -166,17 +276,18 @@ const CashAppLanding = () => {
           </h1>
 
           <p style={{
-            fontSize: "18px",
+            fontSize: "clamp(16px, 2vw, 18px)",
             color: "#888",
             maxWidth: "700px",
             margin: "0 auto 40px",
             lineHeight: 1.6,
             animation: "fadeInUp 0.8s ease 0.1s both",
+            padding: "0 20px",
           }}>
             It's easier than ever to earn our best benefits yet—higher Borrow limits, up to 3.25% savings interest, free overdraft coverage, and free withdrawals from 40k in-network ATMs.
           </p>
 
-          <div style={{ display: "flex", gap: "16px", justifyContent: "center", flexWrap: "wrap", animation: "fadeInUp 0.8s ease 0.2s both" }}>
+          <div style={{ display: "flex", gap: "16px", justifyContent: "center", flexWrap: "wrap", animation: "fadeInUp 0.8s ease 0.2s both", alignItems: "center" }}>
             <button className="cta-button" style={{
               padding: "16px 32px",
               backgroundColor: "#00D632",
@@ -190,17 +301,17 @@ const CashAppLanding = () => {
             }}>
               Learn about Green
             </button>
-            <span style={{ color: "#666", fontSize: "12px", alignSelf: "center" }}>*See legal disclaimers</span>
+            <span style={{ color: "#666", fontSize: "12px", alignSelf: "center", textAlign: "center", width: "100%", maxWidth: "300px" }}>*See legal disclaimers</span>
           </div>
         </div>
       </section>
 
       {/* Cash App Card Section */}
-      <section style={{
+      <section className="section-padding" style={{
         padding: "120px 24px",
         backgroundColor: "#0a0a0a",
       }}>
-        <div style={{
+        <div className="two-col-grid" style={{
           maxWidth: "1200px",
           margin: "0 auto",
           display: "grid",
@@ -209,7 +320,7 @@ const CashAppLanding = () => {
           alignItems: "center",
         }}>
           {/* Cards Display */}
-          <div style={{
+          <div className="cards-container" style={{
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -314,7 +425,7 @@ const CashAppLanding = () => {
       </section>
 
       {/* Access Cash Section */}
-      <section style={{
+      <section className="section-padding" style={{
         padding: "120px 24px",
         backgroundColor: "#000",
       }}>
@@ -393,11 +504,11 @@ const CashAppLanding = () => {
       </section>
 
       {/* What's New Section */}
-      <section style={{
+      <section className="section-padding" style={{
         padding: "120px 24px",
         backgroundColor: "#0a0a0a",
       }}>
-        <div style={{
+        <div className="two-col-grid" style={{
           maxWidth: "1200px",
           margin: "0 auto",
           display: "grid",
@@ -406,7 +517,7 @@ const CashAppLanding = () => {
           alignItems: "center",
         }}>
           {/* Animation placeholder */}
-          <div style={{
+          <div className="phone-mockup" style={{
             height: "500px",
             borderRadius: "24px",
             background: "linear-gradient(180deg, rgba(0,214,50,0.2) 0%, rgba(0,0,0,0) 100%)",
@@ -505,11 +616,11 @@ const CashAppLanding = () => {
       </section>
 
       {/* Savings Section */}
-      <section style={{
+      <section className="section-padding" style={{
         padding: "120px 24px",
         backgroundColor: "#000",
       }}>
-        <div style={{
+        <div className="two-col-grid" style={{
           maxWidth: "1200px",
           margin: "0 auto",
           display: "grid",
@@ -551,7 +662,7 @@ const CashAppLanding = () => {
           </div>
 
           {/* Savings visual */}
-          <div style={{
+          <div className="savings-visual" style={{
             height: "400px",
             borderRadius: "24px",
             background: "linear-gradient(135deg, rgba(0,214,50,0.1) 0%, rgba(0,0,0,0) 100%)",
@@ -564,25 +675,25 @@ const CashAppLanding = () => {
               textAlign: "center",
             }}>
               <div style={{
-                fontSize: "80px",
+                fontSize: "clamp(48px, 10vw, 80px)",
                 fontWeight: 800,
                 color: "#00D632",
                 textShadow: "0 0 40px rgba(0,214,50,0.5)",
               }}>
                 3.25%
               </div>
-              <div style={{ color: "#888", fontSize: "18px", marginTop: "8px" }}>APY savings interest</div>
+              <div style={{ color: "#888", fontSize: "clamp(16px, 2vw, 18px)", marginTop: "8px" }}>APY savings interest</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Send Money Section */}
-      <section style={{
+      <section className="section-padding" style={{
         padding: "120px 24px",
         backgroundColor: "#0a0a0a",
       }}>
-        <div style={{
+        <div className="two-col-grid reverse-mobile" style={{
           maxWidth: "1200px",
           margin: "0 auto",
           display: "grid",
@@ -694,11 +805,11 @@ const CashAppLanding = () => {
       </section>
 
       {/* Security Section */}
-      <section style={{
+      <section className="section-padding" style={{
         padding: "120px 24px",
         backgroundColor: "#000",
       }}>
-        <div style={{
+        <div className="two-col-grid" style={{
           maxWidth: "1200px",
           margin: "0 auto",
           display: "grid",
@@ -768,7 +879,7 @@ const CashAppLanding = () => {
       </section>
 
       {/* Testimonial Section */}
-      <section style={{
+      <section className="section-padding" style={{
         padding: "120px 24px",
         backgroundColor: "#0a0a0a",
         textAlign: "center",
@@ -786,11 +897,12 @@ const CashAppLanding = () => {
           </h2>
 
           <blockquote style={{
-            fontSize: "24px",
+            fontSize: "clamp(18px, 3vw, 24px)",
             fontStyle: "italic",
             color: "#ccc",
             marginBottom: "48px",
             lineHeight: 1.5,
+            padding: "0 20px",
           }}>
             "Cash App makes it so easy to manage everything—I use it for saving, splitting bills, and getting paid. It's all-in-one."
           </blockquote>
@@ -812,7 +924,7 @@ const CashAppLanding = () => {
       </section>
 
       {/* Stats Section */}
-      <section style={{
+      <section className="section-padding" style={{
         padding: "80px 24px",
         backgroundColor: "#000",
       }}>
@@ -830,21 +942,21 @@ const CashAppLanding = () => {
             Cash App makes money simple
           </h3>
 
-          <div style={{
+          <div className="three-col-grid" style={{
             display: "grid",
             gridTemplateColumns: "repeat(3, 1fr)",
             gap: "48px",
           }}>
             <div>
-              <div style={{ fontSize: "48px", fontWeight: 700, color: "#00D632" }}>5★</div>
+              <div style={{ fontSize: "clamp(36px, 5vw, 48px)", fontWeight: 700, color: "#00D632" }}>5★</div>
               <div style={{ color: "#888", fontSize: "14px", marginTop: "8px" }}>Editor's Choice on the App Store</div>
             </div>
             <div>
-              <div style={{ fontSize: "48px", fontWeight: 700, color: "#00D632" }}>9.9m+</div>
+              <div style={{ fontSize: "clamp(36px, 5vw, 48px)", fontWeight: 700, color: "#00D632" }}>9.9m+</div>
               <div style={{ color: "#888", fontSize: "14px", marginTop: "8px" }}>Apple App Store and Google Play reviews</div>
             </div>
             <div>
-              <div style={{ fontSize: "48px", fontWeight: 700, color: "#00D632" }}>4.5★</div>
+              <div style={{ fontSize: "clamp(36px, 5vw, 48px)", fontWeight: 700, color: "#00D632" }}>4.5★</div>
               <div style={{ color: "#888", fontSize: "14px", marginTop: "8px" }}>Rated Excellent on Trustpilot</div>
             </div>
           </div>
@@ -852,7 +964,7 @@ const CashAppLanding = () => {
       </section>
 
        {/* CTA Section */}
-      <section style={{
+      <section className="section-padding" style={{
         padding: "80px 24px",
         textAlign: "center",
       }}>
@@ -888,13 +1000,13 @@ const CashAppLanding = () => {
           margin: "0 auto",
         }}>
           {/* Contact & Social */}
-          <div style={{
+          <div className="three-col-grid" style={{
             display: "grid",
             gridTemplateColumns: "repeat(3, 1fr)",
             gap: "48px",
             marginBottom: "48px",
           }}>
-            <div>
+            <div className="mobile-center">
               <a href="tel:18009691940" style={{ color: "#fff", textDecoration: "none", fontSize: "18px", fontWeight: 600 }}>
                 1 (800) 969-1940
               </a>
@@ -905,9 +1017,9 @@ const CashAppLanding = () => {
 
             <div style={{ display: "flex", gap: "24px", justifyContent: "center" }}>
               {["X", "IG", "TW", "TT"].map((social) => (
-                <a key={social} href="#" className="social-icon" style={{ 
-                  color: "#888", 
-                  fontSize: "14px", 
+                <a key={social} href="#" className="social-icon" style={{
+                  color: "#888",
+                  fontSize: "14px",
                   textDecoration: "none",
                   transition: "color 0.2s",
                 }}>
@@ -916,7 +1028,7 @@ const CashAppLanding = () => {
               ))}
             </div>
 
-            <div style={{ textAlign: "right" }}>
+            <div className="mobile-center" style={{ textAlign: "right" }}>
               <a href="#" style={{ color: "#fff", textDecoration: "none", fontSize: "18px", fontWeight: 600 }}>
                 Chat with us
               </a>
