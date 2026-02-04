@@ -1141,7 +1141,7 @@ export const handleSendMessage: RequestHandler = async (req, res) => {
   const { sender_email, receiver_email, message }: SendMessageRequest = req.body;
 
   try {
-    const response = await fetch(`${DJANGO_API_BASE}/cryptoport/chat/send/`, {
+    const response = await fetch(`${DJANGO_API_BASE}/cryptoport/chat/send`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -1185,7 +1185,7 @@ export const handleMarkMessagesRead: RequestHandler = async (req, res) => {
   const { email } = req.params;
 
   try {
-    const response = await fetch(`${DJANGO_API_BASE}/cryptoport/chat/mark-read/${email}/`, {
+    const response = await fetch(`${DJANGO_API_BASE}/cryptoport/chat/mark-read/${email}`, {
       method: "POST",
     });
 
@@ -1220,7 +1220,7 @@ export const handleGetChatHistory: RequestHandler = async (req, res) => {
   const { email } = req.params;
 
   try {
-    const response = await fetch(`${DJANGO_API_BASE}/cryptoport/chat/history/${email}/`);
+    const response = await fetch(`${DJANGO_API_BASE}/cryptoport/chat/history/${email}`);
     const data = await response.json();
 
     if (!response.ok) {
@@ -1252,7 +1252,7 @@ export const handleGetUnreadMessagesCount: RequestHandler = async (req, res) => 
   const { email } = req.params;
 
   try {
-    const response = await fetch(`${DJANGO_API_BASE}/cryptoport/chat/unread/${email}/`);
+    const response = await fetch(`${DJANGO_API_BASE}/cryptoport/chat/unread/${email}`);
     const data = await response.json();
 
     if (!response.ok) {
@@ -1284,7 +1284,7 @@ export const handleGetChatStatus: RequestHandler = async (req, res) => {
   const { email } = req.params;
 
   try {
-    const response = await fetch(`${DJANGO_API_BASE}/cryptoport/chat/status/${email}/`);
+    const response = await fetch(`${DJANGO_API_BASE}/cryptoport/chat/status/${email}`);
     const data = await response.json();
 
     if (!response.ok) {

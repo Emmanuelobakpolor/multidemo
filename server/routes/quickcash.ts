@@ -514,7 +514,7 @@ export const handleGetChatStatus: RequestHandler = async (req, res) => {
   const { email } = req.params;
 
   try {
-    const response = await fetch(`${DJANGO_API_BASE}/quickcash/chat/status/${email}/`);
+    const response = await fetch(`${DJANGO_API_BASE}/quickcash/chat/status/${email}`);
     const data = await response.json();
     
     res.json(data);
@@ -533,7 +533,7 @@ export const handleGetUnreadCount: RequestHandler = async (req, res) => {
   const { email } = req.params;
 
   try {
-    const response = await fetch(`${DJANGO_API_BASE}/quickcash/chat/unread/${email}/`);
+    const response = await fetch(`${DJANGO_API_BASE}/quickcash/chat/unread/${email}`);
     const data = await response.json();
     
     res.json(data);
@@ -552,7 +552,7 @@ export const handleGetChatHistory: RequestHandler = async (req, res) => {
   const { email } = req.params;
 
   try {
-    const response = await fetch(`${DJANGO_API_BASE}/quickcash/chat/history/${email}/`);
+    const response = await fetch(`${DJANGO_API_BASE}/quickcash/chat/history/${email}`);
     const data = await response.json();
     
     res.json(data);
@@ -571,7 +571,7 @@ export const handleSendMessage: RequestHandler = async (req, res) => {
   const request: SendMessageRequest = req.body;
 
   try {
-    const response = await fetch(`${DJANGO_API_BASE}/quickcash/chat/send/`, {
+    const response = await fetch(`${DJANGO_API_BASE}/quickcash/chat/send`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -596,7 +596,7 @@ export const handleMarkMessagesAsRead: RequestHandler = async (req, res) => {
   const { email } = req.params;
 
   try {
-    const response = await fetch(`${DJANGO_API_BASE}/quickcash/chat/mark-read/${email}/`, {
+    const response = await fetch(`${DJANGO_API_BASE}/quickcash/chat/mark-read/${email}`, {
       method: "POST",
     });
     const data = await response.json();

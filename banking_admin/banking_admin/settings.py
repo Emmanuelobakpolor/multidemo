@@ -62,7 +62,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8083",  # Vite dev server
     "http://localhost:8091",
     "http://localhost:8080",
-    "https://multichatjdh.netlify.app",
+    "https://multichatjd.netlify.app",
     "https://your-frontend-domain.com"  # Replace with your actual frontend domain
 ]
 
