@@ -9,45 +9,45 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 
-// SendWave Pages
-import SendWaveLanding from "./pages/sendwave/Landing";
-import SendWaveLogin from "./pages/sendwave/Login";
-import SendWaveRegister from "./pages/sendwave/Register";
-import SendWaveDashboard from "./pages/sendwave/Dashboard";
-import SendWaveSend from "./pages/sendwave/Send";
-import SendWaveReceive from "./pages/sendwave/Receive";
-import SendWaveAdminLogin from "./pages/sendwave/AdminLogin";
-import SendWaveAdminDashboard from "./pages/sendwave/AdminDashboard";
+// GCash Pages
+import GCashLanding from "./pages/gcash/Landing";
+import GCashLogin from "./pages/gcash/Login";
+import GCashRegister from "./pages/gcash/Register";
+import GCashDashboard from "./pages/gcash/Dashboard";
+import GCashSend from "./pages/gcash/Send";
+import GCashReceive from "./pages/gcash/Receive";
+import GCashAdminLogin from "./pages/gcash/AdminLogin";
+import GCashAdminDashboard from "./pages/gcash/AdminDashboard";
 
-// CryptoPort Pages
-import CryptoPortLanding from "./pages/cryptoport/Landing";
-import CryptoPortLogin from "./pages/cryptoport/Login";
-import CryptoPortRegister from "./pages/cryptoport/Register";
-import CryptoPortDashboard from "./pages/cryptoport/Dashboard";
-import CryptoPortSend from "./pages/cryptoport/Send";
-import CryptoPortReceive from "./pages/cryptoport/Receive";
-import CryptoPortAdminLogin from "./pages/cryptoport/AdminLogin";
-import CryptoPortAdminDashboard from "./pages/cryptoport/AdminDashboard";
+// Binance Pages
+import BinanceLanding from "./pages/binance/Landing";
+import BinanceLogin from "./pages/binance/Login";
+import BinanceRegister from "./pages/binance/Register";
+import BinanceDashboard from "./pages/binance/Dashboard";
+import BinanceSend from "./pages/binance/Send";
+import BinanceReceive from "./pages/binance/Receive";
+import BinanceAdminLogin from "./pages/binance/AdminLogin";
+import BinanceAdminDashboard from "./pages/binance/AdminDashboard";
 
-// PayFlow Pages
-import PayFlowLanding from "./pages/payflow/Landing";
-import PayFlowLogin from "./pages/payflow/Login";
-import PayFlowRegister from "./pages/payflow/Register";
-import PayFlowDashboard from "./pages/payflow/Dashboard";
-import PayFlowSend from "./pages/payflow/Send";
-import PayFlowRequest from "./pages/payflow/Request";
-import PayFlowAdminDashboard from "./pages/payflow/AdminDashboard";
-import PayFlowAdminLogin from "./pages/payflow/AdminLogin";
+// PayPal Pages
+import PayPalanding from "./pages/paypal/Landing";
+import PayPalLogin from "./pages/paypal/Login";
+import PayPalRegister from "./pages/paypal/Register";
+import PayPalDashboard from "./pages/paypal/Dashboard";
+import PayPalSend from "./pages/paypal/Send";
+import PayPalRequest from "./pages/paypal/Request";
+import PayPalAdminDashboard from "./pages/paypal/AdminDashboard";
+import PayPalAdminLogin from "./pages/paypal/AdminLogin";
 
-// QuickCash Pages
-import QuickCashLanding from "./pages/quickcash/Landing";
-import QuickCashLogin from "./pages/quickcash/Login";
-import QuickCashRegister from "./pages/quickcash/Register";
-import QuickCashDashboard from "./pages/quickcash/Dashboard";
-import QuickCashSend from "./pages/quickcash/Send";
-import QuickCashReceive from "./pages/quickcash/Receive";
-import QuickCashAdminLogin from "./pages/quickcash/AdminLogin";
-import QuickCashAdminDashboard from "./pages/quickcash/AdminDashboard";
+// CashApp Pages
+import CashAppLanding from "./pages/cashapp/Landing";
+import CashAppLogin from "./pages/cashapp/Login";
+import CashAppRegister from "./pages/cashapp/Register";
+import CashAppDashboard from "./pages/cashapp/Dashboard";
+import CashAppSend from "./pages/cashapp/Send";
+import CashAppReceive from "./pages/cashapp/Receive";
+import CashAppAdminLogin from "./pages/cashapp/AdminLogin";
+import CashAppAdminDashboard from "./pages/cashapp/AdminDashboard";
 
 // Admin Pages
 import AdminLanding from "./pages/admin/Landing";
@@ -65,45 +65,45 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
 
-          {/* SendWave Routes */}
-          <Route path="/sendwave" element={<SendWaveLanding />} />
-          <Route path="/sendwave/login" element={<SendWaveLogin />} />
-          <Route path="/sendwave/register" element={<SendWaveRegister />} />
-          <Route path="/sendwave/dashboard" element={<SendWaveDashboard />} />
-          <Route path="/sendwave/send" element={<SendWaveSend />} />
-          <Route path="/sendwave/receive" element={<SendWaveReceive />} />
-          <Route path="/sendwave/admin/login" element={<SendWaveAdminLogin />} />
-          <Route path="/sendwave/admin/dashboard" element={<SendWaveAdminDashboard />} />
+          {/* GCash Routes */}
+          <Route path="/gcash" element={<GCashLanding />} />
+          <Route path="/gcash/login" element={<GCashLogin />} />
+          <Route path="/gcash/register" element={<GCashRegister />} />
+          <Route path="/gcash/dashboard" element={<GCashDashboard />} />
+          <Route path="/gcash/send" element={<GCashSend />} />
+          <Route path="/gcash/receive" element={<GCashReceive />} />
+          <Route path="/gcash/admin/login" element={<GCashAdminLogin />} />
+          <Route path="/gcash/admin/dashboard" element={<GCashAdminDashboard />} />
 
-          {/* CryptoPort Routes */}
-          <Route path="/cryptoport" element={<CryptoPortLanding />} />
-          <Route path="/cryptoport/login" element={<CryptoPortLogin />} />
-          <Route path="/cryptoport/register" element={<CryptoPortRegister />} />
-          <Route path="/cryptoport/dashboard" element={<CryptoPortDashboard />} />
-          <Route path="/cryptoport/send" element={<CryptoPortSend />} />
-          <Route path="/cryptoport/receive" element={<CryptoPortReceive />} />
-          <Route path="/cryptoport/admin/login" element={<CryptoPortAdminLogin />} />
-          <Route path="/cryptoport/admin/dashboard" element={<CryptoPortAdminDashboard />} />
+          {/* Binance Routes */}
+          <Route path="/binance" element={<BinanceLanding />} />
+          <Route path="/binance/login" element={<BinanceLogin />} />
+          <Route path="/binance/register" element={<BinanceRegister />} />
+          <Route path="/binance/dashboard" element={<BinanceDashboard />} />
+          <Route path="/binance/send" element={<BinanceSend />} />
+          <Route path="/binance/receive" element={<BinanceReceive />} />
+          <Route path="/binance/admin/login" element={<BinanceAdminLogin />} />
+          <Route path="/binance/admin/dashboard" element={<BinanceAdminDashboard />} />
 
-          {/* PayFlow Routes */}
-          <Route path="/payflow" element={<PayFlowLanding />} />
-          <Route path="/payflow/login" element={<PayFlowLogin />} />
-          <Route path="/payflow/register" element={<PayFlowRegister />} />
-          <Route path="/payflow/dashboard" element={<PayFlowDashboard />} />
-          <Route path="/payflow/send" element={<PayFlowSend />} />
-          <Route path="/payflow/request" element={<PayFlowRequest />} />
-          <Route path="/payflow/admin/login" element={<PayFlowAdminLogin />} />
-          <Route path="/payflow/admin/dashboard" element={<PayFlowAdminDashboard />} />
+          {/* PayPal Routes */}
+          <Route path="/paypal" element={<PayPalanding />} />
+          <Route path="/paypal/login" element={<PayPalLogin />} />
+          <Route path="/paypal/register" element={<PayPalRegister />} />
+          <Route path="/paypal/dashboard" element={<PayPalDashboard />} />
+          <Route path="/paypal/send" element={<PayPalSend />} />
+          <Route path="/paypal/request" element={<PayPalRequest />} />
+          <Route path="/paypal/admin/login" element={<PayPalAdminLogin />} />
+          <Route path="/paypal/admin/dashboard" element={<PayPalAdminDashboard />} />
 
-          {/* QuickCash Routes */}
-          <Route path="/quickcash" element={<QuickCashLanding />} />
-          <Route path="/quickcash/login" element={<QuickCashLogin />} />
-          <Route path="/quickcash/register" element={<QuickCashRegister />} />
-          <Route path="/quickcash/dashboard" element={<QuickCashDashboard />} />
-           <Route path="/quickcash/send" element={<QuickCashSend />} />
-           <Route path="/quickcash/receive" element={<QuickCashReceive />} />
-           <Route path="/quickcash/admin/login" element={<QuickCashAdminLogin />} />
-          <Route path="/quickcash/admin/dashboard" element={<QuickCashAdminDashboard />} />
+          {/* CashApp Routes */}
+          <Route path="/cashapp" element={<CashAppLanding />} />
+          <Route path="/cashapp/login" element={<CashAppLogin />} />
+          <Route path="/cashapp/register" element={<CashAppRegister />} />
+          <Route path="/cashapp/dashboard" element={<CashAppDashboard />} />
+           <Route path="/cashapp/send" element={<CashAppSend />} />
+           <Route path="/cashapp/receive" element={<CashAppReceive />} />
+           <Route path="/cashapp/admin/login" element={<CashAppAdminLogin />} />
+          <Route path="/cashapp/admin/dashboard" element={<CashAppAdminDashboard />} />
 
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminLanding />} />

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Shield, Users, TrendingUp, Zap, Edit2, ToggleLeft, Trash2, ChevronDown } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -6,7 +6,7 @@ interface User {
   id: string;
   name: string;
   username: string;
-  platform: "SendWave" | "CryptoPort" | "PayFlow" | "QuickCash";
+  platform: "GCash" | "Binance" | "PayPal" | "CashApp";
   balance: number;
   status: "active" | "frozen";
   crypto_wallets?: CryptoWallet[];
@@ -30,7 +30,7 @@ interface Transaction {
 }
 
 const AdminLanding = () => {
-  const navigate = navigate();
+  const navigate = useNavigate();
   const [isDark, setIsDark] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
@@ -45,19 +45,19 @@ const AdminLanding = () => {
   const [adminUser, setAdminUser] = useState<any>(null);
 
   const [users, setUsers] = useState<User[]>([
-    { id: "1", name: "John Doe", username: "johndoe", platform: "SendWave", balance: 5432.50, status: "active" },
-    { id: "2", name: "Jane Smith", username: "janesmith", platform: "CryptoPort", balance: 2850.00, status: "active" },
-    { id: "3", name: "Mike Johnson", username: "mikej", platform: "PayFlow", balance: 3850.75, status: "active" },
-    { id: "4", name: "Sarah Davis", username: "sarahd", platform: "QuickCash", balance: 2350.42, status: "frozen" },
-    { id: "5", name: "Alex Torres", username: "alext", platform: "SendWave", balance: 1200.00, status: "active" },
+    { id: "1", name: "John Doe", username: "johndoe", platform: "GCash", balance: 5432.50, status: "active" },
+    { id: "2", name: "Jane Smith", username: "janesmith", platform: "Binance", balance: 2850.00, status: "active" },
+    { id: "3", name: "Mike Johnson", username: "mikej", platform: "PayPal", balance: 3850.75, status: "active" },
+    { id: "4", name: "Sarah Davis", username: "sarahd", platform: "CashApp", balance: 2350.42, status: "frozen" },
+    { id: "5", name: "Alex Torres", username: "alext", platform: "GCash", balance: 1200.00, status: "active" },
   ]);
 
   const [transactions, setTransactions] = useState<Transaction[]>([
-    { id: "1", user: "johndoe", platform: "SendWave", amount: 250, type: "sent", status: "completed", date: "Today" },
-    { id: "2", user: "janesmith", platform: "CryptoPort", amount: 0.15, type: "sent", status: "pending", date: "Today" },
-    { id: "3", user: "mikej", platform: "PayFlow", amount: 500, type: "received", status: "completed", date: "Yesterday" },
-    { id: "4", user: "sarahd", platform: "QuickCash", amount: 100, type: "admin-adjusted", status: "completed", date: "Dec 15" },
-    { id: "5", user: "alext", platform: "SendWave", amount: 75.5, type: "received", status: "completed", date: "Dec 10" },
+    { id: "1", user: "johndoe", platform: "GCash", amount: 250, type: "sent", status: "completed", date: "Today" },
+    { id: "2", user: "janesmith", platform: "Binance", amount: 0.15, type: "sent", status: "pending", date: "Today" },
+    { id: "3", user: "mikej", platform: "PayPal", amount: 500, type: "received", status: "completed", date: "Yesterday" },
+    { id: "4", user: "sarahd", platform: "CashApp", amount: 100, type: "admin-adjusted", status: "completed", date: "Dec 15" },
+    { id: "5", user: "alext", platform: "GCash", amount: 75.5, type: "received", status: "completed", date: "Dec 10" },
   ]);
 
   useEffect(() => {
@@ -190,7 +190,7 @@ const AdminLanding = () => {
               <div className="bg-slate-800 border border-slate-700 rounded-2xl p-8">
                 <h2 className="text-2xl font-bold mb-6">Platform Breakdown</h2>
                 <div className="grid md:grid-cols-2 gap-6">
-                  {["SendWave", "CryptoPort", "PayFlow", "QuickCash"].map((platform) => {
+                  {["GCash", "Binance", "PayPal", "CashApp"].map((platform) => {
                     const platformUsers = users.filter((u) => u.platform === platform);
                     const platformBalance = platformUsers.reduce((sum, u) => sum + u.balance, 0);
                     return (
@@ -290,7 +290,7 @@ const AdminLanding = () => {
                             >
                               <ToggleLeft className="w-4 h-4" />
                             </button>
-                            {user.platform === "CryptoPort" && (
+                            {user.platform === "Binance" && (
                               <button
                                 onClick={() => {
                                   setSelectedCryptoUser(user);
@@ -375,7 +375,7 @@ const AdminLanding = () => {
           {/* Platforms Tab */}
           {activeTab === "platforms" && (
             <div className="grid md:grid-cols-2 gap-6">
-              {["SendWave", "CryptoPort", "PayFlow", "QuickCash"].map((platform) => {
+                  {["GCash", "Binance", "PayPal", "CashApp"].map((platform) => {
                 const platformUsers = users.filter((u) => u.platform === platform);
                 const platformBalance = platformUsers.reduce((sum, u) => sum + u.balance, 0);
                 const platformTxs = transactions.filter((t) => t.platform === platform).length;

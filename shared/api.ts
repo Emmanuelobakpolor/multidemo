@@ -13,7 +13,7 @@ export interface User {
   updatedAt: string;
 }
 
-export interface CryptoPortUser {
+export interface BinanceUser {
   id: string;
   email: string;
   fullName: string;
@@ -41,7 +41,7 @@ export interface SendMoneyRequest {
   message?: string;
 }
 
-export interface SendWaveSendMoneyRequest {
+export interface GCashSendMoneyRequest {
   recipientMobile: string;
   amount: number;
   message?: string;
@@ -135,4 +135,8 @@ export interface ToggleChatResponse {
   success: boolean;
   message: string;
   chat_enabled: boolean;
+}
+
+export interface DemoResponse {
+  message: string;
 }

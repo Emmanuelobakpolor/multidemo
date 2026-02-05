@@ -12,47 +12,47 @@ const Index = () => {
 
   const apps = [
     {
-      id: "sendwave",
-      name: "SendWave",
+      id: "gcash",
+      name: "GCash",
       tagline: "Fast Peer-to-Peer Payments",
       description:
         "Send and receive money instantly with just a username. Simple, secure, and social.",
       icon: "📱",
       color: "from-purple-600 to-purple-400",
-      href: "/sendwave",
+      href: "/gcash",
       features: ["Instant transfers", "QR-based payments", "Activity timeline"],
     },
     {
-      id: "cryptoport",
-      name: "CryptoPort",
+      id: "binance",
+      name: "Binance",
       tagline: "Your Digital Asset Wallet",
       description:
         "Manage your crypto portfolio with real-time data and seamless transactions.",
       icon: "🪙",
       color: "from-amber-600 to-amber-400",
-      href: "/cryptoport",
+      href: "/binance",
       features: ["Multi-asset support", "Real-time tracking", "Secure transfers"],
     },
     {
-      id: "payflow",
-      name: "PayFlow",
+      id: "paypal",
+      name: "PayPal",
       tagline: "Professional Money Management",
       description:
         "Send money anywhere, request payments easily. Built for business and personal use.",
       icon: "💳",
       color: "from-red-600 to-red-400",
-      href: "/payflow",
+      href: "/paypal",
       features: ["Email transfers", "Payment requests", "Activity history"],
     },
     {
-      id: "quickcash",
-      name: "QuickCash",
+      id: "cashapp",
+      name: "CashApp",
       tagline: "Instant Wallet & Payments",
       description:
         "Lightning-fast payments with a unique cashtag. Speed meets simplicity.",
       icon: "⚡",
       color: "from-teal-600 to-teal-400",
-      href: "/quickcash",
+      href: "/cashapp",
       features: ["Cashtag username", "Instant send/receive", "Quick transactions"],
     },
   ];
@@ -97,7 +97,7 @@ const Index = () => {
             platforms work with our interactive simulation.
           </p>
           <Link
-            to="/sendwave"
+            to="/gcash"
             className="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-purple-600 to-purple-500 text-white rounded-lg hover:shadow-lg hover:scale-105 transition-all font-semibold"
           >
             Get Started <ArrowRight className="w-5 h-5" />
