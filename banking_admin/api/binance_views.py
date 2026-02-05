@@ -19,7 +19,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 
 
-# Supported cryptocurrencies for CryptoPort
+# Supported cryptocurrencies for Binance
 SUPPORTED_CRYPTOS = [
     {'symbol': 'BTC', 'name': 'Bitcoin'},
     {'symbol': 'ETH', 'name': 'Ethereum'},
@@ -32,9 +32,9 @@ SUPPORTED_CRYPTOS = [
 ]
 
 @api_view(['POST'])
-def register_cryptoport_user(request):
+def register_binance_user(request):
     """
-    Register a new user with CryptoPort platform
+    Register a new user with Binance platform
     """
     try:
         email = request.data.get('email')
@@ -58,8 +58,8 @@ def register_cryptoport_user(request):
             last_name=' '.join(fullName.split(' ')[1:])
         )
 
-        # Get or create CryptoPort platform
-        platform, _ = Platform.objects.get_or_create(name='CryptoPort')
+        # Get or create Binance platform
+        platform, _ = Platform.objects.get_or_create(name='Binance')
 
         # Create user account with fiat balance for trading
         account = UserAccount.objects.create(
@@ -138,9 +138,9 @@ def register_cryptoport_user(request):
         )
 
 @api_view(['POST'])
-def login_cryptoport_user(request):
+def login_binance_user(request):
     """
-    Login user for CryptoPort
+    Login user for Binance
     """
     try:
         email = request.data.get('email')
@@ -161,10 +161,10 @@ def login_cryptoport_user(request):
             )
 
         # Get user account
-        account = UserAccount.objects.filter(user=user, platform__name='CryptoPort').first()
+        account = UserAccount.objects.filter(user=user, platform__name='Binance').first()
         if not account:
             return Response(
-                {'success': False, 'error': 'CryptoPort account not found'},
+                {'success': False, 'error': 'Binance account not found'},
                 status=status.HTTP_404_NOT_FOUND
             )
 
@@ -191,9 +191,9 @@ def login_cryptoport_user(request):
         )
 
 @api_view(['GET'])
-def get_cryptoport_user(request, email):
+def get_binance_user(request, email):
     """
-    Get CryptoPort user by email
+    Get Binance user by email
     """
     try:
         user = User.objects.filter(email=email).first()
@@ -203,10 +203,10 @@ def get_cryptoport_user(request, email):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-        account = UserAccount.objects.filter(user=user, platform__name='CryptoPort').first()
+        account = UserAccount.objects.filter(user=user, platform__name='Binance').first()
         if not account:
             return Response(
-                {'success': False, 'error': 'CryptoPort account not found'},
+                {'success': False, 'error': 'Binance account not found'},
                 status=status.HTTP_404_NOT_FOUND
             )
 
@@ -265,8 +265,8 @@ def send_crypto(request, senderEmail):
             )
 
         # Get accounts
-        sender_account = UserAccount.objects.filter(user=sender, platform__name='CryptoPort').first()
-        recipient_account = UserAccount.objects.filter(user=recipient, platform__name='CryptoPort').first()
+        sender_account = UserAccount.objects.filter(user=sender, platform__name='Binance').first()
+        recipient_account = UserAccount.objects.filter(user=recipient, platform__name='Binance').first()
 
         if not sender_account or not recipient_account:
             return Response(
@@ -337,10 +337,10 @@ def get_crypto_transactions(request, email):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-        account = UserAccount.objects.filter(user=user, platform__name='CryptoPort').first()
+        account = UserAccount.objects.filter(user=user, platform__name='Binance').first()
         if not account:
             return Response(
-                {'success': False, 'error': 'CryptoPort account not found'},
+                {'success': False, 'error': 'Binance account not found'},
                 status=status.HTTP_404_NOT_FOUND
             )
 
@@ -379,10 +379,10 @@ def get_user_crypto_wallets(request, email):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-        account = UserAccount.objects.filter(user=user, platform__name='CryptoPort').first()
+        account = UserAccount.objects.filter(user=user, platform__name='Binance').first()
         if not account:
             return Response(
-                {'success': False, 'error': 'CryptoPort account not found'},
+                {'success': False, 'error': 'Binance account not found'},
                 status=status.HTTP_404_NOT_FOUND
             )
 
@@ -420,10 +420,10 @@ def deposit_crypto(request, email):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-        account = UserAccount.objects.filter(user=user, platform__name='CryptoPort').first()
+        account = UserAccount.objects.filter(user=user, platform__name='Binance').first()
         if not account:
             return Response(
-                {'success': False, 'error': 'CryptoPort account not found'},
+                {'success': False, 'error': 'Binance account not found'},
                 status=status.HTTP_404_NOT_FOUND
             )
 
@@ -468,7 +468,7 @@ def toggle_chat(request, userId):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-        account = UserAccount.objects.filter(user=user, platform__name='CryptoPort').first()
+        account = UserAccount.objects.filter(user=user, platform__name='Binance').first()
         if not account:
             return Response(
                 {'success': False, 'error': 'User account not found'},
@@ -502,7 +502,7 @@ def get_chat_status(request, email):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-        account = UserAccount.objects.filter(user=user, platform__name='CryptoPort').first()
+        account = UserAccount.objects.filter(user=user, platform__name='Binance').first()
         if not account:
             return Response(
                 {'success': False, 'error': 'User account not found'},
@@ -547,9 +547,9 @@ def send_message(request):
 
         # Check if chat is enabled for both users
         # For admin user, skip platform check
-        if sender.email == "admin@cryptoport.com":
-            # For receiver, must have CryptoPort account and chat enabled
-            receiver_account = UserAccount.objects.filter(user=receiver, platform__name='CryptoPort').first()
+        if sender.email == "admin@Binance.com":
+            # For receiver, must have Binance account and chat enabled
+            receiver_account = UserAccount.objects.filter(user=receiver, platform__name='Binance').first()
             if not receiver_account:
                 return Response(
                     {'success': False, 'error': 'User account not found'},
@@ -560,9 +560,9 @@ def send_message(request):
                     {'success': False, 'error': 'Chat is not enabled for the recipient'},
                     status=status.HTTP_403_FORBIDDEN
                 )
-        elif receiver.email == "admin@cryptoport.com":
-            # For sender, must have CryptoPort account and chat enabled
-            sender_account = UserAccount.objects.filter(user=sender, platform__name='CryptoPort').first()
+        elif receiver.email == "admin@Binance.com":
+            # For sender, must have Binance account and chat enabled
+            sender_account = UserAccount.objects.filter(user=sender, platform__name='Binance').first()
             if not sender_account:
                 return Response(
                     {'success': False, 'error': 'User account not found'},
@@ -574,9 +574,9 @@ def send_message(request):
                     status=status.HTTP_403_FORBIDDEN
                 )
         else:
-            # For regular users, both must have CryptoPort accounts and chat enabled
-            sender_account = UserAccount.objects.filter(user=sender, platform__name='CryptoPort').first()
-            receiver_account = UserAccount.objects.filter(user=receiver, platform__name='CryptoPort').first()
+            # For regular users, both must have Binance accounts and chat enabled
+            sender_account = UserAccount.objects.filter(user=sender, platform__name='Binance').first()
+            receiver_account = UserAccount.objects.filter(user=receiver, platform__name='Binance').first()
             
             if not sender_account or not receiver_account:
                 return Response(
@@ -680,7 +680,7 @@ def mark_messages_read(request, email):
             )
 
         # If admin is marking messages as read, we need to know which user's messages to mark
-        if email == "admin@cryptoport.com":
+        if email == "admin@Binance.com":
             user_email = request.data.get('user_email')
             if user_email:
                 # Mark all unread messages from specific user to admin
@@ -729,10 +729,10 @@ def withdraw_crypto(request, email):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-        account = UserAccount.objects.filter(user=user, platform__name='CryptoPort').first()
+        account = UserAccount.objects.filter(user=user, platform__name='Binance').first()
         if not account:
             return Response(
-                {'success': False, 'error': 'CryptoPort account not found'},
+                {'success': False, 'error': 'Binance account not found'},
                 status=status.HTTP_404_NOT_FOUND
             )
 
@@ -781,15 +781,15 @@ def withdraw_crypto(request, email):
 
 # Admin functions
 @api_view(['GET'])
-def get_all_cryptoport_users(request):
+def get_all_binance_users(request):
     """
-    Get all CryptoPort users (admin functionality)
+    Get all Binance users (admin functionality)
     """
     try:
         users = User.objects.all()
         user_data = []
         for user in users:
-            account = UserAccount.objects.filter(user=user, platform__name='CryptoPort').first()
+            account = UserAccount.objects.filter(user=user, platform__name='Binance').first()
             if account:
                 # Get crypto balances
                 crypto_wallets = CryptoWallet.objects.filter(account=account)
@@ -830,10 +830,10 @@ def update_user_crypto_balance(request, userId):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-        account = UserAccount.objects.filter(user=user, platform__name='CryptoPort').first()
+        account = UserAccount.objects.filter(user=user, platform__name='Binance').first()
         if not account:
             return Response(
-                {'success': False, 'error': 'CryptoPort account not found'},
+                {'success': False, 'error': 'Binance account not found'},
                 status=status.HTTP_404_NOT_FOUND
             )
 
@@ -867,9 +867,9 @@ def update_user_crypto_balance(request, userId):
         )
 
 @api_view(['GET'])
-def get_cryptoport_user_by_id(request, id):
+def get_binance_user_by_id(request, id):
     """
-    Get CryptoPort user by ID (admin functionality)
+    Get Binance user by ID (admin functionality)
     """
     try:
         user = User.objects.filter(id=id).first()
@@ -879,10 +879,10 @@ def get_cryptoport_user_by_id(request, id):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-        account = UserAccount.objects.filter(user=user, platform__name='CryptoPort').first()
+        account = UserAccount.objects.filter(user=user, platform__name='Binance').first()
         if not account:
             return Response(
-                {'success': False, 'error': 'CryptoPort account not found'},
+                {'success': False, 'error': 'Binance account not found'},
                 status=status.HTTP_404_NOT_FOUND
             )
 
@@ -910,7 +910,7 @@ def get_cryptoport_user_by_id(request, id):
 
 
 @api_view(['PUT'])
-def update_cryptoport_user(request, id):
+def update_binance_user(request, id):
     """
     Update user details (admin functionality)
     """
@@ -922,10 +922,10 @@ def update_cryptoport_user(request, id):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-        account = UserAccount.objects.filter(user=user, platform__name='CryptoPort').first()
+        account = UserAccount.objects.filter(user=user, platform__name='Binance').first()
         if not account:
             return Response(
-                {'success': False, 'error': 'CryptoPort account not found'},
+                {'success': False, 'error': 'Binance account not found'},
                 status=status.HTTP_404_NOT_FOUND
             )
 
@@ -971,7 +971,7 @@ def update_cryptoport_user(request, id):
 
 
 @api_view(['DELETE'])
-def delete_cryptoport_user(request, id):
+def delete_binance_user(request, id):
     """
     Delete user (admin functionality)
     """
@@ -984,7 +984,7 @@ def delete_cryptoport_user(request, id):
             )
 
         # Get user account
-        account = UserAccount.objects.filter(user=user, platform__name='CryptoPort').first()
+        account = UserAccount.objects.filter(user=user, platform__name='Binance').first()
         if account:
             # Delete associated crypto wallets and transactions
             CryptoWallet.objects.filter(account=account).delete()
@@ -1004,7 +1004,7 @@ def delete_cryptoport_user(request, id):
 
 
 @api_view(['POST'])
-def fund_cryptoport_wallet(request):
+def fund_binance_wallet(request):
     """
     Fund user wallet (admin functionality)
     """
@@ -1021,10 +1021,10 @@ def fund_cryptoport_wallet(request):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-        account = UserAccount.objects.filter(user=user, platform__name='CryptoPort').first()
+        account = UserAccount.objects.filter(user=user, platform__name='Binance').first()
         if not account:
             return Response(
-                {'success': False, 'error': 'CryptoPort account not found'},
+                {'success': False, 'error': 'Binance account not found'},
                 status=status.HTTP_404_NOT_FOUND
             )
 
@@ -1057,7 +1057,7 @@ def fund_cryptoport_wallet(request):
 
 
 @api_view(['POST'])
-def update_cryptoport_deposit_address(request):
+def update_binance_deposit_address(request):
     """
     Admin: Change user's crypto deposit address
     """
@@ -1073,10 +1073,10 @@ def update_cryptoport_deposit_address(request):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-        account = UserAccount.objects.filter(user=user, platform__name='CryptoPort').first()
+        account = UserAccount.objects.filter(user=user, platform__name='Binance').first()
         if not account:
             return Response(
-                {'success': False, 'error': 'CryptoPort account not found'},
+                {'success': False, 'error': 'Binance account not found'},
                 status=status.HTTP_404_NOT_FOUND
             )
 
@@ -1098,9 +1098,9 @@ def update_cryptoport_deposit_address(request):
         )
 
 @api_view(['POST'])
-def register_admin_cryptoport(request):
+def register_admin_binance(request):
     """
-    Register a new admin user with CryptoPort platform
+    Register a new admin user with Binance platform
     """
     try:
         email = request.data.get('email')
@@ -1133,8 +1133,8 @@ def register_admin_cryptoport(request):
             is_superuser=True
         )
 
-        # Get or create CryptoPort platform
-        platform, _ = Platform.objects.get_or_create(name='CryptoPort')
+        # Get or create Binance platform
+        platform, _ = Platform.objects.get_or_create(name='Binance')
 
         # Create admin user account with higher starting fiat balance
         account = UserAccount.objects.create(

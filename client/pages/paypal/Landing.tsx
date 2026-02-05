@@ -58,6 +58,12 @@ export default function PayFlowLanding() {
             <div className="border-t border-[#CBD2D9] py-4">
               <nav className="flex flex-col gap-3">
                 <a
+                  href="/paypal/dashboard"
+                  className="text-[#2c2e2f] hover:text-[#0070ba] text-sm font-medium px-4 py-2"
+                >
+                  Dashboard
+                </a>
+                <a
                   href="#individuals"
                   className="text-[#2c2e2f] hover:text-[#0070ba] text-sm font-medium px-4 py-2"
                 >
@@ -70,10 +76,10 @@ export default function PayFlowLanding() {
                   Business
                 </a>
                 <a
-                  href="#about"
+                  href="/paypal/settings"
                   className="text-[#2c2e2f] hover:text-[#0070ba] text-sm font-medium px-4 py-2"
                 >
-                  About
+                  Settings
                 </a>
                 <a
                   href="#help"

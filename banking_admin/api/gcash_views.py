@@ -22,7 +22,7 @@ from rest_framework.decorators import api_view
 @api_view(['POST'])
 def register(request):
     """
-    Register a new user with SendWave account
+    Register a new user with GCash account
     """
     try:
         email = request.data.get('email')
@@ -38,7 +38,7 @@ def register(request):
             )
 
         # Check if mobile number already exists
-        if UserAccount.objects.filter(mobile_number=mobileNumber, platform__name='SendWave').exists():
+        if UserAccount.objects.filter(mobile_number=mobileNumber, platform__name='GCash').exists():
             return Response(
                 {'success': False, 'error': 'Mobile number already registered'},
                 status=status.HTTP_400_BAD_REQUEST
@@ -53,8 +53,8 @@ def register(request):
             last_name=' '.join(fullName.split(' ')[1:])
         )
 
-        # Get or create SendWave platform
-        platform, _ = Platform.objects.get_or_create(name='SendWave')
+        # Get or create GCash platform
+        platform, _ = Platform.objects.get_or_create(name='GCash')
 
         # Create user account
         account = UserAccount.objects.create(
@@ -107,7 +107,7 @@ def login(request):
             )
 
         # Get user account
-        account = UserAccount.objects.filter(user=user, platform__name='SendWave').first()
+        account = UserAccount.objects.filter(user=user, platform__name='GCash').first()
 
         user_data = {
             'id': str(user.id),
@@ -139,7 +139,7 @@ def get_user_by_email(request, email):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-        account = UserAccount.objects.filter(user=user, platform__name='SendWave').first()
+        account = UserAccount.objects.filter(user=user, platform__name='GCash').first()
 
         user_data = {
             'id': str(user.id),
@@ -171,7 +171,7 @@ def search_users_by_mobile(request):
         # Search for users with matching mobile number
         accounts = UserAccount.objects.filter(
             mobile_number__icontains=query,
-            platform__name='SendWave'
+            platform__name='GCash'
         )[:10]  # Limit to 10 results
         
         user_data = []
@@ -194,10 +194,10 @@ def search_users_by_mobile(request):
 @api_view(['GET'])
 def get_user_by_mobile(request, mobile):
     """
-    Get user by mobile number for SendWave
+    Get user by mobile number for GCash
     """
     try:
-        account = UserAccount.objects.filter(mobile_number=mobile, platform__name='SendWave').first()
+        account = UserAccount.objects.filter(mobile_number=mobile, platform__name='GCash').first()
         if not account:
             return Response(
                 {'success': False, 'error': 'User not found'},
@@ -234,7 +234,7 @@ def send_money(request, senderMobile):
         message = request.data.get('message')
 
         # Find sender by mobile number
-        sender_account = UserAccount.objects.filter(mobile_number=senderMobile, platform__name='SendWave').first()
+        sender_account = UserAccount.objects.filter(mobile_number=senderMobile, platform__name='GCash').first()
         if not sender_account:
             return Response(
                 {'success': False, 'error': 'Sender not found'},
@@ -243,7 +243,7 @@ def send_money(request, senderMobile):
         sender = sender_account.user
 
         # Find recipient by mobile number
-        recipient_account = UserAccount.objects.filter(mobile_number=recipientMobile, platform__name='SendWave').first()
+        recipient_account = UserAccount.objects.filter(mobile_number=recipientMobile, platform__name='GCash').first()
         if not recipient_account:
             return Response(
                 {'success': False, 'error': 'Recipient not found'},
@@ -258,8 +258,8 @@ def send_money(request, senderMobile):
             )
 
         # Get accounts
-        sender_account = UserAccount.objects.filter(user=sender, platform__name='SendWave').first()
-        recipient_account = UserAccount.objects.filter(user=recipient, platform__name='SendWave').first()
+        sender_account = UserAccount.objects.filter(user=sender, platform__name='GCash').first()
+        recipient_account = UserAccount.objects.filter(user=recipient, platform__name='GCash').first()
 
         if not sender_account or not recipient_account:
             return Response(
@@ -311,7 +311,7 @@ def get_transactions_by_mobile(request, mobile):
     Get all transactions for a user by mobile number
     """
     try:
-        account = UserAccount.objects.filter(mobile_number=mobile, platform__name='SendWave').first()
+        account = UserAccount.objects.filter(mobile_number=mobile, platform__name='GCash').first()
         if not account:
             return Response(
                 {'success': False, 'error': 'Account not found'},
@@ -352,7 +352,7 @@ def get_transactions(request, email):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-        account = UserAccount.objects.filter(user=user, platform__name='SendWave').first()
+        account = UserAccount.objects.filter(user=user, platform__name='GCash').first()
         if not account:
             return Response(
                 {'success': False, 'error': 'Account not found'},
@@ -397,7 +397,7 @@ def fund_wallet(request):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-        account = UserAccount.objects.filter(user=user, platform__name='SendWave').first()
+        account = UserAccount.objects.filter(user=user, platform__name='GCash').first()
         if not account:
             return Response(
                 {'success': False, 'error': 'Account not found'},
@@ -426,15 +426,15 @@ def fund_wallet(request):
 @api_view(['GET'])
 def get_all_users(request):
     """
-    Get all SendWave users (admin functionality)
+    Get all GCash users (admin functionality)
     """
     try:
-        # Get SendWave platform
-        sendwave_platform = Platform.objects.get(name='SendWave')
-        # Get all user accounts associated with SendWave platform
-        sendwave_accounts = UserAccount.objects.filter(platform=sendwave_platform)
+        # Get GCash platform
+        GCash_platform = Platform.objects.get(name='GCash')
+        # Get all user accounts associated with GCash platform
+        GCash_accounts = UserAccount.objects.filter(platform=GCash_platform)
         user_data = []
-        for account in sendwave_accounts:
+        for account in GCash_accounts:
             user = account.user
             user_data.append({
                 'id': str(user.id),
@@ -455,15 +455,15 @@ def get_all_users(request):
 @api_view(['GET'])
 def get_all_transactions(request):
     """
-    Get all SendWave transactions (admin functionality)
+    Get all GCash transactions (admin functionality)
     """
     try:
-        # Get SendWave platform
-        sendwave_platform = Platform.objects.get(name='SendWave')
-        # Get all user accounts associated with SendWave platform
-        sendwave_accounts = UserAccount.objects.filter(platform=sendwave_platform)
-        # Get all transactions for SendWave accounts
-        transactions = Transaction.objects.filter(account__in=sendwave_accounts)
+        # Get GCash platform
+        GCash_platform = Platform.objects.get(name='GCash')
+        # Get all user accounts associated with GCash platform
+        GCash_accounts = UserAccount.objects.filter(platform=GCash_platform)
+        # Get all transactions for GCash accounts
+        transactions = Transaction.objects.filter(account__in=GCash_accounts)
         transaction_data = []
         for t in transactions:
             transaction_data.append({
@@ -506,7 +506,7 @@ def adjust_user_balance(request):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-        account = UserAccount.objects.filter(user=user, platform__name='SendWave').first()
+        account = UserAccount.objects.filter(user=user, platform__name='GCash').first()
         if not account:
             return Response(
                 {'success': False, 'error': 'Account not found'},
@@ -545,7 +545,7 @@ def get_user_by_id(request, id):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-        account = UserAccount.objects.filter(user=user, platform__name='SendWave').first()
+        account = UserAccount.objects.filter(user=user, platform__name='GCash').first()
 
         user_data = {
             'id': str(user.id),
@@ -576,7 +576,7 @@ def update_user(request, id):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-        account = UserAccount.objects.filter(user=user, platform__name='SendWave').first()
+        account = UserAccount.objects.filter(user=user, platform__name='GCash').first()
         if not account:
             return Response(
                 {'success': False, 'error': 'User account not found'},
@@ -643,7 +643,7 @@ def delete_user(request, id):
 @api_view(['POST'])
 def register_admin(request):
     """
-    Register a new admin user with SendWave platform
+    Register a new admin user with GCash platform
     """
     try:
         email = request.data.get('email')
@@ -652,7 +652,7 @@ def register_admin(request):
         adminCode = request.data.get('adminCode')
 
         # Check admin code (you can change this to a more secure method)
-        if adminCode != 'SENDWAVEADMIN2024':
+        if adminCode != 'GCashADMIN2024':
             return Response(
                 {'success': False, 'error': 'Invalid admin registration code'},
                 status=status.HTTP_400_BAD_REQUEST
@@ -676,8 +676,8 @@ def register_admin(request):
             is_superuser=True
         )
 
-        # Get or create SendWave platform
-        platform, _ = Platform.objects.get_or_create(name='SendWave')
+        # Get or create GCash platform
+        platform, _ = Platform.objects.get_or_create(name='GCash')
 
         # Create admin user account with higher starting balance
         account = UserAccount.objects.create(
@@ -724,7 +724,7 @@ def toggle_chat(request, userId):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-        account = UserAccount.objects.filter(user=user, platform__name='SendWave').first()
+        account = UserAccount.objects.filter(user=user, platform__name='GCash').first()
         if not account:
             return Response(
                 {'success': False, 'error': 'User account not found'},
@@ -758,7 +758,7 @@ def get_chat_status(request, email):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-        account = UserAccount.objects.filter(user=user, platform__name='SendWave').first()
+        account = UserAccount.objects.filter(user=user, platform__name='GCash').first()
         if not account:
             return Response(
                 {'success': False, 'error': 'User account not found'},
@@ -803,9 +803,9 @@ def send_message(request):
 
         # Check if chat is enabled for both users
         # For admin user, skip platform check
-        if sender.email == "admin@sendwave.com":
-            # For receiver, must have SendWave account and chat enabled
-            receiver_account = UserAccount.objects.filter(user=receiver, platform__name='SendWave').first()
+        if sender.email == "admin@GCash.com":
+            # For receiver, must have GCash account and chat enabled
+            receiver_account = UserAccount.objects.filter(user=receiver, platform__name='GCash').first()
             if not receiver_account:
                 return Response(
                     {'success': False, 'error': 'User account not found'},
@@ -816,9 +816,9 @@ def send_message(request):
                     {'success': False, 'error': 'Chat is not enabled for the recipient'},
                     status=status.HTTP_403_FORBIDDEN
                 )
-        elif receiver.email == "admin@sendwave.com":
-            # For sender, must have SendWave account and chat enabled
-            sender_account = UserAccount.objects.filter(user=sender, platform__name='SendWave').first()
+        elif receiver.email == "admin@GCash.com":
+            # For sender, must have GCash account and chat enabled
+            sender_account = UserAccount.objects.filter(user=sender, platform__name='GCash').first()
             if not sender_account:
                 return Response(
                     {'success': False, 'error': 'User account not found'},
@@ -830,9 +830,9 @@ def send_message(request):
                     status=status.HTTP_403_FORBIDDEN
                 )
         else:
-            # For regular users, both must have SendWave accounts and chat enabled
-            sender_account = UserAccount.objects.filter(user=sender, platform__name='SendWave').first()
-            receiver_account = UserAccount.objects.filter(user=receiver, platform__name='SendWave').first()
+            # For regular users, both must have GCash accounts and chat enabled
+            sender_account = UserAccount.objects.filter(user=sender, platform__name='GCash').first()
+            receiver_account = UserAccount.objects.filter(user=receiver, platform__name='GCash').first()
             
             if not sender_account or not receiver_account:
                 return Response(

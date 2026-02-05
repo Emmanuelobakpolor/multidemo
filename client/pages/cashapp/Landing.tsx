@@ -167,11 +167,11 @@ const CashAppLanding = () => {
 
           {/* Nav Links - Desktop */}
           <nav className="desktop-nav" style={{ display: "flex", alignItems: "center", gap: "32px" }}>
-            <a href="#" className="nav-link" style={{ color: "#888", fontSize: "14px", fontWeight: 500, textDecoration: "none", transition: "color 0.2s" }}>Bank</a>
+            <Link to="/cashapp/dashboard" className="nav-link" style={{ color: "#888", fontSize: "14px", fontWeight: 500, textDecoration: "none", transition: "color 0.2s" }}>Dashboard</Link>
             <a href="#" className="nav-link" style={{ color: "#888", fontSize: "14px", fontWeight: 500, textDecoration: "none", transition: "color 0.2s" }}>Card</a>
             <a href="#" className="nav-link" style={{ color: "#888", fontSize: "14px", fontWeight: 500, textDecoration: "none", transition: "color 0.2s" }}>Send</a>
             <a href="#" className="nav-link" style={{ color: "#888", fontSize: "14px", fontWeight: 500, textDecoration: "none", transition: "color 0.2s" }}>Savings</a>
-            <a href="#" className="nav-link" style={{ color: "#888", fontSize: "14px", fontWeight: 500, textDecoration: "none", transition: "color 0.2s" }}>Security</a>
+            <Link to="/cashapp/settings" className="nav-link" style={{ color: "#888", fontSize: "14px", fontWeight: 500, textDecoration: "none", transition: "color 0.2s" }}>Settings</Link>
           </nav>
 
            {/* Auth Buttons - Desktop */}
@@ -211,11 +211,11 @@ const CashAppLanding = () => {
             borderBottom: "1px solid rgba(255,255,255,0.1)",
           }}>
             <nav style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-              <a href="#" className="nav-link" style={{ color: "#888", fontSize: "16px", fontWeight: 500, textDecoration: "none", padding: "8px 0" }}>Bank</a>
+              <Link to="/cashapp/dashboard" className="nav-link" style={{ color: "#888", fontSize: "16px", fontWeight: 500, textDecoration: "none", padding: "8px 0" }}>Dashboard</Link>
               <a href="#" className="nav-link" style={{ color: "#888", fontSize: "16px", fontWeight: 500, textDecoration: "none", padding: "8px 0" }}>Card</a>
               <a href="#" className="nav-link" style={{ color: "#888", fontSize: "16px", fontWeight: 500, textDecoration: "none", padding: "8px 0" }}>Send</a>
               <a href="#" className="nav-link" style={{ color: "#888", fontSize: "16px", fontWeight: 500, textDecoration: "none", padding: "8px 0" }}>Savings</a>
-              <a href="#" className="nav-link" style={{ color: "#888", fontSize: "16px", fontWeight: 500, textDecoration: "none", padding: "8px 0" }}>Security</a>
+              <Link to="/cashapp/settings" className="nav-link" style={{ color: "#888", fontSize: "16px", fontWeight: 500, textDecoration: "none", padding: "8px 0" }}>Settings</Link>
               <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", margin: "16px 0" }}/>
               <Link to="/cashapp/register" style={{ color: "#fff", fontSize: "16px", fontWeight: 500, textDecoration: "none", padding: "8px 0" }}>Sign up</Link>
               <Link to="/cashapp/login" style={{ color: "#888", fontSize: "16px", fontWeight: 500, textDecoration: "none", padding: "8px 0" }}>Log in</Link>

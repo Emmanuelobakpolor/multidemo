@@ -18,6 +18,7 @@ import GCashSend from "./pages/gcash/Send";
 import GCashReceive from "./pages/gcash/Receive";
 import GCashAdminLogin from "./pages/gcash/AdminLogin";
 import GCashAdminDashboard from "./pages/gcash/AdminDashboard";
+import GCashSettings from "./pages/gcash/Settings";
 
 // Binance Pages
 import BinanceLanding from "./pages/binance/Landing";
@@ -28,6 +29,7 @@ import BinanceSend from "./pages/binance/Send";
 import BinanceReceive from "./pages/binance/Receive";
 import BinanceAdminLogin from "./pages/binance/AdminLogin";
 import BinanceAdminDashboard from "./pages/binance/AdminDashboard";
+import BinanceSettings from "./pages/binance/Settings";
 
 // PayPal Pages
 import PayPalanding from "./pages/paypal/Landing";
@@ -38,6 +40,7 @@ import PayPalSend from "./pages/paypal/Send";
 import PayPalRequest from "./pages/paypal/Request";
 import PayPalAdminDashboard from "./pages/paypal/AdminDashboard";
 import PayPalAdminLogin from "./pages/paypal/AdminLogin";
+import PayPalSettings from "./pages/paypal/Settings";
 
 // CashApp Pages
 import CashAppLanding from "./pages/cashapp/Landing";
@@ -48,6 +51,7 @@ import CashAppSend from "./pages/cashapp/Send";
 import CashAppReceive from "./pages/cashapp/Receive";
 import CashAppAdminLogin from "./pages/cashapp/AdminLogin";
 import CashAppAdminDashboard from "./pages/cashapp/AdminDashboard";
+import CashAppSettings from "./pages/cashapp/Settings";
 
 // Admin Pages
 import AdminLanding from "./pages/admin/Landing";
@@ -72,6 +76,7 @@ const App = () => (
           <Route path="/gcash/dashboard" element={<GCashDashboard />} />
           <Route path="/gcash/send" element={<GCashSend />} />
           <Route path="/gcash/receive" element={<GCashReceive />} />
+          <Route path="/gcash/settings" element={<GCashSettings />} />
           <Route path="/gcash/admin/login" element={<GCashAdminLogin />} />
           <Route path="/gcash/admin/dashboard" element={<GCashAdminDashboard />} />
 
@@ -82,6 +87,7 @@ const App = () => (
           <Route path="/binance/dashboard" element={<BinanceDashboard />} />
           <Route path="/binance/send" element={<BinanceSend />} />
           <Route path="/binance/receive" element={<BinanceReceive />} />
+          <Route path="/binance/settings" element={<BinanceSettings />} />
           <Route path="/binance/admin/login" element={<BinanceAdminLogin />} />
           <Route path="/binance/admin/dashboard" element={<BinanceAdminDashboard />} />
 
@@ -92,6 +98,7 @@ const App = () => (
           <Route path="/paypal/dashboard" element={<PayPalDashboard />} />
           <Route path="/paypal/send" element={<PayPalSend />} />
           <Route path="/paypal/request" element={<PayPalRequest />} />
+          <Route path="/paypal/settings" element={<PayPalSettings />} />
           <Route path="/paypal/admin/login" element={<PayPalAdminLogin />} />
           <Route path="/paypal/admin/dashboard" element={<PayPalAdminDashboard />} />
 
@@ -100,9 +107,10 @@ const App = () => (
           <Route path="/cashapp/login" element={<CashAppLogin />} />
           <Route path="/cashapp/register" element={<CashAppRegister />} />
           <Route path="/cashapp/dashboard" element={<CashAppDashboard />} />
-           <Route path="/cashapp/send" element={<CashAppSend />} />
-           <Route path="/cashapp/receive" element={<CashAppReceive />} />
-           <Route path="/cashapp/admin/login" element={<CashAppAdminLogin />} />
+          <Route path="/cashapp/send" element={<CashAppSend />} />
+          <Route path="/cashapp/receive" element={<CashAppReceive />} />
+          <Route path="/cashapp/settings" element={<CashAppSettings />} />
+          <Route path="/cashapp/admin/login" element={<CashAppAdminLogin />} />
           <Route path="/cashapp/admin/dashboard" element={<CashAppAdminDashboard />} />
 
           {/* Admin Routes */}

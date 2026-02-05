@@ -76,10 +76,10 @@ export default function CryptoPortLanding() {
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center gap-8">
               <a
-                href="#"
+                href="/binance/dashboard"
                 className="text-[#EAECEF] hover:text-[#F0B90B] text-sm font-medium transition-colors"
               >
-                Buy Crypto
+                Dashboard
               </a>
               <a
                 href="#markets"
@@ -98,6 +98,12 @@ export default function CryptoPortLanding() {
                 className="text-[#EAECEF] hover:text-[#F0B90B] text-sm font-medium transition-colors"
               >
                 Features
+              </a>
+              <a
+                href="/binance/settings"
+                className="text-[#EAECEF] hover:text-[#F0B90B] text-sm font-medium transition-colors"
+              >
+                Settings
               </a>
             </nav>
           </div>
@@ -132,10 +138,10 @@ export default function CryptoPortLanding() {
           <div className="lg:hidden bg-[#1E2329] border-t border-[#2B3139]">
             <nav className="flex flex-col p-6 space-y-4">
               <a
-                href="#"
+                href="/binance/dashboard"
                 className="text-[#EAECEF] hover:text-[#F0B90B] text-sm font-medium"
               >
-                Buy Crypto
+                Dashboard
               </a>
               <a
                 href="#markets"
@@ -154,6 +160,12 @@ export default function CryptoPortLanding() {
                 className="text-[#EAECEF] hover:text-[#F0B90B] text-sm font-medium"
               >
                 Features
+              </a>
+              <a
+                href="/binance/settings"
+                className="text-[#EAECEF] hover:text-[#F0B90B] text-sm font-medium"
+              >
+                Settings
               </a>
               <div className="pt-4 space-y-3">
                 <a
