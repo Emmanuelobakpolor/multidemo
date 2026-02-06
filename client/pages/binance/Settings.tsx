@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   User,
   Shield,
@@ -17,8 +18,12 @@ import {
   Globe,
   CreditCard,
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import PageTransition from "@/components/binance/PageTransition";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 export default function BinanceSettings() {
+  const prefersReducedMotion = useReducedMotion();
   const [activeTab, setActiveTab] = useState("profile");
   const [showApiKey, setShowApiKey] = useState(false);
   const [notifications, setNotifications] = useState({
@@ -45,26 +50,43 @@ export default function BinanceSettings() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0B0E11] text-white">
+    <PageTransition>
+      <div className="min-h-screen bg-[#0B0E11] text-white">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-[#0B0E11] border-b border-[#2B3139]">
+      <header className="sticky top-0 z-50 bg-[#181A20] border-b border-[#2B3139]">
         <div className="max-w-[1440px] mx-auto px-6 h-[72px] flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <a
-              href="/binance"
-              className="text-[#EAECEF] hover:text-[#F0B90B] transition-colors"
-            >
-              <ArrowLeft size={24} />
-            </a>
-            <h1 className="text-xl font-semibold">Settings</h1>
+          <div className="flex items-center gap-8">
+            <Link to="/binance" className="flex items-center gap-2">
+              <img
+                src="/images/download.png"
+                alt="Binance Logo"
+                className="h-20 w-auto"
+              />
+            </Link>
+
+            <nav className="hidden lg:flex items-center gap-6 text-sm">
+              <Link to="/binance/dashboard" className="text-[#EAECEF] hover:text-[#F0B90B] transition-colors">Dashboard</Link>
+              <a href="#" className="text-[#EAECEF] hover:text-[#F0B90B] transition-colors">Markets</a>
+              <a href="#" className="text-[#EAECEF] hover:text-[#F0B90B] transition-colors">Trade</a>
+              <a href="#" className="text-[#EAECEF] hover:text-[#F0B90B] transition-colors">Earn</a>
+              <Link to="/binance/settings" className="text-[#F0B90B] hover:text-[#F8D12F] transition-colors font-medium">Settings</Link>
+            </nav>
           </div>
-          <a href="/binance" className="flex items-center gap-2">
-            <img
-              src="/images/download.png"
-              alt="Binance Logo"
-              className="h-16 w-auto"
-            />
-          </a>
+
+          <div className="flex items-center gap-4">
+            <Link
+              to="/binance/login"
+              className="text-[#EAECEF] hover:text-[#F0B90B] text-sm font-medium px-4 py-2 transition-colors hidden lg:block"
+            >
+              Log In
+            </Link>
+            <Link
+              to="/binance/register"
+              className="bg-[#F0B90B] text-[#0B0E11] px-6 py-2.5 rounded font-semibold text-sm hover:bg-[#F8D12F] transition-all hidden lg:block"
+            >
+              Register
+            </Link>
+          </div>
         </div>
       </header>
 
@@ -76,25 +98,35 @@ export default function BinanceSettings() {
               {tabs.map((tab) => {
                 const Icon = tab.icon;
                 return (
-                  <button
+                  <motion.button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                    whileHover={prefersReducedMotion ? {} : { scale: 1.02, x: 4 }}
+                    whileTap={prefersReducedMotion ? {} : { scale: 0.98 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                    className={`relative w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                       activeTab === tab.id
-                        ? "bg-[#F0B90B]/10 text-[#F0B90B]"
+                        ? "text-[#F0B90B]"
                         : "text-[#EAECEF] hover:bg-[#2B3139]"
                     }`}
                   >
-                    <Icon size={20} />
-                    <span className="font-medium">{tab.label}</span>
+                    {activeTab === tab.id && (
+                      <motion.div
+                        layoutId="activeTabIndicator"
+                        className="absolute inset-0 bg-[#F0B90B]/10 rounded-lg"
+                        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                      />
+                    )}
+                    <Icon size={20} className="relative z-10" />
+                    <span className="font-medium relative z-10">{tab.label}</span>
                     <ChevronRight
                       size={16}
-                      className="ml-auto"
+                      className="ml-auto relative z-10"
                       style={{
                         opacity: activeTab === tab.id ? 1 : 0.3,
                       }}
                     />
-                  </button>
+                  </motion.button>
                 );
               })}
             </nav>
@@ -642,6 +674,7 @@ export default function BinanceSettings() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </PageTransition>
   );
 }

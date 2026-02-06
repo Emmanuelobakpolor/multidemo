@@ -17,6 +17,7 @@ import {
   DollarSign,
   Key,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function CashAppSettings() {
   const [activeTab, setActiveTab] = useState("account");
@@ -54,21 +55,21 @@ export default function CashAppSettings() {
       <header className="sticky top-0 z-50 bg-black border-b border-[#2B2B2B]">
         <div className="max-w-[1200px] mx-auto px-6 h-[72px] flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <a
-              href="/cashapp"
+            <Link
+              to="/cashapp"
               className="text-white hover:text-[#00D632] transition-colors"
             >
               <ArrowLeft size={24} />
-            </a>
+            </Link>
             <h1 className="text-xl font-semibold">Settings</h1>
           </div>
-          <a href="/cashapp" className="flex items-center gap-2">
+          <Link to="/cashapp" className="flex items-center gap-2">
             <img
               src="/images/cashapp_logo.png"
               alt="Cash App Logo"
               className="h-10 w-auto"
             />
-          </a>
+          </Link>
         </div>
       </header>
 

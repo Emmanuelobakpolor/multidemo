@@ -112,7 +112,7 @@ const PayFlowDashboard = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("paypal_user");
-    navigate("/payflow");
+    navigate("/paypal");
   };
 
   if (!user) return null;
@@ -123,8 +123,8 @@ const PayFlowDashboard = () => {
       <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center justify-between h-16">
-            {/* Logo */}
-            <Link to="/payflow">
+             {/* Logo */}
+            <Link to="/paypal">
               <svg width="101" height="32" viewBox="0 0 101 32" fill="none">
                 <text
                   x="0"

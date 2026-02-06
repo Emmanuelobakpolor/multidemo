@@ -111,7 +111,7 @@ const QuickCashDashboard = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("cashapp_user");
-    navigate("/quickcash");
+    navigate("/cashapp");
   };
 
   if (!user) return null;
@@ -122,8 +122,8 @@ const QuickCashDashboard = () => {
       <header className="bg-[#1A1A1A] border-b border-[#333333] sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center justify-between h-16">
-            {/* Logo */}
-            <Link to="/quickcash">
+             {/* Logo */}
+            <Link to="/cashapp">
               <h1 className="text-2xl font-bold text-[#00D4AA]">Cash App</h1>
             </Link>
 

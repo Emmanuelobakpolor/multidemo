@@ -5,7 +5,8 @@ import { createRoot } from "react-dom/client";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 
@@ -30,6 +31,9 @@ import BinanceReceive from "./pages/binance/Receive";
 import BinanceAdminLogin from "./pages/binance/AdminLogin";
 import BinanceAdminDashboard from "./pages/binance/AdminDashboard";
 import BinanceSettings from "./pages/binance/Settings";
+import BinanceMarkets from "./pages/binance/Markets";
+import BinanceTrade from "./pages/binance/Trade";
+import BinanceHelp from "./pages/binance/Help";
 
 // PayPal Pages
 import PayPalanding from "./pages/paypal/Landing";
@@ -41,6 +45,8 @@ import PayPalRequest from "./pages/paypal/Request";
 import PayPalAdminDashboard from "./pages/paypal/AdminDashboard";
 import PayPalAdminLogin from "./pages/paypal/AdminLogin";
 import PayPalSettings from "./pages/paypal/Settings";
+import PayPalWallet from "./pages/paypal/Wallet";
+import PayPalHelp from "./pages/paypal/Help";
 
 // CashApp Pages
 import CashAppLanding from "./pages/cashapp/Landing";
@@ -52,6 +58,8 @@ import CashAppReceive from "./pages/cashapp/Receive";
 import CashAppAdminLogin from "./pages/cashapp/AdminLogin";
 import CashAppAdminDashboard from "./pages/cashapp/AdminDashboard";
 import CashAppSettings from "./pages/cashapp/Settings";
+import CashAppCard from "./pages/cashapp/Card";
+import CashAppSavings from "./pages/cashapp/Savings";
 
 // Admin Pages
 import AdminLanding from "./pages/admin/Landing";
@@ -60,14 +68,14 @@ import AdminRegister from "./pages/admin/Register";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
+// Animated Routes Component
+function AnimatedRoutes() {
+  const location = useLocation();
+
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<Index />} />
 
           {/* GCash Routes */}
           <Route path="/gcash" element={<GCashLanding />} />
@@ -88,6 +96,9 @@ const App = () => (
           <Route path="/binance/send" element={<BinanceSend />} />
           <Route path="/binance/receive" element={<BinanceReceive />} />
           <Route path="/binance/settings" element={<BinanceSettings />} />
+          <Route path="/binance/markets" element={<BinanceMarkets />} />
+          <Route path="/binance/trade" element={<BinanceTrade />} />
+          <Route path="/binance/help" element={<BinanceHelp />} />
           <Route path="/binance/admin/login" element={<BinanceAdminLogin />} />
           <Route path="/binance/admin/dashboard" element={<BinanceAdminDashboard />} />
 
@@ -99,6 +110,8 @@ const App = () => (
           <Route path="/paypal/send" element={<PayPalSend />} />
           <Route path="/paypal/request" element={<PayPalRequest />} />
           <Route path="/paypal/settings" element={<PayPalSettings />} />
+          <Route path="/paypal/wallet" element={<PayPalWallet />} />
+          <Route path="/paypal/help" element={<PayPalHelp />} />
           <Route path="/paypal/admin/login" element={<PayPalAdminLogin />} />
           <Route path="/paypal/admin/dashboard" element={<PayPalAdminDashboard />} />
 
@@ -110,6 +123,8 @@ const App = () => (
           <Route path="/cashapp/send" element={<CashAppSend />} />
           <Route path="/cashapp/receive" element={<CashAppReceive />} />
           <Route path="/cashapp/settings" element={<CashAppSettings />} />
+          <Route path="/cashapp/card" element={<CashAppCard />} />
+          <Route path="/cashapp/savings" element={<CashAppSavings />} />
           <Route path="/cashapp/admin/login" element={<CashAppAdminLogin />} />
           <Route path="/cashapp/admin/dashboard" element={<CashAppAdminDashboard />} />
 
@@ -121,6 +136,17 @@ const App = () => (
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+      </AnimatePresence>
+    );
+  }
+
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter>
+        <AnimatedRoutes />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import {
   TrendingUp,
   Shield,
@@ -11,14 +12,75 @@ import {
   Menu,
   X,
 } from "lucide-react";
+import { motion, useScroll, useTransform, AnimatePresence, useInView, Variants, easeInOut } from "framer-motion";
 import BTCIcon from "cryptocurrency-icons/svg/color/btc.svg";
 import ETHIcon from "cryptocurrency-icons/svg/color/eth.svg";
 import BNBIcon from "cryptocurrency-icons/svg/color/bnb.svg";
 import SOLIcon from "cryptocurrency-icons/svg/color/sol.svg";
+import PageTransition from "@/components/binance/PageTransition";
+import AnimatedNumber from "@/components/binance/AnimatedNumber";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
+
+// Animation variants
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: i * 0.1,
+      duration: 0.5,
+      ease: "easeOut",
+    },
+  }),
+  floating: (i: number) => ({
+    opacity: 1,
+    y: [0, -10, 0],
+    transition: {
+      opacity: {
+        delay: i * 0.1,
+        duration: 0.5,
+        ease: "easeOut",
+      },
+      y: {
+        delay: i * 0.1 + 0.5,
+        duration: 3,
+        repeat: Infinity,
+        ease: easeInOut,
+      },
+    },
+  }),
+};
+
+const floatAnimation = {
+  y: [0, -10, 0],
+  transition: {
+    duration: 3,
+    repeat: Infinity,
+    ease: easeInOut,
+  },
+};
 
 export default function CryptoPortLanding() {
   const [email, setEmail] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
+  const prefersReducedMotion = useReducedMotion();
+  const heroRef = useRef(null);
+  const statsRef = useRef(null);
+
+  // Parallax effect for hero section
+  const { scrollY } = useScroll();
+  const heroY = useTransform(scrollY, [0, 500], [0, 150]);
+  const heroOpacity = useTransform(scrollY, [0, 300], [1, 0]);
+
+  // Stats section in view detection
+  const statsInView = useInView(statsRef, { once: true, amount: 0.3 });
+
+  const isActive = (path: string) => {
+    return location.pathname === path ||
+           (location.pathname === '/binance' && path === '/binance/dashboard');
+  };
 
   const cryptoList = [
     {
@@ -56,16 +118,17 @@ export default function CryptoPortLanding() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0B0E11] text-white">
+    <PageTransition>
+      <div className="min-h-screen bg-[#0B0E11] text-white">
       {/* HEADER */}
       <header className="sticky top-0 z-50 bg-[#0B0E11] border-b border-[#2B3139]">
         <div className="max-w-[1440px] mx-auto px-6 h-[72px] flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center gap-12">
-            <a href="/cryptoport" className="flex items-center gap-2">
-              <img 
-                src="/images/download.png" 
-                alt="CryptoPort Logo" 
+            <a href="/binance" className="flex items-center gap-2">
+              <img
+                src="/images/download.png"
+                alt="Binance Logo"
                 className="h-20 w-auto"
               />
               <span className="text-white text-xl font-semibold">
@@ -77,18 +140,23 @@ export default function CryptoPortLanding() {
             <nav className="hidden lg:flex items-center gap-8">
               <a
                 href="/binance/dashboard"
-                className="text-[#EAECEF] hover:text-[#F0B90B] text-sm font-medium transition-colors"
+                className={`text-sm font-medium transition-colors ${
+                  isActive('/binance/dashboard')
+                    ? 'text-[#F0B90B] border-b-2 border-[#F0B90B] pb-1'
+                    : 'text-[#EAECEF] hover:text-[#F0B90B]'
+                }`}
+                aria-current={isActive('/binance/dashboard') ? 'page' : undefined}
               >
                 Dashboard
               </a>
               <a
-                href="#markets"
+                href="/binance/markets"
                 className="text-[#EAECEF] hover:text-[#F0B90B] text-sm font-medium transition-colors"
               >
                 Markets
               </a>
               <a
-                href="#"
+                href="/binance/trade"
                 className="text-[#EAECEF] hover:text-[#F0B90B] text-sm font-medium transition-colors"
               >
                 Trade
@@ -100,8 +168,19 @@ export default function CryptoPortLanding() {
                 Features
               </a>
               <a
-                href="/binance/settings"
+                href="/binance/help"
                 className="text-[#EAECEF] hover:text-[#F0B90B] text-sm font-medium transition-colors"
+              >
+                Help
+              </a>
+              <a
+                href="/binance/settings"
+                className={`text-sm font-medium transition-colors ${
+                  isActive('/binance/settings')
+                    ? 'text-[#F0B90B] border-b-2 border-[#F0B90B] pb-1'
+                    : 'text-[#EAECEF] hover:text-[#F0B90B]'
+                }`}
+                aria-current={isActive('/binance/settings') ? 'page' : undefined}
               >
                 Settings
               </a>
@@ -128,82 +207,133 @@ export default function CryptoPortLanding() {
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="lg:hidden text-white p-2"
+            aria-label="Toggle navigation menu"
+            aria-expanded={isMenuOpen}
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
 
         {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="lg:hidden bg-[#1E2329] border-t border-[#2B3139]">
-            <nav className="flex flex-col p-6 space-y-4">
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="lg:hidden bg-[#1E2329] border-t border-[#2B3139] overflow-hidden"
+            >
+              <nav className="flex flex-col p-6 space-y-4">
               <a
                 href="/binance/dashboard"
-                className="text-[#EAECEF] hover:text-[#F0B90B] text-sm font-medium"
+                onClick={() => setIsMenuOpen(false)}
+                className={`text-sm font-medium ${
+                  isActive('/binance/dashboard')
+                    ? 'text-[#F0B90B] font-semibold'
+                    : 'text-[#EAECEF] hover:text-[#F0B90B]'
+                }`}
+                aria-current={isActive('/binance/dashboard') ? 'page' : undefined}
               >
                 Dashboard
               </a>
               <a
-                href="#markets"
+                href="/binance/markets"
+                onClick={() => setIsMenuOpen(false)}
                 className="text-[#EAECEF] hover:text-[#F0B90B] text-sm font-medium"
               >
                 Markets
               </a>
               <a
-                href="#"
+                href="/binance/trade"
+                onClick={() => setIsMenuOpen(false)}
                 className="text-[#EAECEF] hover:text-[#F0B90B] text-sm font-medium"
               >
                 Trade
               </a>
               <a
                 href="#features"
+                onClick={() => setIsMenuOpen(false)}
                 className="text-[#EAECEF] hover:text-[#F0B90B] text-sm font-medium"
               >
                 Features
               </a>
               <a
-                href="/binance/settings"
+                href="/binance/help"
+                onClick={() => setIsMenuOpen(false)}
                 className="text-[#EAECEF] hover:text-[#F0B90B] text-sm font-medium"
+              >
+                Help
+              </a>
+              <a
+                href="/binance/settings"
+                onClick={() => setIsMenuOpen(false)}
+                className={`text-sm font-medium ${
+                  isActive('/binance/settings')
+                    ? 'text-[#F0B90B] font-semibold'
+                    : 'text-[#EAECEF] hover:text-[#F0B90B]'
+                }`}
+                aria-current={isActive('/binance/settings') ? 'page' : undefined}
               >
                 Settings
               </a>
               <div className="pt-4 space-y-3">
                 <a
                   href="/binance/login"
+                  onClick={() => setIsMenuOpen(false)}
                   className="block text-center text-[#EAECEF] border border-[#2B3139] px-4 py-2 rounded hover:border-[#F0B90B] transition-colors"
                 >
                   Log In
                 </a>
                 <a
                   href="/binance/register"
+                  onClick={() => setIsMenuOpen(false)}
                   className="block text-center bg-[#F0B90B] text-[#0B0E11] px-4 py-2 rounded font-semibold"
                 >
                   Register
                 </a>
               </div>
             </nav>
-          </div>
-        )}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </header>
 
       {/* HERO SECTION */}
-      <section className="max-w-[1440px] mx-auto px-6 pt-16 pb-24 lg:pt-24 lg:pb-32">
+      <section className="max-w-[1440px] mx-auto px-6 pt-16 pb-24 lg:pt-24 lg:pb-32" ref={heroRef}>
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
-          <div>
-            <h1 className="text-[44px] md:text-[56px] lg:text-[64px] font-semibold leading-[1.1] mb-6">
+          <motion.div
+            style={prefersReducedMotion ? {} : { y: heroY, opacity: heroOpacity }}
+          >
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-[44px] md:text-[56px] lg:text-[64px] font-semibold leading-[1.1] mb-6"
+            >
               Buy, trade, and hold
               <br />
               <span className="text-[#F0B90B]">350+ cryptocurrencies</span>
-            </h1>
+            </motion.h1>
 
-            <p className="text-[#B7BDC6] text-lg mb-8 max-w-[520px]">
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="text-[#B7BDC6] text-lg mb-8 max-w-[520px]"
+            >
               Join the world's leading cryptocurrency exchange. Trade with
               confidence using industry-leading security and deep liquidity.
-            </p>
+            </motion.p>
 
             {/* Email signup form */}
-            <div className="flex flex-col sm:flex-row gap-3 mb-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+              className="flex flex-col sm:flex-row gap-3 mb-8"
+            >
               <input
                 type="email"
                 placeholder="Email"
@@ -211,13 +341,23 @@ export default function CryptoPortLanding() {
                 onChange={(e) => setEmail(e.target.value)}
                 className="flex-1 bg-[#1E2329] border border-[#2B3139] rounded px-4 py-3.5 text-white placeholder-[#707A8A] focus:outline-none focus:border-[#F0B90B] transition-colors"
               />
-              <button className="bg-[#F0B90B] text-[#0B0E11] px-8 py-3.5 rounded font-semibold hover:bg-[#F8D12F] transition-all flex items-center justify-center gap-2">
+              <motion.button
+                whileHover={prefersReducedMotion ? {} : { scale: 1.05, boxShadow: "0 10px 30px rgba(240,185,11,0.3)" }}
+                whileTap={prefersReducedMotion ? {} : { scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                className="bg-[#F0B90B] text-[#0B0E11] px-8 py-3.5 rounded font-semibold hover:bg-[#F8D12F] transition-all flex items-center justify-center gap-2"
+              >
                 Get Started <ArrowRight size={18} />
-              </button>
-            </div>
+              </motion.button>
+            </motion.div>
 
             {/* Trust indicators */}
-            <div className="flex flex-wrap gap-6 text-sm text-[#848E9C]">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.8 }}
+              className="flex flex-wrap gap-6 text-sm text-[#848E9C]"
+            >
               <div className="flex items-center gap-2">
                 <Shield size={16} className="text-[#F0B90B]" />
                 <span>Secure & Regulated</span>
@@ -226,16 +366,25 @@ export default function CryptoPortLanding() {
                 <Globe2 size={16} className="text-[#F0B90B]" />
                 <span>180+ Countries</span>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Right - Floating Price Cards */}
           <div className="hidden lg:block relative">
             <div className="space-y-4">
               {cryptoList.map((crypto, i) => (
-                <div
+                <motion.div
                   key={i}
-                  className="bg-[#1E2329] border border-[#2B3139] rounded-xl p-5 hover:border-[#F0B90B]/60 transition-all duration-300 hover:shadow-lg hover:shadow-[#F0B90B]/10"
+                  custom={i}
+                  initial="hidden"
+                  animate={prefersReducedMotion ? "visible" : "floating"}
+                  variants={cardVariants}
+                  whileHover={prefersReducedMotion ? {} : {
+                    scale: 1.03,
+                    borderColor: "rgba(240, 185, 11, 0.6)",
+                    boxShadow: "0 20px 40px rgba(240, 185, 11, 0.2)"
+                  }}
+                  className="bg-[#1E2329] border border-[#2B3139] rounded-xl p-5 transition-all duration-300"
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
@@ -264,7 +413,7 @@ export default function CryptoPortLanding() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -272,37 +421,66 @@ export default function CryptoPortLanding() {
       </section>
 
       {/* STATS BAR */}
-      <section className="bg-[#1E2329] py-12 border-y border-[#2B3139]">
-        <div className="max-w-[1440px] mx-auto px-6">
+      <section className="bg-[#1E2329] py-12 border-y border-[#2B3139]" ref={statsRef}>
+        <motion.div
+          className="max-w-[1440px] mx-auto px-6"
+          initial={{ opacity: 0, y: 50 }}
+          animate={statsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+          transition={{ duration: 0.6 }}
+        >
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="text-center lg:text-left">
+            <motion.div
+              className="text-center lg:text-left"
+              initial={{ opacity: 0, y: 20 }}
+              animate={statsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
               <div className="text-[#F0B90B] text-[36px] font-semibold mb-1">
-                120M+
+                {statsInView && <AnimatedNumber value={120} format={(val) => `${Math.round(val)}M+`} />}
+                {!statsInView && "120M+"}
               </div>
               <div className="text-[#848E9C] text-sm">Registered Users</div>
-            </div>
-            <div className="text-center lg:text-left">
+            </motion.div>
+            <motion.div
+              className="text-center lg:text-left"
+              initial={{ opacity: 0, y: 20 }}
+              animate={statsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
               <div className="text-[#F0B90B] text-[36px] font-semibold mb-1">
-                $76B
+                {statsInView && <AnimatedNumber value={76} format={(val) => `$${Math.round(val)}B`} />}
+                {!statsInView && "$76B"}
               </div>
               <div className="text-[#848E9C] text-sm">24h Trading Volume</div>
-            </div>
-            <div className="text-center lg:text-left">
+            </motion.div>
+            <motion.div
+              className="text-center lg:text-left"
+              initial={{ opacity: 0, y: 20 }}
+              animate={statsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
               <div className="text-[#F0B90B] text-[36px] font-semibold mb-1">
-                350+
+                {statsInView && <AnimatedNumber value={350} format={(val) => `${Math.round(val)}+`} />}
+                {!statsInView && "350+"}
               </div>
               <div className="text-[#848E9C] text-sm">
                 Cryptocurrencies Listed
               </div>
-            </div>
-            <div className="text-center lg:text-left">
+            </motion.div>
+            <motion.div
+              className="text-center lg:text-left"
+              initial={{ opacity: 0, y: 20 }}
+              animate={statsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
               <div className="text-[#F0B90B] text-[36px] font-semibold mb-1">
-                180+
-              </div>
+                {statsInView && <AnimatedNumber value={180} format={(val) => `${Math.round(val)}+`} />}
+                {!statsInView && "180+"}
+                </div>
               <div className="text-[#848E9C] text-sm">Countries Supported</div>
-            </div>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* FEATURES GRID */}
@@ -527,6 +705,7 @@ export default function CryptoPortLanding() {
           </div>
         </div>
       </footer>
-    </div>
+      </div>
+    </PageTransition>
   );
 }

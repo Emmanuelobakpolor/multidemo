@@ -16,6 +16,7 @@ import {
   Wallet,
   Globe,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function PayPalSettings() {
   const [activeTab, setActiveTab] = useState("account");
@@ -48,15 +49,15 @@ export default function PayPalSettings() {
       <header className="sticky top-0 z-50 bg-white border-b border-gray-200">
         <div className="max-w-[1200px] mx-auto px-6 h-[72px] flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <a
-              href="/paypal"
+            <Link
+              to="/paypal"
               className="text-gray-600 hover:text-[#0070ba] transition-colors"
             >
               <ArrowLeft size={24} />
-            </a>
+            </Link>
             <h1 className="text-xl font-semibold">Settings</h1>
           </div>
-          <a href="/paypal" className="flex items-center gap-2">
+          <Link to="/paypal" className="flex items-center gap-2">
             <svg width="100" height="32" viewBox="0 0 100 32" fill="none">
               <text
                 x="0"
@@ -79,7 +80,7 @@ export default function PayPalSettings() {
                 Pal
               </text>
             </svg>
-          </a>
+          </Link>
         </div>
       </header>
 

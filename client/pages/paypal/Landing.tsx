@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Menu, X, Shield, DollarSign, Globe, Users } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function PayFlowLanding() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -25,9 +26,9 @@ export default function PayFlowLanding() {
               <span>Menu</span>
             </button>
 
-            {/* PayPal Logo - Center */}
-            <a
-              href="/payflow"
+             {/* PayPal Logo - Center */}
+            <Link
+              to="/paypal"
               className="absolute left-1/2 transform -translate-x-1/2"
             >
               <svg width="101" height="32" viewBox="0 0 101 32" fill="none">
@@ -42,51 +43,51 @@ export default function PayFlowLanding() {
                   Pay<tspan fill="#009cde">Pal</tspan>
                 </text>
               </svg>
-            </a>
+            </Link>
 
             {/* Log In Button - Right */}
-            <a
-              href="/paypal/login"
+            <Link
+              to="/paypal/login"
               className="px-6 py-2 border border-[#0070ba] text-[#0070ba] rounded-full text-sm font-medium hover:bg-[#F5F7FA] transition-colors"
             >
               Log In
-            </a>
+            </Link>
           </div>
 
           {/* Mobile Menu Dropdown */}
           {menuOpen && (
             <div className="border-t border-[#CBD2D9] py-4">
               <nav className="flex flex-col gap-3">
-                <a
-                  href="/paypal/dashboard"
-                  className="text-[#2c2e2f] hover:text-[#0070ba] text-sm font-medium px-4 py-2"
-                >
-                  Dashboard
-                </a>
-                <a
-                  href="#individuals"
-                  className="text-[#2c2e2f] hover:text-[#0070ba] text-sm font-medium px-4 py-2"
-                >
-                  Personal
-                </a>
-                <a
-                  href="#business"
-                  className="text-[#2c2e2f] hover:text-[#0070ba] text-sm font-medium px-4 py-2"
-                >
-                  Business
-                </a>
-                <a
-                  href="/paypal/settings"
-                  className="text-[#2c2e2f] hover:text-[#0070ba] text-sm font-medium px-4 py-2"
-                >
-                  Settings
-                </a>
-                <a
-                  href="#help"
-                  className="text-[#2c2e2f] hover:text-[#0070ba] text-sm font-medium px-4 py-2"
-                >
-                  Help
-                </a>
+            <Link
+              to="/paypal/dashboard"
+              className="text-[#2c2e2f] hover:text-[#0070ba] text-sm font-medium px-4 py-2"
+            >
+              Dashboard
+            </Link>
+            <Link
+              to="/paypal/wallet"
+              className="text-[#2c2e2f] hover:text-[#0070ba] text-sm font-medium px-4 py-2"
+            >
+              Wallet
+            </Link>
+            <Link
+              to="/paypal/send"
+              className="text-[#2c2e2f] hover:text-[#0070ba] text-sm font-medium px-4 py-2"
+            >
+              Send & Request
+            </Link>
+            <Link
+              to="/paypal/settings"
+              className="text-[#2c2e2f] hover:text-[#0070ba] text-sm font-medium px-4 py-2"
+            >
+              Settings
+            </Link>
+            <Link
+              to="/paypal/help"
+              className="text-[#2c2e2f] hover:text-[#0070ba] text-sm font-medium px-4 py-2"
+            >
+              Help
+            </Link>
               </nav>
             </div>
           )}
@@ -111,12 +112,12 @@ export default function PayFlowLanding() {
             <h1 className="text-white text-[36px] sm:text-[48px] font-light mb-8 drop-shadow-lg">
               The simpler, safer way to pay online.
             </h1>
-            <a
-              href="/paypal/register"
+            <Link
+              to="/paypal/register"
               className="inline-block bg-[#0070ba] hover:bg-[#005ea6] text-white px-12 py-4 rounded-full text-base font-semibold transition-colors shadow-lg"
             >
               Sign Up for Free
-            </a>
+            </Link>
             <p className="text-white text-sm mt-6 drop-shadow">
               Own a business?{" "}
               <a href="#business" className="underline hover:no-underline">
@@ -269,12 +270,12 @@ export default function PayFlowLanding() {
           <h2 className="text-[#2c2e2f] text-[32px] font-light mb-8">
             Sign up and get started.
           </h2>
-          <a
-            href="/paypal/register"
-            className="inline-block bg-[#0070ba] hover:bg-[#005ea6] text-white px-12 py-4 rounded-full text-base font-semibold transition-colors"
-          >
-            Get Started
-          </a>
+            <Link
+              to="/paypal/register"
+              className="inline-block bg-[#0070ba] hover:bg-[#005ea6] text-white px-12 py-4 rounded-full text-base font-semibold transition-colors"
+            >
+              Get Started
+            </Link>
         </div>
       </section>
 

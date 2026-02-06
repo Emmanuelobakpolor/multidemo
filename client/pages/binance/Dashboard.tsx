@@ -1,7 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Send, ArrowDownLeft, ArrowUpRight, LogOut, Menu, X, TrendingUp, Copy, ChevronDown, Search, Bell, User, Wallet, Clock, Eye, EyeOff, MessageSquare } from "lucide-react";
+import { motion, AnimatePresence, Variants } from "framer-motion";
 import CryptoPortChatWidget from "@/components/CryptoPortChatWidget";
+import PageTransition from "@/components/binance/PageTransition";
+import AnimatedNumber from "@/components/binance/AnimatedNumber";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 interface Crypto {
   symbol: string;
@@ -12,8 +16,26 @@ interface Crypto {
   icon: string;
 }
 
+// Animation variants
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2,
+    },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, x: -20 },
+  visible: { opacity: 1, x: 0 },
+};
+
 const BinanceDashboard = () => {
   const navigate = useNavigate();
+  const prefersReducedMotion = useReducedMotion();
   const [user, setUser] = useState<any>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [cryptos, setCryptos] = useState<Crypto[]>([]);
@@ -133,7 +155,8 @@ const BinanceDashboard = () => {
   if (!user) return null;
 
   return (
-    <div className="min-h-screen bg-[#0B0E11]" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' }}>
+    <PageTransition>
+      <div className="min-h-screen bg-[#0B0E11]" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' }}>
       {/* Top Navigation Bar */}
       <nav className="bg-[#181A20] border-b border-[#2B3139]">
         <div className="max-w-[1400px] mx-auto px-4">
@@ -145,11 +168,11 @@ const BinanceDashboard = () => {
               </Link>
               
               <div className="hidden lg:flex items-center gap-6 text-sm">
-                <a href="#" className="text-[#EAECEF] hover:text-[#F0B90B] transition-colors">Buy Crypto</a>
+                <Link to="/binance/dashboard" className="text-[#F0B90B] hover:text-[#F8D12F] transition-colors font-medium">Dashboard</Link>
                 <a href="#" className="text-[#EAECEF] hover:text-[#F0B90B] transition-colors">Markets</a>
                 <a href="#" className="text-[#EAECEF] hover:text-[#F0B90B] transition-colors">Trade</a>
-                <a href="#" className="text-[#EAECEF] hover:text-[#F0B90B] transition-colors">Futures</a>
                 <a href="#" className="text-[#EAECEF] hover:text-[#F0B90B] transition-colors">Earn</a>
+                <Link to="/binance/settings" className="text-[#EAECEF] hover:text-[#F0B90B] transition-colors">Settings</Link>
               </div>
             </div>
 
@@ -174,16 +197,40 @@ const BinanceDashboard = () => {
       </nav>
 
       {/* Mobile Menu */}
-      {menuOpen && (
-        <div className="lg:hidden bg-[#181A20] border-b border-[#2B3139]">
-          <div className="px-4 py-3 space-y-2">
-            <a href="#" className="block px-3 py-2 text-[#EAECEF] hover:bg-[#2B3139] rounded">Buy Crypto</a>
-            <a href="#" className="block px-3 py-2 text-[#EAECEF] hover:bg-[#2B3139] rounded">Markets</a>
-            <a href="#" className="block px-3 py-2 text-[#EAECEF] hover:bg-[#2B3139] rounded">Trade</a>
-            <button onClick={handleLogout} className="w-full text-left px-3 py-2 text-[#F6465D] hover:bg-[#2B3139] rounded">Logout</button>
-          </div>
-        </div>
-      )}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="lg:hidden bg-[#181A20] border-b border-[#2B3139] overflow-hidden"
+          >
+            <motion.div
+              className="px-4 py-3 space-y-2"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              <motion.div variants={itemVariants}>
+                <Link to="/binance/dashboard" className="block px-3 py-2 text-[#F0B90B] hover:bg-[#2B3139] rounded font-medium">Dashboard</Link>
+              </motion.div>
+              <motion.div variants={itemVariants}>
+                <a href="#" className="block px-3 py-2 text-[#EAECEF] hover:bg-[#2B3139] rounded">Markets</a>
+              </motion.div>
+              <motion.div variants={itemVariants}>
+                <a href="#" className="block px-3 py-2 text-[#EAECEF] hover:bg-[#2B3139] rounded">Trade</a>
+              </motion.div>
+              <motion.div variants={itemVariants}>
+                <Link to="/binance/settings" className="block px-3 py-2 text-[#EAECEF] hover:bg-[#2B3139] rounded">Settings</Link>
+              </motion.div>
+              <motion.div variants={itemVariants}>
+                <button onClick={handleLogout} className="w-full text-left px-3 py-2 text-[#F6465D] hover:bg-[#2B3139] rounded">Logout</button>
+              </motion.div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Main Content */}
       <div className="max-w-[1400px] mx-auto px-4 py-6">
@@ -213,7 +260,14 @@ const BinanceDashboard = () => {
                 <p className="text-[#848E9C] text-sm mb-2">Estimated Balance</p>
                 <div className="flex items-baseline gap-3 mb-1">
                   <h2 className="text-4xl font-semibold text-[#EAECEF]">
-                    {hideBalance ? '****' : `$${totalBalance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
+                    {hideBalance ? '****' : (
+                      <>
+                        $<AnimatedNumber
+                          value={totalBalance}
+                          format={(val) => val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        />
+                      </>
+                    )}
                   </h2>
                   <span className={`text-sm font-medium ${total24hChangePercent >= 0 ? 'text-[#0ECB81]' : 'text-[#F6465D]'}`}>
                     {total24hChangePercent >= 0 ? '+' : ''}{total24hChangePercent.toFixed(2)}%
@@ -225,41 +279,69 @@ const BinanceDashboard = () => {
               </div>
 
               <div className="flex items-center gap-3">
-                <Link
-                  to="/binance/receive"
-                  className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-[#2B3139] hover:bg-[#3d4450] rounded text-[#EAECEF] font-medium transition-colors"
-                >
-                  <ArrowDownLeft className="w-4 h-4" />
-                  Deposit
+                <Link to="/binance/receive" className="flex-1">
+                  <motion.div
+                    whileHover={prefersReducedMotion ? {} : { scale: 1.02 }}
+                    whileTap={prefersReducedMotion ? {} : { scale: 0.98 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                    className="flex items-center justify-center gap-2 px-4 py-3 bg-[#2B3139] hover:bg-[#3d4450] rounded text-[#EAECEF] font-medium transition-colors"
+                  >
+                    <ArrowDownLeft className="w-4 h-4" />
+                    Deposit
+                  </motion.div>
                 </Link>
-                <Link
-                  to="/binance/send"
-                  className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-[#F0B90B] hover:bg-[#F8D12F] rounded text-black font-medium transition-colors"
-                >
-                  <ArrowUpRight className="w-4 h-4" />
-                  Withdraw
+                <Link to="/binance/send" className="flex-1">
+                  <motion.div
+                    whileHover={prefersReducedMotion ? {} : { scale: 1.02, boxShadow: "0 10px 30px rgba(240,185,11,0.3)" }}
+                    whileTap={prefersReducedMotion ? {} : { scale: 0.98 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                    className="flex items-center justify-center gap-2 px-4 py-3 bg-[#F0B90B] hover:bg-[#F8D12F] rounded text-black font-medium transition-colors"
+                  >
+                    <ArrowUpRight className="w-4 h-4" />
+                    Withdraw
+                  </motion.div>
                 </Link>
               </div>
             </div>
 
             {/* Quick Actions */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6 pt-6 border-t border-[#2B3139]">
-              <button className="flex flex-col items-center gap-2 p-3 bg-[#0B0E11] hover:bg-[#2B3139] rounded transition-colors">
+              <motion.button
+                whileHover={prefersReducedMotion ? {} : { scale: 1.05, y: -2 }}
+                whileTap={prefersReducedMotion ? {} : { scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                className="flex flex-col items-center gap-2 p-3 bg-[#0B0E11] hover:bg-[#2B3139] rounded transition-colors"
+              >
                 <Send className="w-5 h-5 text-[#F0B90B]" />
                 <span className="text-xs text-[#EAECEF]">Transfer</span>
-              </button>
-              <button className="flex flex-col items-center gap-2 p-3 bg-[#0B0E11] hover:bg-[#2B3139] rounded transition-colors">
+              </motion.button>
+              <motion.button
+                whileHover={prefersReducedMotion ? {} : { scale: 1.05, y: -2 }}
+                whileTap={prefersReducedMotion ? {} : { scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                className="flex flex-col items-center gap-2 p-3 bg-[#0B0E11] hover:bg-[#2B3139] rounded transition-colors"
+              >
                 <TrendingUp className="w-5 h-5 text-[#F0B90B]" />
                 <span className="text-xs text-[#EAECEF]">Trade</span>
-              </button>
-              <button className="flex flex-col items-center gap-2 p-3 bg-[#0B0E11] hover:bg-[#2B3139] rounded transition-colors">
+              </motion.button>
+              <motion.button
+                whileHover={prefersReducedMotion ? {} : { scale: 1.05, y: -2 }}
+                whileTap={prefersReducedMotion ? {} : { scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                className="flex flex-col items-center gap-2 p-3 bg-[#0B0E11] hover:bg-[#2B3139] rounded transition-colors"
+              >
                 <Wallet className="w-5 h-5 text-[#F0B90B]" />
                 <span className="text-xs text-[#EAECEF]">Earn</span>
-              </button>
-              <button className="flex flex-col items-center gap-2 p-3 bg-[#0B0E11] hover:bg-[#2B3139] rounded transition-colors">
+              </motion.button>
+              <motion.button
+                whileHover={prefersReducedMotion ? {} : { scale: 1.05, y: -2 }}
+                whileTap={prefersReducedMotion ? {} : { scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                className="flex flex-col items-center gap-2 p-3 bg-[#0B0E11] hover:bg-[#2B3139] rounded transition-colors"
+              >
                 <Clock className="w-5 h-5 text-[#F0B90B]" />
                 <span className="text-xs text-[#EAECEF]">History</span>
-              </button>
+              </motion.button>
             </div>
           </div>
         </div>
@@ -282,13 +364,21 @@ const BinanceDashboard = () => {
             </div>
 
             {/* Table Body */}
-            {cryptos.map((crypto) => {
-              const btcValue = (crypto.amount * crypto.price) / cryptoPrices.BTC;
-              return (
-                <div 
-                  key={crypto.symbol}
-                  className="grid grid-cols-12 gap-4 px-6 py-4 border-b border-[#2B3139] hover:bg-[#2B3139]/30 transition-colors cursor-pointer"
-                >
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              {cryptos.map((crypto) => {
+                const btcValue = (crypto.amount * crypto.price) / cryptoPrices.BTC;
+                return (
+                  <motion.div
+                    key={crypto.symbol}
+                    variants={itemVariants}
+                    whileHover={prefersReducedMotion ? {} : { scale: 1.01, backgroundColor: "rgba(43, 49, 57, 0.5)" }}
+                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                    className="grid grid-cols-12 gap-4 px-6 py-4 border-b border-[#2B3139] cursor-pointer"
+                  >
                   <div className="col-span-4 flex items-center gap-3">
                     <div className="w-8 h-8 rounded-full bg-[#F0B90B]/10 flex items-center justify-center text-[#F0B90B] font-semibold">
                       {crypto.icon}
@@ -311,9 +401,10 @@ const BinanceDashboard = () => {
                   <div className="col-span-2 text-right flex flex-col justify-center">
                     <p className="text-[#EAECEF] text-sm">{hideBalance ? '****' : btcValue.toFixed(8)}</p>
                   </div>
-                </div>
-              );
-            })}
+                </motion.div>
+                );
+              })}
+            </motion.div>
 
             {cryptos.length === 0 && (
               <div className="px-6 py-12 text-center">
@@ -401,7 +492,8 @@ const BinanceDashboard = () => {
           )}
         </>
       )}
-    </div>
+      </div>
+    </PageTransition>
   );
 };
 
