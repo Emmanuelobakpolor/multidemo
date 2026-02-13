@@ -137,11 +137,20 @@ const QuickCashDashboard = () => {
               />
             </div>
 
-            {/* Right side icons */}
+             {/* Right side icons */}
             <div className="flex items-center gap-4">
               <button className="p-2 hover:bg-[#333333] rounded-full transition-colors">
                 <Bell className="w-5 h-5 text-[#888888]" />
               </button>
+              
+              {/* Settings link */}
+              <Link 
+                to="/cashapp/settings"
+                className="p-2 hover:bg-[#333333] rounded-full transition-colors"
+                title="Settings"
+              >
+                <User className="w-5 h-5 text-[#888888]" />
+              </Link>
               
               {/* User profile */}
               <div className="relative">

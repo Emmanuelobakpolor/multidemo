@@ -165,14 +165,10 @@ const CashAppLanding = () => {
             </svg>
           </div>
 
-          {/* Nav Links - Desktop */}
-           <nav className="desktop-nav" style={{ display: "flex", alignItems: "center", gap: "32px" }}>
-            <Link to="/cashapp/dashboard" className="nav-link" style={{ color: "#888", fontSize: "14px", fontWeight: 500, textDecoration: "none", transition: "color 0.2s" }}>Dashboard</Link>
-            <Link to="/cashapp/card" className="nav-link" style={{ color: "#888", fontSize: "14px", fontWeight: 500, textDecoration: "none", transition: "color 0.2s" }}>Card</Link>
-            <Link to="/cashapp/send" className="nav-link" style={{ color: "#888", fontSize: "14px", fontWeight: 500, textDecoration: "none", transition: "color 0.2s" }}>Send</Link>
-            <Link to="/cashapp/savings" className="nav-link" style={{ color: "#888", fontSize: "14px", fontWeight: 500, textDecoration: "none", transition: "color 0.2s" }}>Savings</Link>
-            <Link to="/cashapp/settings" className="nav-link" style={{ color: "#888", fontSize: "14px", fontWeight: 500, textDecoration: "none", transition: "color 0.2s" }}>Settings</Link>
-          </nav>
+           {/* Nav Links - Desktop */}
+            <nav className="desktop-nav" style={{ display: "flex", alignItems: "center", gap: "32px" }}>
+             {/* Dashboard-only links removed from landing page */}
+           </nav>
 
            {/* Auth Buttons - Desktop */}
           <div className="desktop-nav" style={{ display: "flex", alignItems: "center", gap: "16px" }}>
@@ -210,16 +206,12 @@ const CashAppLanding = () => {
             padding: "24px",
             borderBottom: "1px solid rgba(255,255,255,0.1)",
           }}>
-             <nav style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-              <Link to="/cashapp/dashboard" className="nav-link" style={{ color: "#888", fontSize: "16px", fontWeight: 500, textDecoration: "none", padding: "8px 0" }}>Dashboard</Link>
-              <Link to="/cashapp/card" className="nav-link" style={{ color: "#888", fontSize: "16px", fontWeight: 500, textDecoration: "none", padding: "8px 0" }}>Card</Link>
-              <Link to="/cashapp/send" className="nav-link" style={{ color: "#888", fontSize: "16px", fontWeight: 500, textDecoration: "none", padding: "8px 0" }}>Send</Link>
-              <Link to="/cashapp/savings" className="nav-link" style={{ color: "#888", fontSize: "16px", fontWeight: 500, textDecoration: "none", padding: "8px 0" }}>Savings</Link>
-              <Link to="/cashapp/settings" className="nav-link" style={{ color: "#888", fontSize: "16px", fontWeight: 500, textDecoration: "none", padding: "8px 0" }}>Settings</Link>
-              <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", margin: "16px 0" }}/>
-              <Link to="/cashapp/register" style={{ color: "#fff", fontSize: "16px", fontWeight: 500, textDecoration: "none", padding: "8px 0" }}>Sign up</Link>
-              <Link to="/cashapp/login" style={{ color: "#888", fontSize: "16px", fontWeight: 500, textDecoration: "none", padding: "8px 0" }}>Log in</Link>
-            </nav>
+              <nav style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+               {/* Dashboard-only links removed from landing page */}
+               <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", margin: "16px 0" }}/>
+               <Link to="/cashapp/register" style={{ color: "#fff", fontSize: "16px", fontWeight: 500, textDecoration: "none", padding: "8px 0" }}>Sign up</Link>
+               <Link to="/cashapp/login" style={{ color: "#888", fontSize: "16px", fontWeight: 500, textDecoration: "none", padding: "8px 0" }}>Log in</Link>
+             </nav>
           </div>
         )}
       </header>
