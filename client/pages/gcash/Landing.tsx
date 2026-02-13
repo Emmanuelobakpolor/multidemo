@@ -74,12 +74,11 @@ const GCashLanding = () => {
                 </div>
                 <span className="font-bold text-[#007DFE] text-xl">GCash</span>
               </Link>
-              <nav className="hidden lg:flex items-center gap-6 text-sm font-medium text-gray-600">
+               <nav className="hidden lg:flex items-center gap-6 text-sm font-medium text-gray-600">
                 <Link to="/gcash/dashboard" className="hover:text-[#007DFE] transition">Dashboard</Link>
                 <a href="#" className="hover:text-[#007DFE] transition">Services</a>
                 <a href="#" className="hover:text-[#007DFE] transition">Partners</a>
                 <a href="#" className="hover:text-[#007DFE] transition">Promos</a>
-                <Link to="/gcash/settings" className="hover:text-[#007DFE] transition">Settings</Link>
                 <a href="#" className="hover:text-[#007DFE] transition">Help Center</a>
               </nav>
             </div>

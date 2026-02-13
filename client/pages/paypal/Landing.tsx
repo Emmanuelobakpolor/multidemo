@@ -57,7 +57,7 @@ export default function PayFlowLanding() {
           {/* Mobile Menu Dropdown */}
           {menuOpen && (
             <div className="border-t border-[#CBD2D9] py-4">
-              <nav className="flex flex-col gap-3">
+               <nav className="flex flex-col gap-3">
             <Link
               to="/paypal/dashboard"
               className="text-[#2c2e2f] hover:text-[#0070ba] text-sm font-medium px-4 py-2"
@@ -69,18 +69,6 @@ export default function PayFlowLanding() {
               className="text-[#2c2e2f] hover:text-[#0070ba] text-sm font-medium px-4 py-2"
             >
               Wallet
-            </Link>
-            <Link
-              to="/paypal/send"
-              className="text-[#2c2e2f] hover:text-[#0070ba] text-sm font-medium px-4 py-2"
-            >
-              Send & Request
-            </Link>
-            <Link
-              to="/paypal/settings"
-              className="text-[#2c2e2f] hover:text-[#0070ba] text-sm font-medium px-4 py-2"
-            >
-              Settings
             </Link>
             <Link
               to="/paypal/help"

@@ -173,17 +173,7 @@ export default function CryptoPortLanding() {
               >
                 Help
               </a>
-              <a
-                href="/binance/settings"
-                className={`text-sm font-medium transition-colors ${
-                  isActive('/binance/settings')
-                    ? 'text-[#F0B90B] border-b-2 border-[#F0B90B] pb-1'
-                    : 'text-[#EAECEF] hover:text-[#F0B90B]'
-                }`}
-                aria-current={isActive('/binance/settings') ? 'page' : undefined}
-              >
-                Settings
-              </a>
+
             </nav>
           </div>
 
@@ -265,18 +255,7 @@ export default function CryptoPortLanding() {
               >
                 Help
               </a>
-              <a
-                href="/binance/settings"
-                onClick={() => setIsMenuOpen(false)}
-                className={`text-sm font-medium ${
-                  isActive('/binance/settings')
-                    ? 'text-[#F0B90B] font-semibold'
-                    : 'text-[#EAECEF] hover:text-[#F0B90B]'
-                }`}
-                aria-current={isActive('/binance/settings') ? 'page' : undefined}
-              >
-                Settings
-              </a>
+
               <div className="pt-4 space-y-3">
                 <a
                   href="/binance/login"
