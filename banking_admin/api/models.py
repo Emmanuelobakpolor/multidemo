@@ -11,6 +11,7 @@ class UserAccount(models.Model):  # Renamed from UserProfile
     status = models.CharField(max_length=20, default='active')  # active, frozen
     chat_enabled = models.BooleanField(default=False)  # Support chat feature toggle
     mobile_number = models.CharField(max_length=15, blank=True, null=True)  # Mobile number for SendWave
+    username = models.CharField(max_length=50, blank=True, null=True)  # Username/Cashtag for CashApp
 
 class CryptoCurrency(models.Model):
     symbol = models.CharField(max_length=10, unique=True)  # BTC, ETH, etc.

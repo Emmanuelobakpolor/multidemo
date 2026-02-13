@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   User,
   Shield,
@@ -26,12 +26,51 @@ export default function GCashSettings() {
     updates: true,
   });
   const [profileData, setProfileData] = useState({
-    firstName: "Juan",
-    lastName: "Dela Cruz",
-    email: "juan.delacruz@example.com",
-    mobile: "+63 912 345 6789",
-    gcashId: "GC-123456789",
+    fullName: "",
+    email: "",
+    mobileNumber: "",
+    balance: 0,
+    createdAt: "",
+    updatedAt: "",
   });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const userData = localStorage.getItem("gcash_user");
+      if (userData) {
+        const user = JSON.parse(userData);
+        try {
+          const response = await fetch(`/api/gcash/get_user_by_email/${user.email}`);
+          const data = await response.json();
+          if (data.success) {
+            setProfileData({
+              fullName: data.data.fullName,
+              email: data.data.email,
+              mobileNumber: data.data.mobileNumber,
+              balance: data.data.balance,
+              createdAt: data.data.createdAt,
+              updatedAt: data.data.updatedAt,
+            });
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+          // Fallback to localStorage data if API fails
+          setProfileData({
+            fullName: user.fullName,
+            email: user.email,
+            mobileNumber: user.mobileNumber,
+            balance: user.balance,
+            createdAt: user.createdAt,
+            updatedAt: user.updatedAt,
+          });
+        }
+      }
+      setLoading(false);
+    };
+
+    fetchUserData();
+  }, []);
 
   const tabs = [
     { id: "profile", label: "Profile", icon: User },
@@ -102,108 +141,131 @@ export default function GCashSettings() {
             {/* Profile Tab */}
             {activeTab === "profile" && (
               <div className="space-y-6">
-                <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
-                  <h2 className="text-2xl font-semibold mb-6">
-                    Profile Information
-                  </h2>
-
-                  <div className="space-y-6">
-                    {/* Profile Picture */}
-                    <div className="flex items-center gap-6">
-                      <div className="w-24 h-24 rounded-full bg-[#007DFE]/10 flex items-center justify-center">
-                        <User size={48} className="text-[#007DFE]" />
-                      </div>
-                      <button className="bg-gray-100 text-gray-900 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors">
-                        Change Photo
-                      </button>
+                {loading ? (
+                  <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+                    <div className="flex items-center justify-center py-12">
+                      <div className="w-8 h-8 border-2 border-[#007DFE] border-t-transparent rounded-full animate-spin"></div>
                     </div>
-
-                    {/* Form Fields */}
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm text-gray-600 mb-2">
-                          First Name
-                        </label>
-                        <input
-                          type="text"
-                          value={profileData.firstName}
-                          onChange={(e) =>
-                            setProfileData({
-                              ...profileData,
-                              firstName: e.target.value,
-                            })
-                          }
-                          className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:outline-none focus:border-[#007DFE] transition-colors"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm text-gray-600 mb-2">
-                          Last Name
-                        </label>
-                        <input
-                          type="text"
-                          value={profileData.lastName}
-                          onChange={(e) =>
-                            setProfileData({
-                              ...profileData,
-                              lastName: e.target.value,
-                            })
-                          }
-                          className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:outline-none focus:border-[#007DFE] transition-colors"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm text-gray-600 mb-2">
-                        GCash ID
-                      </label>
-                      <div className="relative">
-                        <DollarSign
-                          size={20}
-                          className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                        />
-                        <input
-                          type="text"
-                          value={profileData.gcashId}
-                          readOnly
-                          className="w-full bg-gray-100 border border-gray-300 rounded-lg pl-10 pr-4 py-3 text-gray-500 cursor-not-allowed"
-                        />
-                      </div>
-                      <p className="text-xs text-gray-500 mt-1">
-                        Your GCash ID cannot be changed
-                      </p>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm text-gray-600 mb-2">
-                        Email Address
-                      </label>
-                      <div className="relative">
-                        <Mail
-                          size={20}
-                          className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                        />
-                        <input
-                          type="email"
-                          value={profileData.email}
-                          onChange={(e) =>
-                            setProfileData({
-                              ...profileData,
-                              email: e.target.value,
-                            })
-                          }
-                          className="w-full bg-white border border-gray-300 rounded-lg pl-10 pr-4 py-3 text-gray-900 focus:outline-none focus:border-[#007DFE] transition-colors"
-                        />
-                      </div>
-                    </div>
-
-                    <button className="bg-[#007DFE] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#0066D6] transition-all flex items-center gap-2">
-                      <Save size={20} />
-                      Save Changes
-                    </button>
                   </div>
-                </div>
+                ) : (
+                  <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+                    <h2 className="text-2xl font-semibold mb-6">
+                      Profile Information
+                    </h2>
+
+                    <div className="space-y-6">
+                      {/* Profile Picture */}
+                      <div className="flex items-center gap-6">
+                        <div className="w-24 h-24 rounded-full bg-[#007DFE]/10 flex items-center justify-center">
+                          <User size={48} className="text-[#007DFE]" />
+                        </div>
+                      </div>
+
+                      {/* User Details */}
+                      <div className="space-y-4">
+                        <div>
+                          <label className="block text-sm text-gray-600 mb-2">
+                            Full Name
+                          </label>
+                          <div className="relative">
+                            <User
+                              size={20}
+                              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                            />
+                            <input
+                              type="text"
+                              value={profileData.fullName}
+                              readOnly
+                              className="w-full bg-gray-100 border border-gray-300 rounded-lg pl-10 pr-4 py-3 text-gray-900 cursor-not-allowed"
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm text-gray-600 mb-2">
+                            Email Address
+                          </label>
+                          <div className="relative">
+                            <Mail
+                              size={20}
+                              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                            />
+                            <input
+                              type="email"
+                              value={profileData.email}
+                              readOnly
+                              className="w-full bg-gray-100 border border-gray-300 rounded-lg pl-10 pr-4 py-3 text-gray-900 cursor-not-allowed"
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm text-gray-600 mb-2">
+                            Mobile Number
+                          </label>
+                          <div className="relative">
+                            <Smartphone
+                              size={20}
+                              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                            />
+                            <input
+                              type="tel"
+                              value={profileData.mobileNumber}
+                              readOnly
+                              className="w-full bg-gray-100 border border-gray-300 rounded-lg pl-10 pr-4 py-3 text-gray-900 cursor-not-allowed"
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm text-gray-600 mb-2">
+                            Balance
+                          </label>
+                          <div className="relative">
+                            <DollarSign
+                              size={20}
+                              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                            />
+                            <input
+                              type="text"
+                              value={`₱${profileData.balance.toFixed(2)}`}
+                              readOnly
+                              className="w-full bg-gray-100 border border-gray-300 rounded-lg pl-10 pr-4 py-3 text-gray-900 cursor-not-allowed"
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm text-gray-600 mb-2">
+                            Account Created
+                          </label>
+                          <div className="relative">
+                            <input
+                              type="text"
+                              value={new Date(profileData.createdAt).toLocaleDateString()}
+                              readOnly
+                              className="w-full bg-gray-100 border border-gray-300 rounded-lg px-4 py-3 text-gray-900 cursor-not-allowed"
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm text-gray-600 mb-2">
+                            Last Updated
+                          </label>
+                          <div className="relative">
+                            <input
+                              type="text"
+                              value={new Date(profileData.updatedAt).toLocaleDateString()}
+                              readOnly
+                              className="w-full bg-gray-100 border border-gray-300 rounded-lg px-4 py-3 text-gray-900 cursor-not-allowed"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
@@ -227,7 +289,7 @@ export default function GCashSettings() {
                         />
                         <input
                           type="tel"
-                          value={profileData.mobile}
+                          value={profileData.mobileNumber}
                           readOnly
                           className="w-full bg-gray-100 border border-gray-300 rounded-lg pl-10 pr-4 py-3 text-gray-900"
                         />

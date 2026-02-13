@@ -29,6 +29,7 @@ def register(request):
         password = request.data.get('password')
         fullName = request.data.get('fullName')
         mobileNumber = request.data.get('mobileNumber')
+        username = request.data.get('username')
 
         # Check if user already exists
         if User.objects.filter(email=email).exists():
@@ -55,7 +56,8 @@ def register(request):
             platform=platform,
             balance=100.00,
             status='active',
-            mobile_number=mobileNumber
+            mobile_number=mobileNumber,
+            username=username
         )
 
         # Create crypto wallets (BTC and ETH)
@@ -83,6 +85,7 @@ def register(request):
             'fullName': f'{user.first_name} {user.last_name}',
             'balance': float(account.balance),
             'mobileNumber': account.mobile_number,
+            'cashtag': account.username,
             'createdAt': user.date_joined.isoformat(),
             'updatedAt': user.last_login.isoformat() if user.last_login else user.date_joined.isoformat()
         }
@@ -214,6 +217,8 @@ def login(request):
             'email': user.email,
             'fullName': f'{user.first_name} {user.last_name}',
             'balance': float(account.balance) if account else 0,
+            'mobileNumber': account.mobile_number if account else '',
+            'cashtag': account.username if account else '',
             'createdAt': user.date_joined.isoformat(),
             'updatedAt': user.last_login.isoformat() if user.last_login else user.date_joined.isoformat()
         }
@@ -247,6 +252,8 @@ def get_user_by_email(request, email):
             'email': user.email,
             'fullName': f'{user.first_name} {user.last_name}',
             'balance': float(account.balance) if account else 0,
+            'mobileNumber': account.mobile_number if account else '',
+            'cashtag': account.username if account else '',
             'createdAt': user.date_joined.isoformat(),
             'updatedAt': user.last_login.isoformat() if user.last_login else user.date_joined.isoformat()
         }

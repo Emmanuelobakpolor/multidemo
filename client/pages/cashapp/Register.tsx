@@ -42,6 +42,7 @@ const QuickCashRegister = () => {
           password: formData.password,
           fullName: formData.fullName,
           mobileNumber: formData.mobileNumber,
+          username: formData.username,
         }),
       });
 

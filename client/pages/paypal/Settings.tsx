@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   User,
   Shield,
@@ -28,12 +28,48 @@ export default function PayPalSettings() {
     invoices: true,
   });
   const [profileData, setProfileData] = useState({
-    firstName: "",
-    lastName: "",
+    fullName: "",
     email: "",
-    phone: "",
-    country: "",
+    balance: 0,
+    createdAt: "",
+    updatedAt: "",
   });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const userData = localStorage.getItem("paypal_user");
+      if (userData) {
+        const user = JSON.parse(userData);
+        try {
+          const response = await fetch(`/api/paypal/get_user_by_email/${user.email}`);
+          const data = await response.json();
+          if (data.success) {
+            setProfileData({
+              fullName: data.data.fullName,
+              email: data.data.email,
+              balance: data.data.balance,
+              createdAt: data.data.createdAt,
+              updatedAt: data.data.updatedAt,
+            });
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+          // Fallback to localStorage data if API fails
+          setProfileData({
+            fullName: user.fullName,
+            email: user.email,
+            balance: user.balance,
+            createdAt: user.createdAt,
+            updatedAt: user.updatedAt,
+          });
+        }
+      }
+      setLoading(false);
+    };
+
+    fetchUserData();
+  }, []);
 
   const tabs = [
     { id: "account", label: "Account", icon: User },
@@ -121,142 +157,116 @@ export default function PayPalSettings() {
             {/* Account Tab */}
             {activeTab === "account" && (
               <div className="space-y-6">
-                <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-                  <h2 className="text-2xl font-semibold mb-6">
-                    Account Information
-                  </h2>
-
-                  <div className="space-y-6">
-                    {/* Profile Picture */}
-                    <div className="flex items-center gap-6">
-                      <div className="w-24 h-24 rounded-full bg-[#0070ba]/10 flex items-center justify-center">
-                        <User size={48} className="text-[#0070ba]" />
-                      </div>
-                      <button className="bg-gray-100 text-gray-900 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors">
-                        Change Photo
-                      </button>
+                {loading ? (
+                  <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+                    <div className="flex items-center justify-center py-12">
+                      <div className="w-8 h-8 border-2 border-[#0070ba] border-t-transparent rounded-full animate-spin"></div>
                     </div>
-
-                    {/* Form Fields */}
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm text-gray-600 mb-2">
-                          First Name
-                        </label>
-                        <input
-                          type="text"
-                          value={profileData.firstName}
-                          onChange={(e) =>
-                            setProfileData({
-                              ...profileData,
-                              firstName: e.target.value,
-                            })
-                          }
-                          className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:outline-none focus:border-[#0070ba] transition-colors"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm text-gray-600 mb-2">
-                          Last Name
-                        </label>
-                        <input
-                          type="text"
-                          value={profileData.lastName}
-                          onChange={(e) =>
-                            setProfileData({
-                              ...profileData,
-                              lastName: e.target.value,
-                            })
-                          }
-                          className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:outline-none focus:border-[#0070ba] transition-colors"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm text-gray-600 mb-2">
-                        Email Address
-                      </label>
-                      <div className="relative">
-                        <Mail
-                          size={20}
-                          className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                        />
-                        <input
-                          type="email"
-                          value={profileData.email}
-                          onChange={(e) =>
-                            setProfileData({
-                              ...profileData,
-                              email: e.target.value,
-                            })
-                          }
-                          className="w-full bg-white border border-gray-300 rounded-lg pl-10 pr-4 py-3 text-gray-900 focus:outline-none focus:border-[#0070ba] transition-colors"
-                        />
-                      </div>
-                      <p className="text-xs text-gray-500 mt-1">
-                        This is your primary PayPal email
-                      </p>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm text-gray-600 mb-2">
-                        Phone Number
-                      </label>
-                      <div className="relative">
-                        <Smartphone
-                          size={20}
-                          className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                        />
-                        <input
-                          type="tel"
-                          value={profileData.phone}
-                          onChange={(e) =>
-                            setProfileData({
-                              ...profileData,
-                              phone: e.target.value,
-                            })
-                          }
-                          className="w-full bg-white border border-gray-300 rounded-lg pl-10 pr-4 py-3 text-gray-900 focus:outline-none focus:border-[#0070ba] transition-colors"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm text-gray-600 mb-2">
-                        Country
-                      </label>
-                      <div className="relative">
-                        <Globe
-                          size={20}
-                          className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                        />
-                        <select
-                          value={profileData.country}
-                          onChange={(e) =>
-                            setProfileData({
-                              ...profileData,
-                              country: e.target.value,
-                            })
-                          }
-                          className="w-full bg-white border border-gray-300 rounded-lg pl-10 pr-4 py-3 text-gray-900 focus:outline-none focus:border-[#0070ba] transition-colors appearance-none"
-                        >
-                          <option>United States</option>
-                          <option>United Kingdom</option>
-                          <option>Canada</option>
-                          <option>Australia</option>
-                          <option>Germany</option>
-                          <option>France</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <button className="bg-[#0070ba] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#005a94] transition-all flex items-center gap-2">
-                      <Save size={20} />
-                      Save Changes
-                    </button>
                   </div>
-                </div>
+                ) : (
+                  <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+                    <h2 className="text-2xl font-semibold mb-6">
+                      Account Information
+                    </h2>
+
+                    <div className="space-y-6">
+                      {/* Profile Picture */}
+                      <div className="flex items-center gap-6">
+                        <div className="w-24 h-24 rounded-full bg-[#0070ba]/10 flex items-center justify-center">
+                          <User size={48} className="text-[#0070ba]" />
+                        </div>
+                      </div>
+
+                      {/* User Details */}
+                      <div className="space-y-4">
+                        <div>
+                          <label className="block text-sm text-gray-600 mb-2">
+                            Full Name
+                          </label>
+                          <div className="relative">
+                            <User
+                              size={20}
+                              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                            />
+                            <input
+                              type="text"
+                              value={profileData.fullName}
+                              readOnly
+                              className="w-full bg-gray-100 border border-gray-300 rounded-lg pl-10 pr-4 py-3 text-gray-900 cursor-not-allowed"
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm text-gray-600 mb-2">
+                            Email Address
+                          </label>
+                          <div className="relative">
+                            <Mail
+                              size={20}
+                              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                            />
+                            <input
+                              type="email"
+                              value={profileData.email}
+                              readOnly
+                              className="w-full bg-gray-100 border border-gray-300 rounded-lg pl-10 pr-4 py-3 text-gray-900 cursor-not-allowed"
+                            />
+                          </div>
+                          <p className="text-xs text-gray-500 mt-1">
+                            This is your primary PayPal email
+                          </p>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm text-gray-600 mb-2">
+                            Balance
+                          </label>
+                          <div className="relative">
+                            <Wallet
+                              size={20}
+                              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                            />
+                            <input
+                              type="text"
+                              value={`$${profileData.balance.toFixed(2)}`}
+                              readOnly
+                              className="w-full bg-gray-100 border border-gray-300 rounded-lg pl-10 pr-4 py-3 text-gray-900 cursor-not-allowed"
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm text-gray-600 mb-2">
+                            Account Created
+                          </label>
+                          <div className="relative">
+                            <input
+                              type="text"
+                              value={new Date(profileData.createdAt).toLocaleDateString()}
+                              readOnly
+                              className="w-full bg-gray-100 border border-gray-300 rounded-lg px-4 py-3 text-gray-900 cursor-not-allowed"
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm text-gray-600 mb-2">
+                            Last Updated
+                          </label>
+                          <div className="relative">
+                            <input
+                              type="text"
+                              value={new Date(profileData.updatedAt).toLocaleDateString()}
+                              readOnly
+                              className="w-full bg-gray-100 border border-gray-300 rounded-lg px-4 py-3 text-gray-900 cursor-not-allowed"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 

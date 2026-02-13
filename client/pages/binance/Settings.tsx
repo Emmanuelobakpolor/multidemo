@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   User,
@@ -35,12 +35,54 @@ export default function BinanceSettings() {
     news: false,
   });
   const [profileData, setProfileData] = useState({
-    firstName: "",
-    lastName: "",
+    fullName: "",
+    username: "",
     email: "",
-    phone: "",
-    country: "",
+    createdAt: "",
+    updatedAt: "",
+    fiatBalance: 0,
+    cryptoBalances: {} as Record<string, number>,
   });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const userData = localStorage.getItem("binance_user");
+      if (userData) {
+        const user = JSON.parse(userData);
+        try {
+          const response = await fetch(`/api/binance/get_user/${user.email}`);
+          const data = await response.json();
+          if (data.success) {
+            setProfileData({
+              fullName: data.data.fullName,
+              username: data.data.username,
+              email: data.data.email,
+              createdAt: data.data.createdAt,
+              updatedAt: data.data.updatedAt,
+              fiatBalance: data.data.fiatBalance,
+              cryptoBalances: data.data.cryptoBalances,
+            });
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+          // Fallback to localStorage data if API fails
+          setProfileData({
+            fullName: user.fullName,
+            username: user.username,
+            email: user.email,
+            createdAt: user.createdAt,
+            updatedAt: user.updatedAt,
+            fiatBalance: user.fiatBalance,
+            cryptoBalances: user.cryptoBalances,
+          });
+        }
+      }
+      setLoading(false);
+    };
+
+    fetchUserData();
+  }, []);
 
   const tabs = [
     { id: "profile", label: "Profile", icon: User },
@@ -137,139 +179,144 @@ export default function BinanceSettings() {
             {/* Profile Tab */}
             {activeTab === "profile" && (
               <div className="space-y-6">
-                <div className="bg-[#1E2329] border border-[#2B3139] rounded-xl p-6">
-                  <h2 className="text-2xl font-semibold mb-6">
-                    Profile Information
-                  </h2>
-
-                  <div className="space-y-6">
-                    {/* Profile Picture */}
-                    <div className="flex items-center gap-6">
-                      <div className="w-24 h-24 rounded-full bg-[#F0B90B]/10 flex items-center justify-center">
-                        <User size={48} className="text-[#F0B90B]" />
-                      </div>
-                      <button className="bg-[#2B3139] text-white px-4 py-2 rounded-lg hover:bg-[#3B4149] transition-colors">
-                        Change Photo
-                      </button>
+                {loading ? (
+                  <div className="bg-[#1E2329] border border-[#2B3139] rounded-xl p-6">
+                    <div className="flex items-center justify-center py-12">
+                      <div className="w-8 h-8 border-2 border-[#F0B90B] border-t-transparent rounded-full animate-spin"></div>
                     </div>
-
-                    {/* Form Fields */}
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm text-[#848E9C] mb-2">
-                          First Name
-                        </label>
-                        <input
-                          type="text"
-                          value={profileData.firstName}
-                          onChange={(e) =>
-                            setProfileData({
-                              ...profileData,
-                              firstName: e.target.value,
-                            })
-                          }
-                          className="w-full bg-[#0B0E11] border border-[#2B3139] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#F0B90B] transition-colors"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm text-[#848E9C] mb-2">
-                          Last Name
-                        </label>
-                        <input
-                          type="text"
-                          value={profileData.lastName}
-                          onChange={(e) =>
-                            setProfileData({
-                              ...profileData,
-                              lastName: e.target.value,
-                            })
-                          }
-                          className="w-full bg-[#0B0E11] border border-[#2B3139] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#F0B90B] transition-colors"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm text-[#848E9C] mb-2">
-                        Email Address
-                      </label>
-                      <div className="relative">
-                        <Mail
-                          size={20}
-                          className="absolute left-3 top-1/2 -translate-y-1/2 text-[#848E9C]"
-                        />
-                        <input
-                          type="email"
-                          value={profileData.email}
-                          onChange={(e) =>
-                            setProfileData({
-                              ...profileData,
-                              email: e.target.value,
-                            })
-                          }
-                          className="w-full bg-[#0B0E11] border border-[#2B3139] rounded-lg pl-10 pr-4 py-3 text-white focus:outline-none focus:border-[#F0B90B] transition-colors"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm text-[#848E9C] mb-2">
-                        Phone Number
-                      </label>
-                      <div className="relative">
-                        <Smartphone
-                          size={20}
-                          className="absolute left-3 top-1/2 -translate-y-1/2 text-[#848E9C]"
-                        />
-                        <input
-                          type="tel"
-                          value={profileData.phone}
-                          onChange={(e) =>
-                            setProfileData({
-                              ...profileData,
-                              phone: e.target.value,
-                            })
-                          }
-                          className="w-full bg-[#0B0E11] border border-[#2B3139] rounded-lg pl-10 pr-4 py-3 text-white focus:outline-none focus:border-[#F0B90B] transition-colors"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm text-[#848E9C] mb-2">
-                        Country
-                      </label>
-                      <div className="relative">
-                        <Globe
-                          size={20}
-                          className="absolute left-3 top-1/2 -translate-y-1/2 text-[#848E9C]"
-                        />
-                        <select
-                          value={profileData.country}
-                          onChange={(e) =>
-                            setProfileData({
-                              ...profileData,
-                              country: e.target.value,
-                            })
-                          }
-                          className="w-full bg-[#0B0E11] border border-[#2B3139] rounded-lg pl-10 pr-4 py-3 text-white focus:outline-none focus:border-[#F0B90B] transition-colors appearance-none"
-                        >
-                          <option>United States</option>
-                          <option>United Kingdom</option>
-                          <option>Canada</option>
-                          <option>Australia</option>
-                          <option>Germany</option>
-                          <option>France</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <button className="bg-[#F0B90B] text-[#0B0E11] px-6 py-3 rounded-lg font-semibold hover:bg-[#F8D12F] transition-all flex items-center gap-2">
-                      <Save size={20} />
-                      Save Changes
-                    </button>
                   </div>
-                </div>
+                ) : (
+                  <div className="bg-[#1E2329] border border-[#2B3139] rounded-xl p-6">
+                    <h2 className="text-2xl font-semibold mb-6">
+                      Profile Information
+                    </h2>
+
+                    <div className="space-y-6">
+                      {/* Profile Picture */}
+                      <div className="flex items-center gap-6">
+                        <div className="w-24 h-24 rounded-full bg-[#F0B90B]/10 flex items-center justify-center">
+                          <User size={48} className="text-[#F0B90B]" />
+                        </div>
+                      </div>
+
+                      {/* User Details */}
+                      <div className="space-y-4">
+                        <div>
+                          <label className="block text-sm text-[#848E9C] mb-2">
+                            Full Name
+                          </label>
+                          <div className="relative">
+                            <User
+                              size={20}
+                              className="absolute left-3 top-1/2 -translate-y-1/2 text-[#848E9C]"
+                            />
+                            <input
+                              type="text"
+                              value={profileData.fullName}
+                              readOnly
+                              className="w-full bg-[#0B0E11] border border-[#2B3139] rounded-lg pl-10 pr-4 py-3 text-white cursor-not-allowed"
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm text-[#848E9C] mb-2">
+                            Username
+                          </label>
+                          <div className="relative">
+                            <input
+                              type="text"
+                              value={profileData.username}
+                              readOnly
+                              className="w-full bg-[#0B0E11] border border-[#2B3139] rounded-lg px-4 py-3 text-white cursor-not-allowed"
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm text-[#848E9C] mb-2">
+                            Email Address
+                          </label>
+                          <div className="relative">
+                            <Mail
+                              size={20}
+                              className="absolute left-3 top-1/2 -translate-y-1/2 text-[#848E9C]"
+                            />
+                            <input
+                              type="email"
+                              value={profileData.email}
+                              readOnly
+                              className="w-full bg-[#0B0E11] border border-[#2B3139] rounded-lg pl-10 pr-4 py-3 text-white cursor-not-allowed"
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm text-[#848E9C] mb-2">
+                            Fiat Balance
+                          </label>
+                          <div className="relative">
+                            <CreditCard
+                              size={20}
+                              className="absolute left-3 top-1/2 -translate-y-1/2 text-[#848E9C]"
+                            />
+                            <input
+                              type="text"
+                              value={`$${profileData.fiatBalance.toFixed(2)}`}
+                              readOnly
+                              className="w-full bg-[#0B0E11] border border-[#2B3139] rounded-lg pl-10 pr-4 py-3 text-white cursor-not-allowed"
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm text-[#848E9C] mb-2">
+                            Account Created
+                          </label>
+                          <div className="relative">
+                            <input
+                              type="text"
+                              value={new Date(profileData.createdAt).toLocaleDateString()}
+                              readOnly
+                              className="w-full bg-[#0B0E11] border border-[#2B3139] rounded-lg px-4 py-3 text-white cursor-not-allowed"
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm text-[#848E9C] mb-2">
+                            Last Updated
+                          </label>
+                          <div className="relative">
+                            <input
+                              type="text"
+                              value={new Date(profileData.updatedAt).toLocaleDateString()}
+                              readOnly
+                              className="w-full bg-[#0B0E11] border border-[#2B3139] rounded-lg px-4 py-3 text-white cursor-not-allowed"
+                            />
+                          </div>
+                        </div>
+
+                        {/* Crypto Balances */}
+                        {Object.keys(profileData.cryptoBalances).length > 0 && (
+                          <div>
+                            <label className="block text-sm text-[#848E9C] mb-2">
+                              Crypto Balances
+                            </label>
+                            <div className="bg-[#0B0E11] border border-[#2B3139] rounded-lg p-4 space-y-3">
+                              {Object.entries(profileData.cryptoBalances).map(([symbol, balance]) => (
+                                <div key={symbol} className="flex justify-between items-center">
+                                  <span className="text-white font-medium">{symbol}</span>
+                                  <span className="text-[#F0B90B]">{balance.toFixed(8)}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 

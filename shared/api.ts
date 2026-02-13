@@ -9,6 +9,8 @@ export interface User {
   email: string;
   fullName: string;
   balance: number;
+  mobileNumber?: string;
+  cashtag?: string;
   createdAt: string;
   updatedAt: string;
 }

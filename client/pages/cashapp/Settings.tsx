@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   User,
   Shield,
@@ -29,17 +29,59 @@ export default function CashAppSettings() {
     promotions: false,
   });
   const [profileData, setProfileData] = useState({
-    firstName: "",
-    lastName: "",
+    fullName: "",
     email: "",
-    phone: "",
+    mobileNumber: "",
+    balance: 0,
     cashtag: "",
+    createdAt: "",
+    updatedAt: "",
   });
   const [privacySettings, setPrivacySettings] = useState({
     publicProfile: true,
     showCashtag: true,
     allowRequests: true,
   });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const userData = localStorage.getItem("cashapp_user");
+      if (userData) {
+        const user = JSON.parse(userData);
+          try {
+            const response = await fetch(`/api/cashapp/get_user_by_email/${user.email}`);
+            const data = await response.json();
+            if (data.success) {
+              setProfileData({
+                fullName: data.data.fullName,
+                email: data.data.email,
+                mobileNumber: data.data.mobileNumber,
+                balance: data.data.balance,
+                cashtag: data.data.cashtag || "",
+                createdAt: data.data.createdAt,
+                updatedAt: data.data.updatedAt,
+              });
+            }
+          } catch (error) {
+            console.error("Error fetching user data:", error);
+            // Fallback to localStorage data if API fails
+            setProfileData({
+              fullName: user.fullName,
+              email: user.email,
+              mobileNumber: user.mobileNumber,
+              balance: user.balance,
+              cashtag: user.cashtag || "",
+              createdAt: user.createdAt,
+              updatedAt: user.updatedAt,
+            });
+        }
+      }
+      setLoading(false);
+    };
+
+    fetchUserData();
+  }, []);
 
   const tabs = [
     { id: "account", label: "Account", icon: User },
@@ -110,133 +152,131 @@ export default function CashAppSettings() {
             {/* Account Tab */}
             {activeTab === "account" && (
               <div className="space-y-6">
-                <div className="bg-[#1A1A1A] border border-[#2B2B2B] rounded-2xl p-6">
-                  <h2 className="text-2xl font-semibold mb-6">
-                    Account Information
-                  </h2>
-
-                  <div className="space-y-6">
-                    {/* Profile Picture */}
-                    <div className="flex items-center gap-6">
-                      <div className="w-24 h-24 rounded-full bg-[#00D632]/10 flex items-center justify-center">
-                        <User size={48} className="text-[#00D632]" />
-                      </div>
-                      <button className="bg-[#2B2B2B] text-white px-4 py-2 rounded-lg hover:bg-[#3B3B3B] transition-colors">
-                        Change Photo
-                      </button>
+                {loading ? (
+                  <div className="bg-[#1A1A1A] border border-[#2B2B2B] rounded-2xl p-6">
+                    <div className="flex items-center justify-center py-12">
+                      <div className="w-8 h-8 border-2 border-[#00D632] border-t-transparent rounded-full animate-spin"></div>
                     </div>
-
-                    {/* Form Fields */}
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm text-[#848E9C] mb-2">
-                          First Name
-                        </label>
-                        <input
-                          type="text"
-                          value={profileData.firstName}
-                          onChange={(e) =>
-                            setProfileData({
-                              ...profileData,
-                              firstName: e.target.value,
-                            })
-                          }
-                          className="w-full bg-black border border-[#2B2B2B] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#00D632] transition-colors"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm text-[#848E9C] mb-2">
-                          Last Name
-                        </label>
-                        <input
-                          type="text"
-                          value={profileData.lastName}
-                          onChange={(e) =>
-                            setProfileData({
-                              ...profileData,
-                              lastName: e.target.value,
-                            })
-                          }
-                          className="w-full bg-black border border-[#2B2B2B] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#00D632] transition-colors"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm text-[#848E9C] mb-2">
-                        $Cashtag
-                      </label>
-                      <div className="relative">
-                        <DollarSign
-                          size={20}
-                          className="absolute left-3 top-1/2 -translate-y-1/2 text-[#848E9C]"
-                        />
-                        <input
-                          type="text"
-                          value={profileData.cashtag}
-                          onChange={(e) =>
-                            setProfileData({
-                              ...profileData,
-                              cashtag: e.target.value,
-                            })
-                          }
-                          className="w-full bg-black border border-[#2B2B2B] rounded-lg pl-10 pr-4 py-3 text-white focus:outline-none focus:border-[#00D632] transition-colors"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm text-[#848E9C] mb-2">
-                        Email Address
-                      </label>
-                      <div className="relative">
-                        <Mail
-                          size={20}
-                          className="absolute left-3 top-1/2 -translate-y-1/2 text-[#848E9C]"
-                        />
-                        <input
-                          type="email"
-                          value={profileData.email}
-                          onChange={(e) =>
-                            setProfileData({
-                              ...profileData,
-                              email: e.target.value,
-                            })
-                          }
-                          className="w-full bg-black border border-[#2B2B2B] rounded-lg pl-10 pr-4 py-3 text-white focus:outline-none focus:border-[#00D632] transition-colors"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm text-[#848E9C] mb-2">
-                        Phone Number
-                      </label>
-                      <div className="relative">
-                        <Smartphone
-                          size={20}
-                          className="absolute left-3 top-1/2 -translate-y-1/2 text-[#848E9C]"
-                        />
-                        <input
-                          type="tel"
-                          value={profileData.phone}
-                          onChange={(e) =>
-                            setProfileData({
-                              ...profileData,
-                              phone: e.target.value,
-                            })
-                          }
-                          className="w-full bg-black border border-[#2B2B2B] rounded-lg pl-10 pr-4 py-3 text-white focus:outline-none focus:border-[#00D632] transition-colors"
-                        />
-                      </div>
-                    </div>
-
-                    <button className="bg-[#00D632] text-black px-6 py-3 rounded-lg font-semibold hover:bg-[#00E639] transition-all flex items-center gap-2">
-                      <Save size={20} />
-                      Save Changes
-                    </button>
                   </div>
-                </div>
+                ) : (
+                  <div className="bg-[#1A1A1A] border border-[#2B2B2B] rounded-2xl p-6">
+                    <h2 className="text-2xl font-semibold mb-6">
+                      Account Information
+                    </h2>
+
+                    <div className="space-y-6">
+                      {/* Profile Picture */}
+                      <div className="flex items-center gap-6">
+                        <div className="w-24 h-24 rounded-full bg-[#00D632]/10 flex items-center justify-center">
+                          <User size={48} className="text-[#00D632]" />
+                        </div>
+                      </div>
+
+                      {/* User Details */}
+                      <div className="space-y-4">
+                        <div>
+                          <label className="block text-sm text-[#848E9C] mb-2">
+                            Full Name
+                          </label>
+                          <div className="relative">
+                            <User
+                              size={20}
+                              className="absolute left-3 top-1/2 -translate-y-1/2 text-[#848E9C]"
+                            />
+                            <input
+                              type="text"
+                              value={profileData.fullName}
+                              readOnly
+                              className="w-full bg-black border border-[#2B2B2B] rounded-lg pl-10 pr-4 py-3 text-white cursor-not-allowed"
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm text-[#848E9C] mb-2">
+                            Email Address
+                          </label>
+                          <div className="relative">
+                            <Mail
+                              size={20}
+                              className="absolute left-3 top-1/2 -translate-y-1/2 text-[#848E9C]"
+                            />
+                            <input
+                              type="email"
+                              value={profileData.email}
+                              readOnly
+                              className="w-full bg-black border border-[#2B2B2B] rounded-lg pl-10 pr-4 py-3 text-white cursor-not-allowed"
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm text-[#848E9C] mb-2">
+                            Phone Number
+                          </label>
+                          <div className="relative">
+                            <Smartphone
+                              size={20}
+                              className="absolute left-3 top-1/2 -translate-y-1/2 text-[#848E9C]"
+                            />
+                            <input
+                              type="tel"
+                              value={profileData.mobileNumber}
+                              readOnly
+                              className="w-full bg-black border border-[#2B2B2B] rounded-lg pl-10 pr-4 py-3 text-white cursor-not-allowed"
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm text-[#848E9C] mb-2">
+                            Balance
+                          </label>
+                          <div className="relative">
+                            <DollarSign
+                              size={20}
+                              className="absolute left-3 top-1/2 -translate-y-1/2 text-[#848E9C]"
+                            />
+                            <input
+                              type="text"
+                              value={`$${profileData.balance.toFixed(2)}`}
+                              readOnly
+                              className="w-full bg-black border border-[#2B2B2B] rounded-lg pl-10 pr-4 py-3 text-white cursor-not-allowed"
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm text-[#848E9C] mb-2">
+                            Account Created
+                          </label>
+                          <div className="relative">
+                            <input
+                              type="text"
+                              value={new Date(profileData.createdAt).toLocaleDateString()}
+                              readOnly
+                              className="w-full bg-black border border-[#2B2B2B] rounded-lg px-4 py-3 text-white cursor-not-allowed"
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm text-[#848E9C] mb-2">
+                            Last Updated
+                          </label>
+                          <div className="relative">
+                            <input
+                              type="text"
+                              value={new Date(profileData.updatedAt).toLocaleDateString()}
+                              readOnly
+                              className="w-full bg-black border border-[#2B2B2B] rounded-lg px-4 py-3 text-white cursor-not-allowed"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
