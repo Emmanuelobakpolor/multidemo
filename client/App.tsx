@@ -34,6 +34,9 @@ import BinanceSettings from "./pages/binance/Settings";
 import BinanceMarkets from "./pages/binance/Markets";
 import BinanceTrade from "./pages/binance/Trade";
 import BinanceHelp from "./pages/binance/Help";
+import BinanceEarn from "./pages/binance/Earn";
+import BinanceSecurity from "./pages/binance/Security";
+import BinanceSupport from "./pages/binance/Support";
 
 // PayPal Pages
 import PayPalanding from "./pages/paypal/Landing";
@@ -99,6 +102,9 @@ function AnimatedRoutes() {
           <Route path="/binance/markets" element={<BinanceMarkets />} />
           <Route path="/binance/trade" element={<BinanceTrade />} />
           <Route path="/binance/help" element={<BinanceHelp />} />
+          <Route path="/binance/earn" element={<BinanceEarn />} />
+          <Route path="/binance/security" element={<BinanceSecurity />} />
+          <Route path="/binance/support" element={<BinanceSupport />} />
           <Route path="/binance/admin/login" element={<BinanceAdminLogin />} />
           <Route path="/binance/admin/dashboard" element={<BinanceAdminDashboard />} />
 

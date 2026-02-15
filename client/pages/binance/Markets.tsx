@@ -182,11 +182,13 @@ const BinanceMarkets = () => {
                   <img src="/images/download.png" alt="Binance Logo" className="w-20 h-auto" />
                 </a>
                 
-                <div className="hidden lg:flex items-center gap-6 text-sm">
+                 <div className="hidden lg:flex items-center gap-6 text-sm">
                   <a href="/binance/dashboard" className="text-[#EAECEF] hover:text-[#F0B90B] transition-colors font-medium">Dashboard</a>
                   <a href="/binance/markets" className="text-[#F0B90B] hover:text-[#F8D12F] transition-colors font-medium">Markets</a>
                   <a href="/binance/trade" className="text-[#EAECEF] hover:text-[#F0B90B] transition-colors">Trade</a>
-                  <a href="#" className="text-[#EAECEF] hover:text-[#F0B90B] transition-colors">Earn</a>
+                  <a href="/binance/earn" className="text-[#EAECEF] hover:text-[#F0B90B] transition-colors">Earn</a>
+                  <a href="/binance/security" className="text-[#EAECEF] hover:text-[#F0B90B] transition-colors">Security</a>
+                  <a href="/binance/support" className="text-[#EAECEF] hover:text-[#F0B90B] transition-colors">Support</a>
                   <a href="/binance/settings" className="text-[#EAECEF] hover:text-[#F0B90B] transition-colors">Settings</a>
                 </div>
               </div>

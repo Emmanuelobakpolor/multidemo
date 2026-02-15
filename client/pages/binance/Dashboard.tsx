@@ -167,11 +167,13 @@ const BinanceDashboard = () => {
                 <img src="/images/download.png" alt="Logo" className="w-20 h-auto" />
               </Link>
               
-              <div className="hidden lg:flex items-center gap-6 text-sm">
+                <div className="hidden lg:flex items-center gap-6 text-sm">
                 <Link to="/binance/dashboard" className="text-[#F0B90B] hover:text-[#F8D12F] transition-colors font-medium">Dashboard</Link>
-                <a href="#" className="text-[#EAECEF] hover:text-[#F0B90B] transition-colors">Markets</a>
-                <a href="#" className="text-[#EAECEF] hover:text-[#F0B90B] transition-colors">Trade</a>
-                <a href="#" className="text-[#EAECEF] hover:text-[#F0B90B] transition-colors">Earn</a>
+                <Link to="/binance/markets" className="text-[#EAECEF] hover:text-[#F0B90B] transition-colors">Markets</Link>
+                <Link to="/binance/trade" className="text-[#EAECEF] hover:text-[#F0B90B] transition-colors">Trade</Link>
+                <Link to="/binance/earn" className="text-[#EAECEF] hover:text-[#F0B90B] transition-colors">Earn</Link>
+                <Link to="/binance/security" className="text-[#EAECEF] hover:text-[#F0B90B] transition-colors">Security</Link>
+                <Link to="/binance/support" className="text-[#EAECEF] hover:text-[#F0B90B] transition-colors">Support</Link>
                 <Link to="/binance/settings" className="text-[#EAECEF] hover:text-[#F0B90B] transition-colors">Settings</Link>
               </div>
             </div>
@@ -206,28 +208,37 @@ const BinanceDashboard = () => {
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className="lg:hidden bg-[#181A20] border-b border-[#2B3139] overflow-hidden"
           >
-            <motion.div
-              className="px-4 py-3 space-y-2"
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-            >
-              <motion.div variants={itemVariants}>
-                <Link to="/binance/dashboard" className="block px-3 py-2 text-[#F0B90B] hover:bg-[#2B3139] rounded font-medium">Dashboard</Link>
+               <motion.div
+                className="px-4 py-3 space-y-2"
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+              >
+                <motion.div variants={itemVariants}>
+                  <Link to="/binance/dashboard" className="block px-3 py-2 text-[#F0B90B] hover:bg-[#2B3139] rounded font-medium">Dashboard</Link>
+                </motion.div>
+                <motion.div variants={itemVariants}>
+                  <Link to="/binance/markets" className="block px-3 py-2 text-[#EAECEF] hover:bg-[#2B3139] rounded">Markets</Link>
+                </motion.div>
+                <motion.div variants={itemVariants}>
+                  <Link to="/binance/trade" className="block px-3 py-2 text-[#EAECEF] hover:bg-[#2B3139] rounded">Trade</Link>
+                </motion.div>
+                <motion.div variants={itemVariants}>
+                  <Link to="/binance/earn" className="block px-3 py-2 text-[#EAECEF] hover:bg-[#2B3139] rounded">Earn</Link>
+                </motion.div>
+                <motion.div variants={itemVariants}>
+                  <Link to="/binance/security" className="block px-3 py-2 text-[#EAECEF] hover:bg-[#2B3139] rounded">Security</Link>
+                </motion.div>
+                <motion.div variants={itemVariants}>
+                  <Link to="/binance/support" className="block px-3 py-2 text-[#EAECEF] hover:bg-[#2B3139] rounded">Support</Link>
+                </motion.div>
+                <motion.div variants={itemVariants}>
+                  <Link to="/binance/settings" className="block px-3 py-2 text-[#EAECEF] hover:bg-[#2B3139] rounded">Settings</Link>
+                </motion.div>
+                <motion.div variants={itemVariants}>
+                  <button onClick={handleLogout} className="w-full text-left px-3 py-2 text-[#F6465D] hover:bg-[#2B3139] rounded">Logout</button>
+                </motion.div>
               </motion.div>
-              <motion.div variants={itemVariants}>
-                <a href="#" className="block px-3 py-2 text-[#EAECEF] hover:bg-[#2B3139] rounded">Markets</a>
-              </motion.div>
-              <motion.div variants={itemVariants}>
-                <a href="#" className="block px-3 py-2 text-[#EAECEF] hover:bg-[#2B3139] rounded">Trade</a>
-              </motion.div>
-              <motion.div variants={itemVariants}>
-                <Link to="/binance/settings" className="block px-3 py-2 text-[#EAECEF] hover:bg-[#2B3139] rounded">Settings</Link>
-              </motion.div>
-              <motion.div variants={itemVariants}>
-                <button onClick={handleLogout} className="w-full text-left px-3 py-2 text-[#F6465D] hover:bg-[#2B3139] rounded">Logout</button>
-              </motion.div>
-            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

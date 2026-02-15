@@ -489,6 +489,498 @@ def toggle_chat(request, userId):
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
 
+# Staking endpoints
+@api_view(['GET'])
+def get_staking_products(request):
+    """
+    Get available staking products
+    """
+    try:
+        staking_products = [
+            {
+                'id': 'stake-1',
+                'name': 'Bitcoin',
+                'symbol': 'BTC',
+                'apy': 4.5,
+                'minAmount': 0.001,
+                'duration': 30,
+                'type': 'locked',
+                'risk': 'low',
+                'icon': 'https://assets.coingecko.com/coins/images/1/large/bitcoin.png',
+                'totalStaked': 12500,
+                'available': True,
+            },
+            {
+                'id': 'stake-2',
+                'name': 'Ethereum',
+                'symbol': 'ETH',
+                'apy': 3.8,
+                'minAmount': 0.01,
+                'duration': 0,
+                'type': 'flexible',
+                'risk': 'low',
+                'icon': 'https://assets.coingecko.com/coins/images/279/large/ethereum.png',
+                'totalStaked': 85000,
+                'available': True,
+            },
+            {
+                'id': 'stake-3',
+                'name': 'BNB',
+                'symbol': 'BNB',
+                'apy': 5.2,
+                'minAmount': 1,
+                'duration': 90,
+                'type': 'locked',
+                'risk': 'medium',
+                'icon': 'https://assets.coingecko.com/coins/images/825/large/bnb-icon2_2x.png',
+                'totalStaked': 150000,
+                'available': True,
+            },
+            {
+                'id': 'stake-4',
+                'name': 'Solana',
+                'symbol': 'SOL',
+                'apy': 6.8,
+                'minAmount': 0.5,
+                'duration': 60,
+                'type': 'locked',
+                'risk': 'high',
+                'icon': 'https://assets.coingecko.com/coins/images/4128/large/solana.png',
+                'totalStaked': 250000,
+                'available': True,
+            },
+        ]
+        
+        return Response({'success': True, 'data': staking_products})
+    except Exception as e:
+        return Response(
+            {'success': False, 'error': str(e)},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+@api_view(['POST'])
+def stake_crypto(request, email):
+    """
+    Stake crypto for a user
+    """
+    try:
+        cryptoSymbol = request.data.get('cryptoSymbol')
+        amount = request.data.get('amount')
+        duration = request.data.get('duration', 0)
+        
+        user = User.objects.filter(email=email).first()
+        if not user:
+            return Response(
+                {'success': False, 'error': 'User not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+            
+        account = UserAccount.objects.filter(user=user, platform__name='Binance').first()
+        if not account:
+            return Response(
+                {'success': False, 'error': 'Binance account not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+            
+        crypto_wallet = CryptoWallet.objects.filter(account=account, crypto_currency__symbol=cryptoSymbol).first()
+        if not crypto_wallet:
+            return Response(
+                {'success': False, 'error': 'Crypto wallet not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+            
+        if crypto_wallet.balance < decimal.Decimal(amount):
+            return Response(
+                {'success': False, 'error': 'Insufficient balance'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+            
+        # Simulate staking by deducting from wallet
+        crypto_wallet.balance -= decimal.Decimal(amount)
+        crypto_wallet.save()
+        
+        Transaction.objects.create(
+            account=account,
+            crypto_wallet=crypto_wallet,
+            amount=amount,
+            transaction_type='crypto_staked',
+            status='completed',
+            reason=f'Staked {amount} {cryptoSymbol} for {duration} days',
+            recipient='staking_contract'
+        )
+        
+        return Response({'success': True, 'message': f'{amount} {cryptoSymbol} staked successfully'})
+    except Exception as e:
+        return Response(
+            {'success': False, 'error': str(e)},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+# Savings endpoints
+@api_view(['GET'])
+def get_savings_products(request):
+    """
+    Get available savings products
+    """
+    try:
+        savings_products = [
+            {
+                'id': 'savings-1',
+                'name': 'Tether',
+                'symbol': 'USDT',
+                'apy': 2.5,
+                'minAmount': 10,
+                'duration': 0,
+                'type': 'flexible',
+                'risk': 'low',
+                'icon': 'https://assets.coingecko.com/coins/images/325/large/Tether.png',
+                'totalInvested': 5000000,
+                'available': True,
+            },
+            {
+                'id': 'savings-2',
+                'name': 'USD Coin',
+                'symbol': 'USDC',
+                'apy': 2.8,
+                'minAmount': 10,
+                'duration': 0,
+                'type': 'flexible',
+                'risk': 'low',
+                'icon': 'https://assets.coingecko.com/coins/images/6319/large/USD_Coin_icon.png',
+                'totalInvested': 2500000,
+                'available': True,
+            },
+            {
+                'id': 'savings-3',
+                'name': 'Binance USD',
+                'symbol': 'BUSD',
+                'apy': 3.2,
+                'minAmount': 10,
+                'duration': 0,
+                'type': 'flexible',
+                'risk': 'low',
+                'icon': 'https://assets.coingecko.com/coins/images/9576/large/BUSD.png',
+                'totalInvested': 1800000,
+                'available': True,
+            },
+        ]
+        
+        return Response({'success': True, 'data': savings_products})
+    except Exception as e:
+        return Response(
+            {'success': False, 'error': str(e)},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+@api_view(['POST'])
+def invest_savings(request, email):
+    """
+    Invest in savings product
+    """
+    try:
+        cryptoSymbol = request.data.get('cryptoSymbol')
+        amount = request.data.get('amount')
+        
+        user = User.objects.filter(email=email).first()
+        if not user:
+            return Response(
+                {'success': False, 'error': 'User not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+            
+        account = UserAccount.objects.filter(user=user, platform__name='Binance').first()
+        if not account:
+            return Response(
+                {'success': False, 'error': 'Binance account not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+            
+        crypto_wallet = CryptoWallet.objects.filter(account=account, crypto_currency__symbol=cryptoSymbol).first()
+        if not crypto_wallet:
+            return Response(
+                {'success': False, 'error': 'Crypto wallet not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+            
+        if crypto_wallet.balance < decimal.Decimal(amount):
+            return Response(
+                {'success': False, 'error': 'Insufficient balance'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+            
+        # Simulate investment by deducting from wallet
+        crypto_wallet.balance -= decimal.Decimal(amount)
+        crypto_wallet.save()
+        
+        Transaction.objects.create(
+            account=account,
+            crypto_wallet=crypto_wallet,
+            amount=amount,
+            transaction_type='crypto_invested',
+            status='completed',
+            reason=f'Invested {amount} {cryptoSymbol} in savings',
+            recipient='savings_contract'
+        )
+        
+        return Response({'success': True, 'message': f'{amount} {cryptoSymbol} invested successfully'})
+    except Exception as e:
+        return Response(
+            {'success': False, 'error': str(e)},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+# Security endpoints
+@api_view(['POST'])
+def toggle_two_factor(request, email):
+    """
+    Toggle two-factor authentication
+    """
+    try:
+        user = User.objects.filter(email=email).first()
+        if not user:
+            return Response(
+                {'success': False, 'error': 'User not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+            
+        account = UserAccount.objects.filter(user=user, platform__name='Binance').first()
+        if not account:
+            return Response(
+                {'success': False, 'error': 'Binance account not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+            
+        # This is a placeholder - actual implementation would require 2FA logic
+        # For now, we'll just return success
+        return Response({'success': True, 'message': '2FA toggle functionality'})
+    except Exception as e:
+        return Response(
+            {'success': False, 'error': str(e)},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+@api_view(['POST'])
+def add_whitelist_address(request, email):
+    """
+    Add whitelist address
+    """
+    try:
+        cryptoSymbol = request.data.get('cryptoSymbol')
+        address = request.data.get('address')
+        label = request.data.get('label', '')
+        
+        user = User.objects.filter(email=email).first()
+        if not user:
+            return Response(
+                {'success': False, 'error': 'User not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+            
+        account = UserAccount.objects.filter(user=user, platform__name='Binance').first()
+        if not account:
+            return Response(
+                {'success': False, 'error': 'Binance account not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+            
+        # This is a placeholder - actual implementation would store whitelist addresses
+        return Response({'success': True, 'message': f'Address {address} added to whitelist'})
+    except Exception as e:
+        return Response(
+            {'success': False, 'error': str(e)},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+@api_view(['GET'])
+def get_whitelist_addresses(request, email):
+    """
+    Get whitelist addresses for user
+    """
+    try:
+        user = User.objects.filter(email=email).first()
+        if not user:
+            return Response(
+                {'success': False, 'error': 'User not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+            
+        account = UserAccount.objects.filter(user=user, platform__name='Binance').first()
+        if not account:
+            return Response(
+                {'success': False, 'error': 'Binance account not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+            
+        # This is a placeholder - actual implementation would fetch from database
+        whitelist_addresses = [
+            {
+                'id': '1',
+                'crypto': 'BTC',
+                'address': 'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh',
+                'label': 'My Bitcoin Wallet',
+                'addedDate': '2024-02-10',
+                'status': 'active',
+            },
+            {
+                'id': '2',
+                'crypto': 'ETH',
+                'address': '0x742d35Cc6634C0532925a3b885B6b99a1Dd32086',
+                'label': 'My Ethereum Wallet',
+                'addedDate': '2024-02-11',
+                'status': 'active',
+            },
+        ]
+        
+        return Response({'success': True, 'data': whitelist_addresses})
+    except Exception as e:
+        return Response(
+            {'success': False, 'error': str(e)},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+# Support endpoints
+@api_view(['GET'])
+def get_faqs(request):
+    """
+    Get frequently asked questions
+    """
+    try:
+        faqs = [
+            {
+                'id': '1',
+                'category': 'account',
+                'question': 'How do I reset my password?',
+                'answer': 'To reset your password, go to the login page and click "Forgot Password". We\'ll send you a reset link to your registered email address. Make sure to check your spam folder if you don\'t see the email within 5 minutes.',
+                'views': 12500,
+            },
+            {
+                'id': '2',
+                'category': 'security',
+                'question': 'How do I enable two-factor authentication?',
+                'answer': 'You can enable two-factor authentication (2FA) from your Security settings page. We support Google Authenticator and SMS verification. We recommend using Google Authenticator for higher security.',
+                'views': 8900,
+            },
+            {
+                'id': '3',
+                'category': 'deposit',
+                'question': 'How long does it take to receive my deposit?',
+                'answer': 'Deposit times vary by cryptocurrency and network congestion. Bitcoin deposits typically take 1-3 confirmations (approximately 10-30 minutes), while Ethereum deposits usually take 12-18 confirmations (approximately 5-10 minutes).',
+                'views': 6700,
+            },
+            {
+                'id': '4',
+                'category': 'withdrawal',
+                'question': 'What are the withdrawal fees?',
+                'answer': 'Withdrawal fees vary by cryptocurrency. Bitcoin withdrawals cost 0.0005 BTC, Ethereum withdrawals cost 0.01 ETH, and stablecoin withdrawals cost $0.10. Fees are subject to change based on network conditions.',
+                'views': 9200,
+            },
+            {
+                'id': '5',
+                'category': 'trading',
+                'question': 'How do I place a trade on Binance?',
+                'answer': 'To place a trade, go to the Trade page, select your desired trading pair, and choose your order type (Market, Limit, or Stop-Limit). Enter the amount you want to trade and click Buy or Sell.',
+                'views': 15300,
+            },
+        ]
+        
+        return Response({'success': True, 'data': faqs})
+    except Exception as e:
+        return Response(
+            {'success': False, 'error': str(e)},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+@api_view(['POST'])
+def create_support_ticket(request, email):
+    """
+    Create a support ticket
+    """
+    try:
+        subject = request.data.get('subject')
+        category = request.data.get('category')
+        description = request.data.get('description')
+        attachments = request.data.get('attachments', [])
+        
+        user = User.objects.filter(email=email).first()
+        if not user:
+            return Response(
+                {'success': False, 'error': 'User not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+            
+        account = UserAccount.objects.filter(user=user, platform__name='Binance').first()
+        if not account:
+            return Response(
+                {'success': False, 'error': 'Binance account not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+            
+        # This is a placeholder - actual implementation would store support tickets
+        return Response({'success': True, 'message': 'Support ticket created successfully'})
+    except Exception as e:
+        return Response(
+            {'success': False, 'error': str(e)},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+@api_view(['GET'])
+def get_support_tickets(request, email):
+    """
+    Get support tickets for user
+    """
+    try:
+        user = User.objects.filter(email=email).first()
+        if not user:
+            return Response(
+                {'success': False, 'error': 'User not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+            
+        account = UserAccount.objects.filter(user=user, platform__name='Binance').first()
+        if not account:
+            return Response(
+                {'success': False, 'error': 'Binance account not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+            
+        # This is a placeholder - actual implementation would fetch from database
+        tickets = [
+            {
+                'id': '1',
+                'subject': 'Deposit not showing in my account',
+                'category': 'deposit',
+                'status': 'open',
+                'priority': 'high',
+                'date': '2024-02-14',
+                'lastUpdated': '2024-02-14 10:30 AM',
+            },
+            {
+                'id': '2',
+                'subject': 'Password reset not working',
+                'category': 'account',
+                'status': 'pending',
+                'priority': 'medium',
+                'date': '2024-02-13',
+                'lastUpdated': '2024-02-13 08:45 PM',
+            },
+            {
+                'id': '3',
+                'subject': 'Withdrawal failed',
+                'category': 'withdrawal',
+                'status': 'closed',
+                'priority': 'high',
+                'date': '2024-02-12',
+                'lastUpdated': '2024-02-12 03:20 PM',
+            },
+        ]
+        
+        return Response({'success': True, 'data': tickets})
+    except Exception as e:
+        return Response(
+            {'success': False, 'error': str(e)},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
 @api_view(['GET'])
 def get_chat_status(request, email):
     """

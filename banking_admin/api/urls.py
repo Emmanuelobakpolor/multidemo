@@ -57,6 +57,20 @@ urlpatterns = [
     path('binance/chat/history/<str:email>/', binance_views.get_chat_history),
     path('binance/chat/unread/<str:email>/', binance_views.get_unread_messages),
     path('binance/chat/mark-read/<str:email>/', binance_views.mark_messages_read),
+    # Binance Staking endpoints
+    path('binance/staking/products', binance_views.get_staking_products),
+    path('binance/user/<str:email>/stake', binance_views.stake_crypto),
+    # Binance Savings endpoints
+    path('binance/savings/products', binance_views.get_savings_products),
+    path('binance/user/<str:email>/invest', binance_views.invest_savings),
+    # Binance Security endpoints
+    path('binance/user/<str:email>/toggle-2fa', binance_views.toggle_two_factor),
+    path('binance/user/<str:email>/whitelist', binance_views.add_whitelist_address),
+    path('binance/user/<str:email>/whitelist/addresses', binance_views.get_whitelist_addresses),
+    # Binance Support endpoints
+    path('binance/support/faqs', binance_views.get_faqs),
+    path('binance/user/<str:email>/support/ticket', binance_views.create_support_ticket),
+    path('binance/user/<str:email>/support/tickets', binance_views.get_support_tickets),
     # GCash API endpoints
     path('gcash/register', gcash_views.register),
     path('gcash/register-admin', gcash_views.register_admin),
