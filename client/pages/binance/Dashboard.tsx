@@ -317,42 +317,50 @@ const BinanceDashboard = () => {
 
             {/* Quick Actions */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6 pt-6 border-t border-[#2B3139]">
-              <motion.button
-                whileHover={prefersReducedMotion ? {} : { scale: 1.05, y: -2 }}
-                whileTap={prefersReducedMotion ? {} : { scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                className="flex flex-col items-center gap-2 p-3 bg-[#0B0E11] hover:bg-[#2B3139] rounded transition-colors"
-              >
-                <Send className="w-5 h-5 text-[#F0B90B]" />
-                <span className="text-xs text-[#EAECEF]">Transfer</span>
-              </motion.button>
-              <motion.button
-                whileHover={prefersReducedMotion ? {} : { scale: 1.05, y: -2 }}
-                whileTap={prefersReducedMotion ? {} : { scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                className="flex flex-col items-center gap-2 p-3 bg-[#0B0E11] hover:bg-[#2B3139] rounded transition-colors"
-              >
-                <TrendingUp className="w-5 h-5 text-[#F0B90B]" />
-                <span className="text-xs text-[#EAECEF]">Trade</span>
-              </motion.button>
-              <motion.button
-                whileHover={prefersReducedMotion ? {} : { scale: 1.05, y: -2 }}
-                whileTap={prefersReducedMotion ? {} : { scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                className="flex flex-col items-center gap-2 p-3 bg-[#0B0E11] hover:bg-[#2B3139] rounded transition-colors"
-              >
-                <Wallet className="w-5 h-5 text-[#F0B90B]" />
-                <span className="text-xs text-[#EAECEF]">Earn</span>
-              </motion.button>
-              <motion.button
-                whileHover={prefersReducedMotion ? {} : { scale: 1.05, y: -2 }}
-                whileTap={prefersReducedMotion ? {} : { scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                className="flex flex-col items-center gap-2 p-3 bg-[#0B0E11] hover:bg-[#2B3139] rounded transition-colors"
-              >
-                <Clock className="w-5 h-5 text-[#F0B90B]" />
-                <span className="text-xs text-[#EAECEF]">History</span>
-              </motion.button>
+              <Link to="/binance/send">
+                <motion.button
+                  whileHover={prefersReducedMotion ? {} : { scale: 1.05, y: -2 }}
+                  whileTap={prefersReducedMotion ? {} : { scale: 0.95 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                  className="flex flex-col items-center gap-2 p-3 bg-[#0B0E11] hover:bg-[#2B3139] rounded transition-colors w-full"
+                >
+                  <Send className="w-5 h-5 text-[#F0B90B]" />
+                  <span className="text-xs text-[#EAECEF]">Transfer</span>
+                </motion.button>
+              </Link>
+              <Link to="/binance/trade">
+                <motion.button
+                  whileHover={prefersReducedMotion ? {} : { scale: 1.05, y: -2 }}
+                  whileTap={prefersReducedMotion ? {} : { scale: 0.95 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                  className="flex flex-col items-center gap-2 p-3 bg-[#0B0E11] hover:bg-[#2B3139] rounded transition-colors w-full"
+                >
+                  <TrendingUp className="w-5 h-5 text-[#F0B90B]" />
+                  <span className="text-xs text-[#EAECEF]">Trade</span>
+                </motion.button>
+              </Link>
+              <Link to="/binance/earn">
+                <motion.button
+                  whileHover={prefersReducedMotion ? {} : { scale: 1.05, y: -2 }}
+                  whileTap={prefersReducedMotion ? {} : { scale: 0.95 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                  className="flex flex-col items-center gap-2 p-3 bg-[#0B0E11] hover:bg-[#2B3139] rounded transition-colors w-full"
+                >
+                  <Wallet className="w-5 h-5 text-[#F0B90B]" />
+                  <span className="text-xs text-[#EAECEF]">Earn</span>
+                </motion.button>
+              </Link>
+              <Link to="/binance/security">
+                <motion.button
+                  whileHover={prefersReducedMotion ? {} : { scale: 1.05, y: -2 }}
+                  whileTap={prefersReducedMotion ? {} : { scale: 0.95 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                  className="flex flex-col items-center gap-2 p-3 bg-[#0B0E11] hover:bg-[#2B3139] rounded transition-colors w-full"
+                >
+                  <Clock className="w-5 h-5 text-[#F0B90B]" />
+                  <span className="text-xs text-[#EAECEF]">Security</span>
+                </motion.button>
+              </Link>
             </div>
           </div>
         </div>
