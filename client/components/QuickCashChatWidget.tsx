@@ -30,7 +30,7 @@ const QuickCashChatWidget: React.FC<QuickCashChatWidgetProps> = ({ user, isOpen,
 
   const fetchChatHistory = async () => {
     try {
-      const response = await fetch(`/api/quickcash/chat/history/${user.email}/`);
+      const response = await fetch(`/api/cashapp/chat/history/${user.email}/`);
       const data = await response.json();
       
       if (data.success) {
@@ -44,7 +44,7 @@ const QuickCashChatWidget: React.FC<QuickCashChatWidgetProps> = ({ user, isOpen,
 
   const markMessagesRead = async () => {
     try {
-      await fetch(`/api/quickcash/chat/mark-read/${user.email}/`, {
+      await fetch(`/api/cashapp/chat/mark-read/${user.email}/`, {
         method: "POST",
       });
     } catch (error) {
@@ -59,11 +59,11 @@ const QuickCashChatWidget: React.FC<QuickCashChatWidgetProps> = ({ user, isOpen,
     try {
       const request: SendMessageRequest = {
         sender_email: user.email,
-        receiver_email: "admin@quickcash.com", // Admin email
+        receiver_email: "admin@cashapp.com", // Admin email
         message: newMessage.trim()
       };
 
-      const response = await fetch("/api/quickcash/chat/send/", {
+      const response = await fetch("/api/cashapp/chat/send/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

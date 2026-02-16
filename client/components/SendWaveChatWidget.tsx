@@ -30,7 +30,7 @@ const SendWaveChatWidget: React.FC<ChatWidgetProps> = ({ user, isOpen, onClose }
 
   const fetchChatHistory = async () => {
     try {
-      const response = await fetch(`/api/sendwave/chat/history/${user.email}/`);
+      const response = await fetch(`/api/gcash/chat/history/${user.email}/`);
       const data = await response.json();
       
       if (data.success) {
@@ -44,7 +44,7 @@ const SendWaveChatWidget: React.FC<ChatWidgetProps> = ({ user, isOpen, onClose }
 
   const markMessagesRead = async () => {
     try {
-      await fetch(`/api/sendwave/chat/mark-read/${user.email}/`, {
+      await fetch(`/api/gcash/chat/mark-read/${user.email}/`, {
         method: "POST",
       });
     } catch (error) {
@@ -59,11 +59,11 @@ const SendWaveChatWidget: React.FC<ChatWidgetProps> = ({ user, isOpen, onClose }
     try {
       const request: SendMessageRequest = {
         sender_email: user.email,
-        receiver_email: "admin@sendwave.com", // Admin email
+        receiver_email: "admin@gcash.com", // Admin email
         message: newMessage.trim()
       };
 
-      const response = await fetch("/api/sendwave/chat/send/", {
+      const response = await fetch("/api/gcash/chat/send/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

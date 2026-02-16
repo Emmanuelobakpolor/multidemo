@@ -30,7 +30,7 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ user, isOpen, onClose }) => {
 
   const fetchChatHistory = async () => {
     try {
-      const response = await fetch(`/api/payflow/chat/history/${user.email}/`);
+      const response = await fetch(`/api/paypal/chat/history/${user.email}/`);
       const data = await response.json();
       
       if (data.success) {
@@ -44,7 +44,7 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ user, isOpen, onClose }) => {
 
   const markMessagesRead = async () => {
     try {
-      await fetch(`/api/payflow/chat/mark-read/${user.email}/`, {
+      await fetch(`/api/paypal/chat/mark-read/${user.email}/`, {
         method: "POST",
       });
     } catch (error) {
@@ -59,11 +59,11 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ user, isOpen, onClose }) => {
     try {
       const request: SendMessageRequest = {
         sender_email: user.email,
-        receiver_email: "admin@payflow.com", // Admin email
+        receiver_email: "admin@paypal.com", // Admin email
         message: newMessage.trim()
       };
 
-      const response = await fetch("/api/payflow/chat/send/", {
+      const response = await fetch("/api/paypal/chat/send/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

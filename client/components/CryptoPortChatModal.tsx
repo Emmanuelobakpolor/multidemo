@@ -35,7 +35,7 @@ const CryptoPortChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, user, 
 
   const fetchChatHistory = async () => {
     try {
-      const response = await fetch(`/api/cryptoport/chat/history/${user.email}/`);
+      const response = await fetch(`/api/binance/chat/history/${user.email}/`);
       const data = await response.json();
       
       if (data.success) {
@@ -49,7 +49,7 @@ const CryptoPortChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, user, 
 
   const markMessagesRead = async () => {
     try {
-      await fetch(`/api/cryptoport/chat/mark-read/${user.email}/`);
+      await fetch(`/api/binance/chat/mark-read/${user.email}/`);
     } catch (error) {
       console.error("Error marking messages as read:", error);
     }
@@ -61,12 +61,12 @@ const CryptoPortChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, user, 
     setLoading(true);
     try {
       const request: SendMessageRequest = {
-        sender_email: "admin@cryptoport.com", // Admin email
+        sender_email: "admin@binance.com", // Admin email
         receiver_email: user.email,
         message: newMessage.trim()
       };
 
-      const response = await fetch("/api/cryptoport/chat/send/", {
+      const response = await fetch("/api/binance/chat/send/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

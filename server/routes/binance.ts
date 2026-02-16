@@ -995,7 +995,8 @@ export const handleFundWallet: RequestHandler = async (req, res) => {
   }
 };
 
-// Delete user
+
+
 export const handleDeleteUser: RequestHandler = async (req, res) => {
   const { id } = req.params;
 
