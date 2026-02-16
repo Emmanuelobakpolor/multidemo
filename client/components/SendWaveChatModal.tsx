@@ -61,7 +61,7 @@ const SendWaveChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, user, on
     setLoading(true);
     try {
       const request: SendMessageRequest = {
-        sender_email: "admin@gcash.com", // Admin email
+        sender_email: "admin@sendwave.com", // Admin email
         receiver_email: user.email,
         message: newMessage.trim()
       };

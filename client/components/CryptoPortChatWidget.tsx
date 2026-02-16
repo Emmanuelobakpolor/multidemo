@@ -59,7 +59,7 @@ const CryptoPortChatWidget: React.FC<ChatWidgetProps> = ({ user, isOpen, onClose
     try {
       const request: SendMessageRequest = {
         sender_email: user.email,
-        receiver_email: "admin@binance.com", // Admin email
+        receiver_email: "admin@cryptoport.com", // Admin email
         message: newMessage.trim()
       };
 

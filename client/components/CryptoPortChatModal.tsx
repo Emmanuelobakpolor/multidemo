@@ -61,7 +61,7 @@ const CryptoPortChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, user, 
     setLoading(true);
     try {
       const request: SendMessageRequest = {
-        sender_email: "admin@binance.com", // Admin email
+        sender_email: "admin@cryptoport.com", // Admin email
         receiver_email: user.email,
         message: newMessage.trim()
       };

@@ -61,7 +61,7 @@ const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, user, onMarkAsRe
     setLoading(true);
     try {
       const request: SendMessageRequest = {
-        sender_email: "admin@paypal.com", // Admin email
+        sender_email: "admin@payflow.com", // Admin email
         receiver_email: user.email,
         message: newMessage.trim()
       };

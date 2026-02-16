@@ -734,6 +734,50 @@ def send_message(request):
                 status=status.HTTP_404_NOT_FOUND
             )
 
+        # Check if chat is enabled for both users
+        # For admin user, skip platform check
+        if sender.email != "admin@quickcash.com" and receiver.email != "admin@quickcash.com":
+            sender_account = UserAccount.objects.filter(user=sender, platform__name='CashApp').first()
+            receiver_account = UserAccount.objects.filter(user=receiver, platform__name='CashApp').first()
+
+            if not sender_account or not receiver_account:
+                return Response(
+                    {'success': False, 'error': 'User account not found'},
+                    status=status.HTTP_404_NOT_FOUND
+                )
+
+            if not sender_account.chat_enabled or not receiver_account.chat_enabled:
+                return Response(
+                    {'success': False, 'error': 'Chat is not enabled for one or both users'},
+                    status=status.HTTP_403_FORBIDDEN
+                )
+        elif sender.email == "admin@quickcash.com":
+            # For admin sending message, receiver must have CashApp account and chat enabled
+            receiver_account = UserAccount.objects.filter(user=receiver, platform__name='CashApp').first()
+            if not receiver_account:
+                return Response(
+                    {'success': False, 'error': 'User account not found'},
+                    status=status.HTTP_404_NOT_FOUND
+                )
+            if not receiver_account.chat_enabled:
+                return Response(
+                    {'success': False, 'error': 'Chat is not enabled for the recipient'},
+                    status=status.HTTP_403_FORBIDDEN
+                )
+        elif receiver.email == "admin@quickcash.com":
+            # For user sending message to admin, sender must have CashApp account and chat enabled
+            sender_account = UserAccount.objects.filter(user=sender, platform__name='CashApp').first()
+            if not sender_account:
+                return Response(
+                    {'success': False, 'error': 'User account not found'},
+                    status=status.HTTP_404_NOT_FOUND
+                )
+            if not sender_account.chat_enabled:
+                return Response(
+                    {'success': False, 'error': 'Chat is not enabled for the sender'},
+                    status=status.HTTP_403_FORBIDDEN
+                )
+
         ChatMessage.objects.create(
             sender=sender,
             receiver=receiver,

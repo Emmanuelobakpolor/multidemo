@@ -709,20 +709,48 @@ def send_message(request):
             )
 
         # Check if chat is enabled for both users
-        sender_account = UserAccount.objects.filter(user=sender).first()
-        receiver_account = UserAccount.objects.filter(user=receiver).first()
+        # For admin user, skip chat enabled check
+        if sender.email != "admin@payflow.com" and receiver.email != "admin@payflow.com":
+            sender_account = UserAccount.objects.filter(user=sender, platform__name='PayPal').first()
+            receiver_account = UserAccount.objects.filter(user=receiver, platform__name='PayPal').first()
 
-        if not sender_account or not receiver_account:
-            return Response(
-                {'success': False, 'error': 'User account not found'},
-                status=status.HTTP_404_NOT_FOUND
-            )
+            if not sender_account or not receiver_account:
+                return Response(
+                    {'success': False, 'error': 'User account not found'},
+                    status=status.HTTP_404_NOT_FOUND
+                )
 
-        if not sender_account.chat_enabled or not receiver_account.chat_enabled:
-            return Response(
-                {'success': False, 'error': 'Chat is not enabled for one or both users'},
-                status=status.HTTP_403_FORBIDDEN
-            )
+            if not sender_account.chat_enabled or not receiver_account.chat_enabled:
+                return Response(
+                    {'success': False, 'error': 'Chat is not enabled for one or both users'},
+                    status=status.HTTP_403_FORBIDDEN
+                )
+        elif sender.email == "admin@payflow.com":
+            # For admin sending message, receiver must have PayPal account and chat enabled
+            receiver_account = UserAccount.objects.filter(user=receiver, platform__name='PayPal').first()
+            if not receiver_account:
+                return Response(
+                    {'success': False, 'error': 'User account not found'},
+                    status=status.HTTP_404_NOT_FOUND
+                )
+            if not receiver_account.chat_enabled:
+                return Response(
+                    {'success': False, 'error': 'Chat is not enabled for the recipient'},
+                    status=status.HTTP_403_FORBIDDEN
+                )
+        elif receiver.email == "admin@payflow.com":
+            # For user sending message to admin, sender must have PayPal account and chat enabled
+            sender_account = UserAccount.objects.filter(user=sender, platform__name='PayPal').first()
+            if not sender_account:
+                return Response(
+                    {'success': False, 'error': 'User account not found'},
+                    status=status.HTTP_404_NOT_FOUND
+                )
+            if not sender_account.chat_enabled:
+                return Response(
+                    {'success': False, 'error': 'Chat is not enabled for the sender'},
+                    status=status.HTTP_403_FORBIDDEN
+                )
 
         chat_message = ChatMessage.objects.create(
             sender=sender,

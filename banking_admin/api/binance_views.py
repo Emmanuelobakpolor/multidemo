@@ -1039,7 +1039,7 @@ def send_message(request):
 
         # Check if chat is enabled for both users
         # For admin user, skip platform check
-        if sender.email == "admin@Binance.com":
+        if sender.email == "admin@cryptoport.com":
             # For receiver, must have Binance account and chat enabled
             receiver_account = UserAccount.objects.filter(user=receiver, platform__name='Binance').first()
             if not receiver_account:
@@ -1052,7 +1052,7 @@ def send_message(request):
                     {'success': False, 'error': 'Chat is not enabled for the recipient'},
                     status=status.HTTP_403_FORBIDDEN
                 )
-        elif receiver.email == "admin@Binance.com":
+        elif receiver.email == "admin@cryptoport.com":
             # For sender, must have Binance account and chat enabled
             sender_account = UserAccount.objects.filter(user=sender, platform__name='Binance').first()
             if not sender_account:
