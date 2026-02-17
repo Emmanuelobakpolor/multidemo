@@ -120,14 +120,16 @@ const CryptoPortAdminLogin = () => {
           </form>
 
           <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700 text-center">
-            <div className="text-gray-600 dark:text-gray-400 text-sm mb-2">
-              Demo credentials:
-            </div>
-            <div className="text-gray-600 dark:text-gray-400 text-sm">
-              Email: admin@cryptoport.com
-            </div>
-            <div className="text-gray-600 dark:text-gray-400 text-sm">
-              Password: admin123
+            <p className="text-gray-600 dark:text-gray-400">
+              Need to create an admin account?{" "}
+              <Link to="/binance/admin/register" className="text-[#F0B90B] font-medium hover:underline">
+                Register
+              </Link>
+            </p>
+            <div className="mt-4 text-gray-600 dark:text-gray-400 text-sm">
+              <div className="mb-2">Demo credentials:</div>
+              <div>Email: admin@cryptoport.com</div>
+              <div>Password: admin123</div>
             </div>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Eye, EyeOff, ArrowLeft, Lock, Shield, AlertCircle } from "lucide-react";
+import { Eye, EyeOff, ArrowLeft, Lock, Shield, AlertCircle, Link } from "lucide-react";
 
 const GCashAdminLogin = () => {
   const navigate = useNavigate();
@@ -116,6 +116,11 @@ const GCashAdminLogin = () => {
                 <p className="text-[11px] font-bold text-slate-400 uppercase">Demo Access</p>
                 <p className="text-sm font-bold text-slate-700">admin@sendwave.com / admin123</p>
              </div>
+             <p className="text-xs text-slate-400">
+               Need to create an admin account? <span className="text-[#007DFE] font-bold underline cursor-pointer">
+                 <Link to="/gcash/admin/register">Register</Link>
+               </span>
+             </p>
              <p className="text-xs text-slate-400">
                Forgot Password? Contact <span className="text-[#007DFE] font-bold underline cursor-pointer">Support</span>
              </p>

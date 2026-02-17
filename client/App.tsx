@@ -18,6 +18,7 @@ import GCashDashboard from "./pages/gcash/Dashboard";
 import GCashSend from "./pages/gcash/Send";
 import GCashReceive from "./pages/gcash/Receive";
 import GCashAdminLogin from "./pages/gcash/AdminLogin";
+import GCashAdminRegister from "./pages/gcash/AdminRegister";
 import GCashAdminDashboard from "./pages/gcash/AdminDashboard";
 import GCashSettings from "./pages/gcash/Settings";
 
@@ -29,6 +30,7 @@ import BinanceDashboard from "./pages/binance/Dashboard";
 import BinanceSend from "./pages/binance/Send";
 import BinanceReceive from "./pages/binance/Receive";
 import BinanceAdminLogin from "./pages/binance/AdminLogin";
+import BinanceAdminRegister from "./pages/binance/AdminRegister";
 import BinanceAdminDashboard from "./pages/binance/AdminDashboard";
 import BinanceSettings from "./pages/binance/Settings";
 import BinanceMarkets from "./pages/binance/Markets";
@@ -47,6 +49,7 @@ import PayPalSend from "./pages/paypal/Send";
 import PayPalRequest from "./pages/paypal/Request";
 import PayPalAdminDashboard from "./pages/paypal/AdminDashboard";
 import PayPalAdminLogin from "./pages/paypal/AdminLogin";
+import PayPalAdminRegister from "./pages/paypal/AdminRegister";
 import PayPalSettings from "./pages/paypal/Settings";
 import PayPalWallet from "./pages/paypal/Wallet";
 import PayPalHelp from "./pages/paypal/Help";
@@ -59,6 +62,7 @@ import CashAppDashboard from "./pages/cashapp/Dashboard";
 import CashAppSend from "./pages/cashapp/Send";
 import CashAppReceive from "./pages/cashapp/Receive";
 import CashAppAdminLogin from "./pages/cashapp/AdminLogin";
+import CashAppAdminRegister from "./pages/cashapp/AdminRegister";
 import CashAppAdminDashboard from "./pages/cashapp/AdminDashboard";
 import CashAppSettings from "./pages/cashapp/Settings";
 import CashAppCard from "./pages/cashapp/Card";
@@ -80,7 +84,7 @@ function AnimatedRoutes() {
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Index />} />
 
-          {/* GCash Routes */}
+           {/* GCash Routes */}
           <Route path="/gcash" element={<GCashLanding />} />
           <Route path="/gcash/login" element={<GCashLogin />} />
           <Route path="/gcash/register" element={<GCashRegister />} />
@@ -89,6 +93,7 @@ function AnimatedRoutes() {
           <Route path="/gcash/receive" element={<GCashReceive />} />
           <Route path="/gcash/settings" element={<GCashSettings />} />
           <Route path="/gcash/admin/login" element={<GCashAdminLogin />} />
+          <Route path="/gcash/admin/register" element={<GCashAdminRegister />} />
           <Route path="/gcash/admin/dashboard" element={<GCashAdminDashboard />} />
 
           {/* Binance Routes */}
@@ -106,6 +111,7 @@ function AnimatedRoutes() {
           <Route path="/binance/security" element={<BinanceSecurity />} />
           <Route path="/binance/support" element={<BinanceSupport />} />
           <Route path="/binance/admin/login" element={<BinanceAdminLogin />} />
+          <Route path="/binance/admin/register" element={<BinanceAdminRegister />} />
           <Route path="/binance/admin/dashboard" element={<BinanceAdminDashboard />} />
 
           {/* PayPal Routes */}
@@ -119,6 +125,7 @@ function AnimatedRoutes() {
           <Route path="/paypal/wallet" element={<PayPalWallet />} />
           <Route path="/paypal/help" element={<PayPalHelp />} />
           <Route path="/paypal/admin/login" element={<PayPalAdminLogin />} />
+          <Route path="/paypal/admin/register" element={<PayPalAdminRegister />} />
           <Route path="/paypal/admin/dashboard" element={<PayPalAdminDashboard />} />
 
           {/* CashApp Routes */}
@@ -132,6 +139,7 @@ function AnimatedRoutes() {
           <Route path="/cashapp/card" element={<CashAppCard />} />
           <Route path="/cashapp/savings" element={<CashAppSavings />} />
           <Route path="/cashapp/admin/login" element={<CashAppAdminLogin />} />
+          <Route path="/cashapp/admin/register" element={<CashAppAdminRegister />} />
           <Route path="/cashapp/admin/dashboard" element={<CashAppAdminDashboard />} />
 
           {/* Admin Routes */}

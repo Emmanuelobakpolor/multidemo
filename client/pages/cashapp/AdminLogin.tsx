@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Eye, EyeOff, ArrowRight, Shield } from "lucide-react";
+import { Eye, EyeOff, ArrowRight, Shield, Link } from "lucide-react";
 
 const QuickCashAdminLogin = () => {
   const navigate = useNavigate();
@@ -118,9 +118,17 @@ const QuickCashAdminLogin = () => {
             </button>
           </form>
 
-          <p className="text-center text-[#888888] text-sm mt-8">
-            Demo Credentials: admin@quickcash.com / admin123
-          </p>
+          <div className="mt-8 text-center">
+            <p className="text-[#888888] text-sm mb-4">
+              Need to create an admin account?{" "}
+              <Link to="/cashapp/admin/register" className="text-[#00D4AA] hover:underline">
+                Register
+              </Link>
+            </p>
+            <p className="text-[#888888] text-sm">
+              Demo Credentials: admin@quickcash.com / admin123
+            </p>
+          </div>
         </div>
       </div>
 
