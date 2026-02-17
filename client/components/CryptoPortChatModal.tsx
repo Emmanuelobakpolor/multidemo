@@ -60,8 +60,9 @@ const CryptoPortChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, user, 
 
     setLoading(true);
     try {
+      const adminEmail = localStorage.getItem("cryptoport_admin_email") || "admin@cryptoport.com";
       const request: SendMessageRequest = {
-        sender_email: "admin@cryptoport.com", // Admin email
+        sender_email: adminEmail, // Admin email from localStorage
         receiver_email: user.email,
         message: newMessage.trim()
       };
@@ -113,30 +114,33 @@ const CryptoPortChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, user, 
               <p>No messages yet. Send a message to start chatting.</p>
             </div>
           ) : (
-            messages.map((message) => (
-              <div
-                key={message.id}
-                className={`flex ${
-                  message.sender_email === "admin@cryptoport.com" ? "justify-end" : "justify-start"
-                }`}
-              >
+            messages.map((message) => {
+              const adminEmail = localStorage.getItem("cryptoport_admin_email") || "admin@cryptoport.com";
+              return (
                 <div
-                  className={`max-w-[70%] p-3 rounded-lg ${
-                    message.sender_email === "admin@cryptoport.com"
-                      ? "bg-yellow-500 text-black"
-                      : "bg-gray-700 text-gray-100"
+                  key={message.id}
+                  className={`flex ${
+                    message.sender_email === adminEmail ? "justify-end" : "justify-start"
                   }`}
                 >
-                  <p className="text-sm">{message.message}</p>
-                  <p className="text-xs opacity-70 mt-1">
-                    {new Date(message.timestamp).toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </p>
+                  <div
+                    className={`max-w-[70%] p-3 rounded-lg ${
+                      message.sender_email === adminEmail
+                        ? "bg-yellow-500 text-black"
+                        : "bg-gray-700 text-gray-100"
+                    }`}
+                  >
+                    <p className="text-sm">{message.message}</p>
+                    <p className="text-xs opacity-70 mt-1">
+                      {new Date(message.timestamp).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            ))
+              );
+            })
           )}
           <div ref={messagesEndRef} />
         </div>

@@ -22,6 +22,7 @@ const CryptoPortAdminLogin = () => {
       // For demo purposes, we'll use hardcoded credentials
       if (formData.email === "admin@cryptoport.com" && formData.password === "admin123") {
         localStorage.setItem("cryptoport_admin_logged_in", "true");
+        localStorage.setItem("cryptoport_admin_email", formData.email);
         navigate("/binance/admin/dashboard");
       } else {
         setError("Invalid email or password");

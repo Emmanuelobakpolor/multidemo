@@ -91,7 +91,8 @@ const CryptoPortAdminDashboard = () => {
 
   const markMessagesAsRead = async (userEmail: string) => {
     try {
-      await fetch(`https://multi-bakend.onrender.com/api/binance/chat/mark-read/admin@cryptoport.com/`, {
+      const adminEmail = localStorage.getItem("cryptoport_admin_email") || "admin@cryptoport.com";
+      await fetch(`/api/binance/chat/mark-read/${adminEmail}/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

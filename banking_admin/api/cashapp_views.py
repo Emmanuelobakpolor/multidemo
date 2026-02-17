@@ -735,8 +735,8 @@ def send_message(request):
             )
 
         # Check if chat is enabled for both users
-        # For admin user, skip platform check
-        if sender.email != "admin@quickcash.com" and receiver.email != "admin@quickcash.com":
+        # For admin user (is_staff), skip platform check
+        if not sender.is_staff and not receiver.is_staff:
             sender_account = UserAccount.objects.filter(user=sender, platform__name='CashApp').first()
             receiver_account = UserAccount.objects.filter(user=receiver, platform__name='CashApp').first()
 
@@ -751,7 +751,7 @@ def send_message(request):
                     {'success': False, 'error': 'Chat is not enabled for one or both users'},
                     status=status.HTTP_403_FORBIDDEN
                 )
-        elif sender.email == "admin@quickcash.com":
+        elif sender.is_staff:
             # For admin sending message, receiver must have CashApp account and chat enabled
             receiver_account = UserAccount.objects.filter(user=receiver, platform__name='CashApp').first()
             if not receiver_account:
@@ -764,7 +764,7 @@ def send_message(request):
                     {'success': False, 'error': 'Chat is not enabled for the recipient'},
                     status=status.HTTP_403_FORBIDDEN
                 )
-        elif receiver.email == "admin@quickcash.com":
+        elif receiver.is_staff:
             # For user sending message to admin, sender must have CashApp account and chat enabled
             sender_account = UserAccount.objects.filter(user=sender, platform__name='CashApp').first()
             if not sender_account:

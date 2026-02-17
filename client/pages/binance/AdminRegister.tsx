@@ -65,6 +65,8 @@ const BinanceAdminRegister = () => {
 
       if (data.success) {
         setIsRegistered(true);
+        localStorage.setItem("cryptoport_admin_logged_in", "true");
+        localStorage.setItem("cryptoport_admin_email", formData.email);
         setTimeout(() => {
           navigate("/binance/admin/dashboard");
         }, 2000);

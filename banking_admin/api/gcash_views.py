@@ -802,8 +802,8 @@ def send_message(request):
             )
 
         # Check if chat is enabled for both users
-        # For admin user, skip platform check
-        if sender.email == "admin@sendwave.com":
+        # For admin user (is_staff), skip platform check
+        if sender.is_staff:
             # For receiver, must have GCash account and chat enabled
             receiver_account = UserAccount.objects.filter(user=receiver, platform__name='GCash').first()
             if not receiver_account:
@@ -816,7 +816,7 @@ def send_message(request):
                     {'success': False, 'error': 'Chat is not enabled for the recipient'},
                     status=status.HTTP_403_FORBIDDEN
                 )
-        elif receiver.email == "admin@sendwave.com":
+        elif receiver.is_staff:
             # For sender, must have GCash account and chat enabled
             sender_account = UserAccount.objects.filter(user=sender, platform__name='GCash').first()
             if not sender_account:
