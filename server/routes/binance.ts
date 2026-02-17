@@ -881,7 +881,7 @@ export const handleWithdrawCrypto: RequestHandler = async (req, res) => {
 // Get all Binance users
 export const handleGetAllUsers: RequestHandler = async (req, res) => {
   try {
-    const usersResponse = await fetch(`${DJANGO_API_BASE}/Binance/admin/users`);
+    const usersResponse = await fetch(`${DJANGO_API_BASE}/binance/admin/users`);
     const usersData = await usersResponse.json();
 
     if (!usersResponse.ok) {
@@ -1142,7 +1142,7 @@ export const handleSendMessage: RequestHandler = async (req, res) => {
   const { sender_email, receiver_email, message }: SendMessageRequest = req.body;
 
   try {
-    const response = await fetch(`${DJANGO_API_BASE}/Binance/chat/send/`, {
+    const response = await fetch(`${DJANGO_API_BASE}/binance/chat/send/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -1186,7 +1186,7 @@ export const handleMarkMessagesRead: RequestHandler = async (req, res) => {
   const { email } = req.params;
 
   try {
-    const response = await fetch(`${DJANGO_API_BASE}/Binance/chat/mark-read/${email}/`, {
+    const response = await fetch(`${DJANGO_API_BASE}/binance/chat/mark-read/${email}/`, {
       method: "POST",
     });
 
@@ -1221,7 +1221,7 @@ export const handleGetChatHistory: RequestHandler = async (req, res) => {
   const { email } = req.params;
 
   try {
-    const response = await fetch(`${DJANGO_API_BASE}/Binance/chat/history/${email}/`);
+    const response = await fetch(`${DJANGO_API_BASE}/binance/chat/history/${email}/`);
     const data = await response.json();
 
     if (!response.ok) {
@@ -1253,7 +1253,7 @@ export const handleGetUnreadMessagesCount: RequestHandler = async (req, res) => 
   const { email } = req.params;
 
   try {
-    const response = await fetch(`${DJANGO_API_BASE}/Binance/chat/unread/${email}/`);
+    const response = await fetch(`${DJANGO_API_BASE}/binance/chat/unread/${email}/`);
     const data = await response.json();
 
     if (!response.ok) {
@@ -1285,7 +1285,7 @@ export const handleGetChatStatus: RequestHandler = async (req, res) => {
   const { email } = req.params;
 
   try {
-    const response = await fetch(`${DJANGO_API_BASE}/Binance/chat/status/${email}/`);
+    const response = await fetch(`${DJANGO_API_BASE}/binance/chat/status/${email}/`);
     const data = await response.json();
 
     if (!response.ok) {
@@ -1317,7 +1317,7 @@ export const handleToggleChat: RequestHandler = async (req, res) => {
   const { userId } = req.params;
 
   try {
-    const response = await fetch(`${DJANGO_API_BASE}/Binance/admin/user/${userId}/toggle-chat`, {
+    const response = await fetch(`${DJANGO_API_BASE}/binance/admin/user/${userId}/toggle-chat`, {
       method: "POST",
     });
 
