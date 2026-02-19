@@ -126,16 +126,16 @@ export function createServer() {
   app.post("/api/binance/user/:email/withdraw", handleWithdrawCrypto);
   app.get("/api/binance/admin/users", handleGetAllBinanceUsers);
   app.post("/api/binance/admin/fund", handleFundBinanceWallet);
-    app.post("/api/binance/admin/user/update-deposit-address", handleUpdateDepositAddress);
-    app.delete("/api/binance/admin/user/:id/delete", handleDeleteUser);
+  app.post("/api/binance/admin/user/update-deposit-address", handleUpdateDepositAddress);
+  app.delete("/api/binance/admin/user/:id/delete", handleDeleteUser);
   
-     // Binance Chat API routes
-     app.post("/api/binance/chat/send/", handleSendBinanceMessage);
-     app.post("/api/binance/chat/mark-read/:email/", handleMarkBinanceMessagesRead);
-     app.get("/api/binance/chat/history/:email/", handleGetBinanceChatHistory);
-     app.get("/api/binance/chat/unread/:email/", handleGetBinanceUnreadMessagesCount);
-     app.get("/api/binance/chat/status/:email/", handleGetBinanceChatStatus);
-      app.post("/api/binance/admin/user/:userId/toggle-chat/", handleToggleBinanceChat);
+  // Binance Chat API routes
+  app.post("/api/binance/chat/send/", handleSendBinanceMessage);
+  app.post("/api/binance/chat/mark-read/:email/", handleMarkBinanceMessagesRead);
+  app.get("/api/binance/chat/history/:email/", handleGetBinanceChatHistory);
+  app.get("/api/binance/chat/unread/:email/", handleGetBinanceUnreadMessagesCount);
+  app.get("/api/binance/chat/status/:email/", handleGetBinanceChatStatus);
+  app.post("/api/binance/admin/user/:userId/toggle-chat/", handleToggleBinanceChat);
 
   // GCash API routes
   app.post("/api/gcash/register", handleCreateGCashUser);
